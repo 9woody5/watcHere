@@ -1,6 +1,5 @@
 // Top 네이게이션 메뉴입니다.
 
-import React from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
 

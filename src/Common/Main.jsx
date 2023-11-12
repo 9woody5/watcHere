@@ -1,5 +1,3 @@
-import React from "react";
-
 // 리액트에서는 a href 를 사용하지 말아주세요
 // 반드시 Link 를 사용해주셔야 합니다.
 // A href 를 사용해서 페이지를 넘길 경우 Recoil 혹은 useState 에 저장된 모든 데이터가 초기화 되어버리기 때문에

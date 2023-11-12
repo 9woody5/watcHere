@@ -1,5 +1,4 @@
 // 메인컨텐츠의 바디 레이아웃 프레임
-import React from "react";
 import TopNav from "./TopNav";
 export default function MainContent() {
   return (
