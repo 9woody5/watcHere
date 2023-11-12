@@ -1,0 +1,5 @@
+{
+  "mainData": "/Main",
+  "categoryData": "/categoryData",
+  "userData": "/userData/{userId}"
+}
