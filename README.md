@@ -7,9 +7,13 @@
 - 3주차 : https://swtrack.elice.io/courses/80743/lectures/650220
   - 과제 제출 (11/27(월), 11/29(수), 12/01(금))
 
+---
+
 # 스크럼
 
 - 월, 수, 금 오전 10시
+
+---
 
 # 오피스아워 및 회의실
 
@@ -19,13 +23,23 @@
 - 11/13(월), 11/22(수), 12/01(금)
 - 회의실 경로 : https://swtrack.elice.io/courses/80742/lecturerooms
 
+---
+
 # 코드리뷰
 
 - 11/18(토), 11/25(토), 12/02(토)
 
+---
+
 # 최종발표
 
 - 12/02(토)
+
+---
+
+# 피그마 경로
+
+- https://www.figma.com/file/6mYR6Mv9JCdoRHtHyPQWfp/%5B5%ED%8C%80%5D-%EC%97%98%EB%A6%AC%EC%8A%A4-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8?type=design&node-id=0-1&mode=design&t=k8q3niXwV8exlcZr-0
 
 ---
 
