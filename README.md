@@ -18,9 +18,9 @@
 # 오피스아워 및 회의실
 
 - 프론트 오피스아워 오후 7시
-- 11/15(수), 11/17(금), 11/21(화), 11/24(금), 11/28(화), 11/30(목)
+  - 11/15(수), 11/17(금), 11/21(화), 11/24(금), 11/28(화), 11/30(목)
 - 합동 오피스아워
-- 11/13(월), 11/22(수), 12/01(금)
+  - 11/13(월), 11/22(수), 12/01(금)
 - 회의실 경로 : https://swtrack.elice.io/courses/80742/lecturerooms
 
 ---
@@ -123,22 +123,22 @@
 
 - DateFormat:
 
-* 자바스크립트에서 new Date() 로 받아온 시간값에 대해서 표시방식을 컨버팅 합니다.
-* 해당 내용은 DateFormat 최상단에 const의 yyyy_mm_dd 형식을 확인해주시기 바랍니다.
-* import 할때에는
-* import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "[경로명]";
-* 이런식으로 가져와 쓰시면 됩니다.
-* 해당 구현 코드는 /Admin/UserList.jsx 에서 보실 수 있습니다.
+  - 자바스크립트에서 new Date() 로 받아온 시간값에 대해서 표시방식을 컨버팅 합니다.
+  - 해당 내용은 DateFormat 최상단에 const의 yyyy_mm_dd 형식을 확인해주시기 바랍니다.
+  - import 할때에는
+  - import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "[경로명]";
+  - 이런식으로 가져와 쓰시면 됩니다.
+  - 해당 구현 코드는 /Admin/UserList.jsx 에서 보실 수 있습니다.
 
 - CommonAtom:
 
-* Recoil 파일입니다. footer 컴포넌트를 on/off 하는 변수가 들어있습니다.
-* Recoil 파일의 경우 해당 파일보다는 각 기능별 Recoil 파일을 생성후 key 값만 중복이 안되게 해주시면됩니다.
-* 하나의 파일에 Recoil 작업을 할 경우 코드 컨플릭이 자주 나니 가급적 분리해서 사용해 주시면 될거 같습니다.
-* import { footerEnabledRecoil } from "[경로명]";
-* const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.
-* useState와 가장 비슷해서 적응하기 쉬운 방식입니다.
-* 해당 구현 코드는 /Admin/Main.jsx 에서 보실 수 있습니다.
+  - Recoil 파일입니다. footer 컴포넌트를 on/off 하는 변수가 들어있습니다.
+  - Recoil 파일의 경우 해당 파일보다는 각 기능별 Recoil 파일을 생성후 key 값만 중복이 안되게 해주시면됩니다.
+  - 하나의 파일에 Recoil 작업을 할 경우 코드 컨플릭이 자주 나니 가급적 분리해서 사용해 주시면 될거 같습니다.
+  - import { footerEnabledRecoil } from "[경로명]";
+  - const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.
+  - useState와 가장 비슷해서 적응하기 쉬운 방식입니다.
+  - 해당 구현 코드는 /Admin/Main.jsx 에서 보실 수 있습니다.
 
 ---
 
