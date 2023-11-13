@@ -3,6 +3,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      pretendard: ["Pretendard"],
+      pretendardLight: ["Pretendard-Light"],
+      pretendardBold: ["Pretendard-Bold"],
+    },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
