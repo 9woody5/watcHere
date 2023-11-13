@@ -1,36 +1,42 @@
 {
   "user_data": [
     {
+      "uid": 0,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
       "activate": 0
     },
     {
+      "uid": 1,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
       "activate": 0
     },
     {
+      "uid": 2,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
       "activate": 0
     },
     {
+      "uid": 3,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
       "activate": 1
     },
     {
+      "uid": 4,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
       "activate": 0
     },
     {
+      "uid": 5,
       "email": "adb@dbc.com",
       "join_date": "2023-02-14 00:00:00",
       "nick_name": "유저1",
