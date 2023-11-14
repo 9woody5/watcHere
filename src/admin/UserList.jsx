@@ -12,7 +12,7 @@ import {
 } from "react-icons/md";
 import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../Common/DateFormat";
 import { useEffect, useState } from "react";
-import { GetData, PostData } from "../Network/Connect";
+import { PostData } from "../Network/Connect";
 
 export default function AdminUserList() {
   const [userList, setUserList] = useState([]);

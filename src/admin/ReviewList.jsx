@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../Common/DateFormat";
 import { useEffect, useState } from "react";
-import { GetData, PostData } from "../Network/Connect";
+// import { PostData } from "../Network/Connect";
 import { textOverflow } from "../Common/TextOverflow";
 export default function AdminUserList() {
   const [userList, setUserList] = useState([]);
@@ -27,13 +27,13 @@ export default function AdminUserList() {
       setUserList(dummyReviewList.user_data);
     }
   };
-  const putUserActivateStatus = async (uid) => {
-    // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
-    let jsonData = {};
-    jsonData["uId"] = uid;
-    const response = await PostData("url", JSON.stringify(jsonData));
-    console.log(response);
-  };
+  // const putUserActivateStatus = async (uid) => {
+  //   // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
+  //   let jsonData = {};
+  //   jsonData["uId"] = uid;
+  //   const response = await PostData("url", JSON.stringify(jsonData));
+  //   console.log(response);
+  // };
   useEffect(() => {
     getUserData();
   }, []);
