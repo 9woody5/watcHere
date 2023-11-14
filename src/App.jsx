@@ -3,15 +3,18 @@ import { useState } from "react";
 import { Reset } from "styled-reset";
 import "./App.css";
 
+import MainNav from "./Components/MainNav";
 import MainPage from "./Pages/MainPage";
 import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
-import "./App.css";
-import { Reset } from "styled-reset";
 import AdmimMain from "./admin/Main";
 import { footerEnabledRecoil } from "./Common/CommonAtom";
 import { useRecoilState } from "recoil";
+
 function App() {
+  // 기본 로그인 상태 false로 설정
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  // 로그인 로직 작성 시, setLoggedIn(true)로 설정
   const [footerEnabled] = useRecoilState(footerEnabledRecoil);
   return (
     <BrowserRouter>
@@ -21,21 +24,21 @@ function App() {
           <MainNav isLoggedIn={isLoggedIn} />
           <div className=" w-[90%] m-auto flex-1">
             <Routes>
-              <Route path="/" element={<Main />} />
+              <Route path="/" element={<MainPage />} />
               <Route path="/Admin" element={<AdmimMain />} />
-              <Route path="/*" element={<ErrorPage to="/"></ErrorPage>}></Route>
+              <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
-          </BrowserRouter>
-        </div>
-      </div>
-      {footerEnabled ? (
-        <div className="w-full flex justify-center">
-          <div className=" w-[80%] ">
-            <Footer />
           </div>
         </div>
-      ) : null}
-    </div>
+        {footerEnabled ? (
+          <div className="w-full flex justify-center">
+            <div className=" w-[80%] ">
+              <Footer />
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </BrowserRouter>
   );
 }
 
