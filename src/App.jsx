@@ -10,7 +10,7 @@ import MainNav from "./Components/MainNav";
 
 function App() {
   // 기본 로그인 상태 false로 설정
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   // 로그인 로직 작성 시, setLoggedIn(true)로 설정
 
   return (
@@ -22,7 +22,7 @@ function App() {
           <div className=" w-[90%] m-auto flex-1">
             <Routes>
               <Route path="/" element={<MainPage />} />
-              {/* <Route path="/*" element={<ErrorPage to="/" />} /> */}
+              <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
           </div>
           <div className="w-full flex justify-center">
