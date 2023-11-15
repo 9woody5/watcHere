@@ -1,5 +1,5 @@
-import MainSearchBar from "../Components/MainSearchBar";
-import MainContent from "./../Components/MainContent";
+import MainSearchBar from "../Components/Main/MainSearchBar";
+import MainContent from "./../Components/Main/MainContent";
 
 const MainPage = () => {
   return (
