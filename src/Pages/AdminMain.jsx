@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ADMIN_MENU_USER, ADMIN_MENU_REVIEW } from "./adminEnum";
+import { ADMIN_MENU_USER, ADMIN_MENU_REVIEW } from "../admin/AdminEnum";
 import { GoPeople } from "react-icons/go";
 import { GrDocumentText } from "react-icons/gr";
 import { footerEnabledRecoil } from "../Common/CommonAtom";
 import { useRecoilState } from "recoil";
-import AdminUserList from "./UserList";
-import AdminReviewList from "./ReviewList";
+import AdminUserList from "./AdminUserList";
+import AdminReviewList from "./AdminReviewList";
 export default function AdmimMain() {
   const [selectMenu, setSelectNemu] = useState(ADMIN_MENU_USER); // 현재 버튼의 상태를 봅니다.
   const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.

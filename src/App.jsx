@@ -7,7 +7,7 @@ import MainNav from "./Components/MainNav";
 import MainPage from "./Pages/MainPage";
 import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
-import AdmimMain from "./admin/Main";
+import AdmimMain from "./Pages/AdminMain";
 import ContentCategory from "./Components/CategoryContent";
 import { footerEnabledRecoil } from "./Common/CommonAtom";
 import { useRecoilState } from "recoil";

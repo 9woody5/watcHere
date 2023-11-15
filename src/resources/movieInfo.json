@@ -19,7 +19,23 @@
     {
       "idx": 2,
       "type": "movie",
-      "name_kr": "노 웨어",
+      "name_kr": "노 웨어1",
+      "year": "2023-09-29",
+      "link": "https://www.youtube.com/embed/KDUtdcU10YA?si=gMorzyaiWbXoGvo2",
+      "thumnail": "https://t1.daumcdn.net/movie/e7643d63181315cc1a4fa1f7c9be31338e20d41a"
+    },
+    {
+      "idx": 3,
+      "type": "movie",
+      "name_kr": "노 웨어2",
+      "year": "2023-09-29",
+      "link": "https://www.youtube.com/embed/KDUtdcU10YA?si=gMorzyaiWbXoGvo2",
+      "thumnail": "https://t1.daumcdn.net/movie/e7643d63181315cc1a4fa1f7c9be31338e20d41a"
+    },
+    {
+      "idx": 4,
+      "type": "movie",
+      "name_kr": "노 웨어3",
       "year": "2023-09-29",
       "link": "https://www.youtube.com/embed/KDUtdcU10YA?si=gMorzyaiWbXoGvo2",
       "thumnail": "https://t1.daumcdn.net/movie/e7643d63181315cc1a4fa1f7c9be31338e20d41a"

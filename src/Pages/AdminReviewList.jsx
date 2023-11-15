@@ -1,4 +1,5 @@
 import dummyReviewList from "../resources/userreview.json";
+import dummyPageNation from "../resources/pagenition.json";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
@@ -9,8 +10,13 @@ import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../Common/DateFormat";
 import { useEffect, useState } from "react";
 // import { PostData } from "../Network/Connect";
 import { textOverflow } from "../Common/TextOverflow";
+
 export default function AdminUserList() {
   const [userList, setUserList] = useState([]);
+  const [nowPage, setNowPage] = useState(1);
+  const [nowBlock, setNowBlock] = useState(1);
+  const [maxBlock, setMaxBlock] = useState(0);
+  const [maxPage, setMaxPage] = useState(10);
   /**
    * 서버에서 유저리스트를 받아오는 함수
    *
@@ -27,6 +33,35 @@ export default function AdminUserList() {
       setUserList(dummyReviewList.user_data);
     }
   };
+
+  /**
+   * 페이지 이동을 블록단위로 하는 기능
+   * @param {int} block --- 움직일 블록 번호
+   */
+  const handlePageBlock = (block) => {
+    setNowBlock(block);
+    setNowPage(1);
+  };
+  /**
+   * 구현기능 : 페이지 이동
+   * 이슈 : Arrow가 불필요한 시점에 노출되는 문제
+   *
+   */
+  const handlePageClick = (page) => {
+    if (page <= 0) {
+      if (nowBlock > 1) {
+        setNowPage(maxPage);
+        setNowBlock(nowBlock - 1);
+      }
+    } else if (page > maxPage) {
+      if (nowBlock < maxBlock) {
+        setNowPage(1);
+        setNowBlock(nowBlock + 1);
+      }
+    } else {
+      setNowPage(page);
+    }
+  };
   // const putUserActivateStatus = async (uid) => {
   //   // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
   //   let jsonData = {};
@@ -35,8 +70,10 @@ export default function AdminUserList() {
   //   console.log(response);
   // };
   useEffect(() => {
+    setMaxBlock(parseInt(dummyPageNation.total_page / maxPage));
     getUserData();
-  }, []);
+  }, [maxPage]);
+
   return (
     <div className="h-full bg-gray-300 flex flex-col justify-center">
       <div className="h-2/3 bg-white mx-4">
@@ -82,25 +119,69 @@ export default function AdminUserList() {
             </div>
           ))}
         </div>
-        <div className="text-sm mt-4 ml-4 flex justify-between items-center">
+        <div className="text-xl mt-4 ml-4 flex justify-between items-center">
           <div className="flex items-center justify-center">
             <div> show Result :</div>
-            <div> 리스트박스</div>
+            <div>
+              <div className="dropdown">
+                <label tabIndex={0} className="btn m-1 ">
+                  {maxPage}
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-gray-200 rounded-box"
+                >
+                  <li>
+                    <a onClick={() => setMaxPage(10)}>10</a>
+                  </li>
+                  <li>
+                    <a onClick={() => setMaxPage(5)}>5</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div className="flex items-center justify-center mr-4">
+            {nowBlock > 1 && (
+              <div>
+                <MdKeyboardDoubleArrowLeft
+                  onClick={() => {
+                    handlePageBlock(nowBlock - 1);
+                  }}
+                />
+              </div>
+            )}
             <div>
-              <MdKeyboardDoubleArrowLeft />
+              <MdKeyboardArrowLeft
+                onClick={() => handlePageClick(nowPage - 1)}
+              />
             </div>
+
+            {Array.from({ length: maxPage }, (_, index) => (
+              <button
+                key={index}
+                className={`mx-2 ${
+                  nowPage === index + 1 ? "text-blue-700 font-bold" : ""
+                }`}
+                onClick={() => handlePageClick(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
             <div>
-              <MdKeyboardArrowLeft />
+              <MdKeyboardArrowRight
+                onClick={() => handlePageClick(nowPage + 1)}
+              />
             </div>
-            <div> 1,2,3,4,5,6</div>
-            <div>
-              <MdKeyboardArrowRight />
-            </div>
-            <div>
-              <MdKeyboardDoubleArrowRight />
-            </div>
+            {nowBlock < maxBlock && (
+              <div>
+                <MdKeyboardDoubleArrowRight
+                  onClick={() => {
+                    handlePageBlock(nowBlock + 1);
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

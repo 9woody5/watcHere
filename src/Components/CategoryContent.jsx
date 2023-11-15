@@ -30,7 +30,7 @@ export default function ContentCategory() {
         className="p-1"
         onClick={() => {
           document.getElementById("youtube_modal").close();
-          console.log(playerRef.current);
+          console.log(playerRef);
         }}
       >
         <div className="p-auto">
@@ -99,13 +99,30 @@ export default function ContentCategory() {
                 className="border border-blue-300 shadow rounded-md p-4 w-64 h-96"
                 key={element.idx}
               >
-                <div className="flex-1 space-y-2 py-1">
+                <div className="flex-1 space-y-2 group">
                   <div className="h-72 bg-slate-700 rounded">
                     <img
                       src={element.thumnail}
-                      className="w-full h-full"
+                      className="w-full h-full group-hover:opacity-50"
                       alt=""
                     />
+                  </div>
+                  <div className="hidden group-hover:block absolute transform -translate-y-full text-white w-56 h-72">
+                    <div className="w-full h-full flex flex-col justify-between p-4">
+                      <div>
+                        <div className="text-xl font-bold text-gray-700">
+                          {element.name_kr}{" "}
+                        </div>
+                        <div>별점 </div>
+                      </div>
+                      <div>
+                        <div>리뷰 카운트</div>
+                        <div>
+                          <div>즐찾</div>
+                          <div>상세보기</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="h-8 flex items-center text-center bg-slate-700 text-xl font-bold">
                     {element.name_kr}
