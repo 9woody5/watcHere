@@ -1,19 +1,15 @@
-import dummyUserList from "../resources/userInfo.json";
-import dummyPageNation from "../resources/pagenition.json";
-import {
-  ADMIN_MENU_USER_ACTIVATE,
-  ADMIN_MENU_USER_BAN,
-  ADMIN_MENU_USER_WITHDRAW,
-} from "../admin/AdminEnum";
+import dummyReviewList from "../../resources/userreview.json";
+import dummyPageNation from "../../resources/pagenition.json";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
   MdKeyboardArrowRight,
   MdKeyboardArrowLeft,
 } from "react-icons/md";
-import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../Common/DateFormat";
+import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../../Common/DateFormat";
 import { useEffect, useState } from "react";
-import { PostData } from "../Network/Connect";
+// import { PostData } from "../Network/Connect";
+import { textOverflow } from "../../Common/TextOverflow";
 
 export default function AdminUserList() {
   const [userList, setUserList] = useState([]);
@@ -34,9 +30,10 @@ export default function AdminUserList() {
     if (response !== null) {
       setUserList(response);
     } else {
-      setUserList(dummyUserList.user_data);
+      setUserList(dummyReviewList.user_data);
     }
   };
+
   /**
    * 페이지 이동을 블록단위로 하는 기능
    * @param {int} block --- 움직일 블록 번호
@@ -65,24 +62,24 @@ export default function AdminUserList() {
       setNowPage(page);
     }
   };
-
-  const putUserActivateStatus = async (uid) => {
-    // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
-    let jsonData = {};
-    jsonData["uId"] = uid;
-    const response = await PostData("url", JSON.stringify(jsonData));
-    console.log(response);
-  };
+  // const putUserActivateStatus = async (uid) => {
+  //   // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
+  //   let jsonData = {};
+  //   jsonData["uId"] = uid;
+  //   const response = await PostData("url", JSON.stringify(jsonData));
+  //   console.log(response);
+  // };
   useEffect(() => {
     setMaxBlock(parseInt(dummyPageNation.total_page / maxPage));
     getUserData();
   }, [maxPage]);
+
   return (
     <div className="h-full bg-gray-300 flex flex-col justify-center">
       <div className="h-2/3 bg-white mx-4">
         <div className="flex mt-10 ">
           <div className="w-[30%] text-2xl font-bold text-center items-center">
-            사용자 관리
+            리뷰 관리
           </div>
           <div className="w-[70%] flex items-center ">
             <div className="w-[30%] bg-gray-100 mr-4 rounded-sm"> Filters</div>
@@ -93,11 +90,11 @@ export default function AdminUserList() {
           </div>
         </div>
         <div className="flex items-center text-center border-y-2 py-4 mt-4 text-xs">
-          <div className="w-[20%]">사용자 계정</div>
-          <div className="w-[20%]">가입 일자</div>
-          <div className="w-[20%]">닉네임</div>
-          <div className="w-[20%]">활동 상태</div>
-          <div className="w-[20%]">상태 변경</div>
+          <div className="w-[15%]">사용자 계정</div>
+          <div className="w-[15%]">작성 일자</div>
+          <div className="w-[10%]">닉네임</div>
+          <div className="w-[10%]">신고 횟수</div>
+          <div className="w-[40%]">리뷰 내역</div>
         </div>
         <div className="h-[60%] overflow-y-auto">
           {userList?.map((element, idx) => (
@@ -105,24 +102,19 @@ export default function AdminUserList() {
               className="flex items-center text-center mt-1 border-b-2 py-1 text-xs"
               key={idx}
             >
-              <div className="w-[20%]">
+              <div className="w-[15%]">
                 <div className="text-black">{element.email} </div>
                 <div>{element.email} </div>
               </div>
-              <div className="w-[20%] text-black font-bold">
-                {DateFormat(element.join_date, TIME_FORMATTER_MM_dd_yy)}
+              <div className="w-[15%] text-black font-bold">
+                {DateFormat(element.write_date, TIME_FORMATTER_MM_dd_yy)}
               </div>
-              <div className="w-[20%] text-black font-bold">
+              <div className="w-[10%] text-black font-bold">
                 {element.nick_name}
               </div>
-              <div className="w-[20%] px-10">
-                {activateStateComponent(element.activate)}
-              </div>
-              <div
-                className="w-[20%] flex justify-center px-10 border-10 cursor-pointer"
-                onClick={() => putUserActivateStatus(element.uid)}
-              >
-                {activateActionComponent(element.activate)}
+              <div className="w-[10%] px-10">{element.reports}</div>
+              <div className="w-[40%] flex justify-center px-10 border-10 cursor-pointer">
+                {textOverflow(element.review, 10)}
               </div>
             </div>
           ))}
@@ -196,36 +188,3 @@ export default function AdminUserList() {
     </div>
   );
 }
-
-const activateStateComponent = (type) => {
-  return (
-    <>
-      {type === ADMIN_MENU_USER_ACTIVATE && (
-        <div className="text-[#0CAF60] bg-[#E7F7EF] p-1">활동 중 </div>
-      )}
-      {type === ADMIN_MENU_USER_BAN && (
-        <div className="text-[#DA0707] bg-[#FFF0F0] p-1">정지 </div>
-      )}
-      {type === ADMIN_MENU_USER_WITHDRAW && (
-        <div className="text-[#2C2C2C] bg-[#F2F2F2] p-1">탈퇴 </div>
-      )}
-    </>
-  );
-};
-
-const activateActionComponent = (type) => {
-  return (
-    <>
-      {type === ADMIN_MENU_USER_ACTIVATE && (
-        <div className="w-[50%] text-[#DA0707] border-2 border-black">
-          정지하기
-        </div>
-      )}
-      {type === ADMIN_MENU_USER_BAN && (
-        <div className="w-[50%] text-[#0CAF60] border-2 border-black">
-          해제하기
-        </div>
-      )}
-    </>
-  );
-};
