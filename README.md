@@ -156,6 +156,15 @@
 
 ---
 
+# 푸터 활성화 /비활성화 방법
+
+- import { footerEnabledRecoil } from "[경로명]";
+- const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.
+- 푸터페이지가 열릴때마다 CommonAtom 에 들어있는 footerEnabledRecoil 의 Bool 값을 참조하여 해당 Bool 값이 true 이면 Footer 를 랜더링 하게됩니다.
+- 가장 이상적인 부분은 Admin 페이지를 별도 서버 구성 혹은 메인 라우팅에서 유저/관리자 로 나눈후 서브라우팅으로 쪼개면서 푸터를 나누는게 좋지만
+  현재로써는 방향이 안잡혀 있기 때문에 임시로 Recoil 을 활용한 상태입니다.
+- 이러할 경우에는 Top Navigation 에서 footerEnabledRecoil 을 항상 True 로 선언해주면 관리자 페이지에 들어갈때만 False 로 활성화되어 관리자 페이지에서 Footer 가 사라지고 Top Navigation 을 활용하는 유저 페이지는 항상 Footer 가 등장하게 됩니다.
+
 # 라우터 추가 방법
 
 - 이 프로젝트는 라우터를 React-router-dom 을 사용하고 있습니다.
