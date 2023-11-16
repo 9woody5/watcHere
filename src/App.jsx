@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Main from "./Pages/Main";
+import ContentDetail from "./Pages/ContentDetail";
 import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
 import "./App.css";
@@ -15,6 +16,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Main />} />
+              <Route path="/title/" element={<ContentDetail/>} />
               <Route path="/*" element={<ErrorPage to="/"></ErrorPage>}></Route>
             </Routes>
           </BrowserRouter>

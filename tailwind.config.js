@@ -9,5 +9,5 @@ export default {
       pretendardBold: ["Pretendard-Bold"],
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
