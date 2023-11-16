@@ -9,6 +9,8 @@ import Chat from "./Components/Main/Chat";
 import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
 import AdmimMain from "./Pages/AdminMain";
+import ContentCategory from "./Components/CategoryContent";
+import ContentDetail from "./Pages/ContentDetail/";
 import ContentCategory from "./Components/Category/CategoryContent";
 import DummyContentDetail from "./Components/Category/dummyContentDetail";
 import { footerEnabledRecoil } from "./Common/CommonAtom";
@@ -30,10 +32,6 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/Admin" element={<AdmimMain />} />
               <Route path="/Category" element={<ContentCategory />} />
-              <Route
-                path="/ContentDetail/:idx"
-                element={<DummyContentDetail />}
-              />
               <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
           </div>
