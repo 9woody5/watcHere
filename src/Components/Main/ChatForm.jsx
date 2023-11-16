@@ -16,7 +16,7 @@ export const ChatForm = () => {
   };
 
   return (
-    <div className="absolute z-50 bottom-52 right-5 w-[340px] h-[440px] overflow-hidden gap-5 rounded-[30px] bg-white font-pretendard shadow-xl transition-all">
+    <div className="absolute z-50 bottom-52 right-5 w-[340px] h-[440px] overflow-hidden gap-5 rounded-[30px] bg-white font-pretendard shadow-xl">
       <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[360px] w-[340px] relative">
         <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[340px] h-[95px] p-6">
           <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-4">
