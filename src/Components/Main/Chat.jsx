@@ -1,20 +1,19 @@
-import { useState } from "react";
-// import chatIcon from "../../assets/img/chatIcon.svg";
+import { useRecoilState } from "recoil";
+import { chatState } from "../../Common/CommonAtom";
 
 const Chat = () => {
   // 아이콘 동적 스타일링
-  const [isHovered, setIsHovered] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+  const [chat, setChat] = useRecoilState(chatState);
 
   const handleMouseOver = () => {
-    setIsHovered(true);
+    setChat({ ...chat, isHovered: true });
   };
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setChat({ ...chat, isHovered: false });
   };
 
   const handleChatClick = () => {
-    setIsClicked(!isClicked);
+    setChat({ ...chat, isClicked: !chat.isClicked });
   };
 
   return (
@@ -26,14 +25,14 @@ const Chat = () => {
         onClick={handleChatClick}
       >
         <svg width="70" height="70" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="40" cy="40" r="40" fill={isHovered ? "#047857" : "#40AD80"} />
+          <circle cx="40" cy="40" r="40" fill={chat.isHovered ? "#047857" : "#40AD80"} />
           <path
             d="M49.0325 23.2258H31.8282C27.0798 23.2258 23.2261 27.0624 23.2261 31.7936V43.8022C23.2261 48.5334 27.0798 52.3699 31.8282 52.3699H34.4089C34.8734 52.3699 35.4927 52.6796 35.7852 53.0581L38.3659 56.4817C39.5013 57.9957 41.3594 57.9957 42.4949 56.4817L45.0755 53.0581C45.4024 52.628 45.9185 52.3699 46.4519 52.3699H49.0325C53.7809 52.3699 57.6347 48.5334 57.6347 43.8022V31.7936C57.6347 27.0624 53.7809 23.2258 49.0325 23.2258ZM33.5487 40.4301C32.5852 40.4301 31.8282 39.6559 31.8282 38.7097C31.8282 37.7635 32.6024 36.9893 33.5487 36.9893C34.4949 36.9893 35.2691 37.7635 35.2691 38.7097C35.2691 39.6559 34.5121 40.4301 33.5487 40.4301ZM40.4304 40.4301C39.4669 40.4301 38.7099 39.6559 38.7099 38.7097C38.7099 37.7635 39.4841 36.9893 40.4304 36.9893C41.3766 36.9893 42.1508 37.7635 42.1508 38.7097C42.1508 39.6559 41.3938 40.4301 40.4304 40.4301ZM47.3121 40.4301C46.3487 40.4301 45.5917 39.6559 45.5917 38.7097C45.5917 37.7635 46.3659 36.9893 47.3121 36.9893C48.2583 36.9893 49.0325 37.7635 49.0325 38.7097C49.0325 39.6559 48.2755 40.4301 47.3121 40.4301Z"
             fill="white"
           />
         </svg>
       </button>
-      {isClicked ? (
+      {chat.isClicked ? (
         <div className="absolute z-50 bottom-52 right-5 w-[340px] h-[440px] overflow-hidden gap-5 rounded-[30px] bg-white font-pretendard shadow-xl">
           <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[360px] w-[340px] relative">
             <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[340px] h-[95px] p-6">
@@ -68,8 +67,9 @@ const Chat = () => {
             <div className="flex-grow-0 flex-shrink-0 w-[640px] h-px opacity-[0.08] bg-black" />
             <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[360px] w-[340px] p-6">
               <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4">
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-2.5">
-                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 px-4 py-2 rounded-xl bg-[#f1f1f1]">
+                <div className="flex flex-col justify-start items-start gap-1">
+                  <span className="text-black text-[12px]">익명</span>
+                  <div className="px-4 py-2 rounded-xl bg-[#f1f1f1]">
                     <p className="flex-grow-0 flex-shrink-0 text-sm text-left text-black">안녕하세요</p>
                   </div>
                 </div>

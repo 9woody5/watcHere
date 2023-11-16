@@ -5,7 +5,7 @@ const MainPage = () => {
   return (
     <>
       <MainSearchBar />
-      <MainContent />
+      <MainContent numberOfContent={30} />
     </>
   );
 };

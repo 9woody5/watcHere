@@ -9,14 +9,14 @@ import Chat from "./Components/Main/Chat";
 import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
 import AdmimMain from "./admin/Main";
-// import { footerEnabledRecoil } from "./Common/CommonAtom";
-// import { useRecoilState } from "recoil";
+import { footerEnabledRecoil } from "./Common/CommonAtom";
+import { useRecoilState } from "recoil";
 
 function App() {
   // 기본 로그인 상태 false로 설정
   const [isLoggedIn, setLoggedIn] = useState(true);
   // 로그인 로직 작성 시, setLoggedIn(true)로 설정
-  // const [footerEnabled] = useRecoilState(footerEnabledRecoil);
+  const [footerEnabled] = useRecoilState(footerEnabledRecoil);
   return (
     <BrowserRouter>
       <div className="App">
@@ -32,13 +32,13 @@ function App() {
           </div>
           <Chat />
           {/* footer 영역 활성화 확인 */}
-          {/* {footerEnabled ? ( */}
-          <div className="w-full flex justify-center">
-            <div className=" w-[100%] ">
-              <Footer />
+          {footerEnabled ? (
+            <div className="w-full flex justify-center">
+              <div className=" w-[100%] ">
+                <Footer />
+              </div>
             </div>
-          </div>
-          {/* ) : null} */}
+          ) : null}
         </div>
       </div>
     </BrowserRouter>
