@@ -5,6 +5,8 @@
 // 펑션명+Url + data(object) 으로 보내셔야 합니다.
 // 전체적으로 API 나오면 조정작업이 진행됩니다.
 
+// 네트워크 통신용 코드
+
 import axios from "axios";
 import { useCookies } from "react-cookie";
 

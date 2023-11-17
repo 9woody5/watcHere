@@ -1,5 +1,16 @@
 import { RiBookmarkFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+
+/**
+ *영화 썸네일 카드 리스트
+ *
+ * @param {Number} idx 인덱스
+ * @param {String} name_kr 영화 이름
+ * @param {String} Thumbnail 영화 썸네일 이미지 링크 주소
+ * @param {String} year 영화 제작 년도
+ * @returns
+ */
+
 export default function ThumbnailCard({ props }) {
   const {
     idx,
