@@ -1,14 +1,13 @@
 .swiper {
-  width: 70%;
+  width: 1000%;
   height: 50%;
-  margin-top: 30px;
 }
 
 .swiper-slide {
-  text-align: center;
+  text-align: left;
   font-size: 18px;
-  border-radius: 10px;
-  overflow: hidden;
+  background: #fff;
+  /* border-radius: 10px; */
 
   /* Center slide text vertically */
   display: flex;
@@ -25,13 +24,12 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  background-color: #333;
+  background-color: #ccc;
   opacity: 0.6;
   height: 50px;
   width: 50px;
   border-radius: 50px;
-  color: #fff !important;
-  top: 85%;
+  color: black !important;
 }
 
 .swiper-button-prev:after,
