@@ -8,7 +8,7 @@ import MainNav from "../Components/Main/MainNav";
 
 const MainPage = () => {
   // 기본 로그인 상태 false로 설정
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
   // 로그인 로직 작성 시, setLoggedIn(true)로 설정
   const [, setMainNavState] = useRecoilState(mainNavEnabled);
   const location = useLocation();
@@ -22,9 +22,11 @@ const MainPage = () => {
 
   return (
     <>
-      <MainNav isLoggedIn={isLoggedIn} />
-      <MainSearchBar />
-      <MainContent numberOfContent={30} />
+      <div className="flex w-full flex-col h-screen">
+        <MainNav isLoggedIn={isLoggedIn} />
+        <MainSearchBar />
+        <MainContent numberOfContent={30} />
+      </div>
     </>
   );
 };

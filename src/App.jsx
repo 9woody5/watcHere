@@ -20,7 +20,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Reset />
-        <div className="w-full flex flex-col h-screen">
+        <div className="w-full flex">
           <div className=" w-[100%] m-auto flex-1">
             <Routes>
               <Route path="/" element={<MainPage />} />
