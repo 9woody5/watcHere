@@ -19,7 +19,7 @@ export const Slider = ({ content, numberOfContent }) => {
   const [isHovered, setIsHoverd] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [contentList, setContentList] = useState([]);
+  const [, setContentList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +57,7 @@ export const Slider = ({ content, numberOfContent }) => {
 
       {isHovered && (
         <div
-          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out  opacity-0 hover:opacity-100`}
+          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100 rounded-lg border-solid border-2 border-emerald-500`}
         >
           <h3>{content.title}</h3>
           <p>{content.rank}위</p>

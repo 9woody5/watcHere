@@ -26,10 +26,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/Admin" element={<AdmimMain />} />
               <Route path="/Category" element={<ContentCategory />} />
-              <Route
-                path="/ContentDetail/:idx"
-                element={<DummyContentDetail />}
-              />
+              <Route path="/ContentDetail/:idx" element={<DummyContentDetail />} />
               <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
           </div>

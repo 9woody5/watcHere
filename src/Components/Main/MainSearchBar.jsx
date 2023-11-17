@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/img/watcHere_logo.svg";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import mockData from "../../resources/mockData.json";
 
 const MainSearchBar = () => {
   // 로고가 동시에 뜨도록
@@ -11,10 +12,36 @@ const MainSearchBar = () => {
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
+  const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const navigate = useNavigate();
 
+  // mockData에서 title가져오기
+  const titles = mockData.map((item) => item.Title);
+
   const handleInputChange = (event) => {
-    setSearchValue(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
+
+    const suggestions = titles.filter((title) => title.toLowerCase().includes(value.toLowerCase()));
+    setAutocompleteValue(suggestions);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchValue(suggestion);
+    setAutocompleteValue([]);
+    navigate("/resultPage");
+  };
+
+  const renderAutocompleteValue = () => {
+    return (
+      <ul className="">
+        {autoCompleteValue.map((suggestion) => {
+          <li key={suggestion} onClick={() => handleSuggestionClick(suggestion)}>
+            {suggestion}
+          </li>;
+        })}
+      </ul>
+    );
   };
 
   // 검색 결과 페이지로 이동
@@ -23,9 +50,7 @@ const MainSearchBar = () => {
     // 검색어 로직 영역
 
     // 검색 값이 있을 때만 결과 페이지로 이동시킴
-    if (searchValue === "") {
-      return;
-    } else {
+    if (searchValue !== "") {
       navigate("/resultPage");
     }
   };
@@ -61,6 +86,7 @@ const MainSearchBar = () => {
               className="input rounded-full w-full mt-5 pr-16 transition-all duration-300 ease-in-out hover:ring-2 focus:ring-4 ring-emerald-500 outline-none border-none"
               value={searchValue}
               onChange={handleInputChange}
+              autoComplete="true"
             />
             <button type="submit" disabled={searchValue === ""}>
               <i
@@ -71,6 +97,7 @@ const MainSearchBar = () => {
                 <IoSearchCircleSharp size="50px" color="40AD80" />
               </i>
             </button>
+            {autoCompleteValue.length > 0 && renderAutocompleteValue}
           </form>
         </div>
       </div>

@@ -10,7 +10,6 @@
   border-radius: 10px;
   overflow: hidden;
 
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
