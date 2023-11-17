@@ -3,7 +3,7 @@ import ReviewInfo from "../Components/ContentDetails/ReviewInfo";
 
 const ContentDetail = () => {
   return (
-    <div className='w-full h-full bg-black'>
+    <div className='w-11/12 m-auto mt-10' style={{backgroundColor: '#2c2c2c'}}>
       <ContentInfo className='h-fit' />
       <ReviewInfo/>
     </div>

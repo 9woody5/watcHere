@@ -5,6 +5,7 @@ import "./App.css";
 
 import MainPage from "./Pages/MainPage";
 
+import ChatIcon from "./Components/Main/ChatIcon";
 import ErrorPage from "./Common/Error";
 import AdmimMain from "./Pages/AdminMain";
 import ContentDetail from "./Pages/ContentDetail";
