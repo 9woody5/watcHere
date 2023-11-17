@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 
-export function AdminSite() {
+export default function AdminSite() {
   return (
-    <div>
+    <div className="flex justify-center">
       <Outlet />
     </div>
   );
