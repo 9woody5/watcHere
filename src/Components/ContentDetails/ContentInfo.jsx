@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import * as contentFakeData from './createFakerData';
-import ContentBasicInfo from './ContentBasicInfo';
+import ContentBasicInfo from './ContentBasicInfo/ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 
 function ContentInfo({id}) {
@@ -54,7 +54,6 @@ function ContentInfo({id}) {
     <div>
       <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} />
       <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
-
     </div>
   )
 }
