@@ -13,8 +13,6 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import "./CategoryContent.css";
-
 // import required modules
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 
@@ -35,6 +33,7 @@ export default function ContentCategory() {
   const getOttData = useCallback(async () => {
     // selectOtt 값이  변경될때마다 서버에서 ott 데이터를 받아옴
     console.log(selectOtt.id);
+    getCategoryData();
   }, [selectOtt]);
 
   /**
@@ -70,7 +69,7 @@ export default function ContentCategory() {
     getOttData();
   }, [getOttData]);
   return (
-    <div>
+    <div className="">
       <div>
         <div className="text-3xl text-white font-bold">
           👀 watchHere 에서 리뷰 많은 컨텐츠 모아보기
@@ -96,6 +95,7 @@ export default function ContentCategory() {
             }}
             navigation={true}
             modules={[FreeMode, Pagination, Autoplay, Navigation]}
+            className=""
           >
             {categoryList.length > 0
               ? categoryList?.map((element) => (

@@ -1,22 +1,31 @@
+// 코어 라이브러리
+import { useEffect, useState } from "react";
+
+// 더미데이터
 import dummyReviewList from "../../resources/userreview.json";
 import dummyPageNation from "../../resources/pagenition.json";
+
+// 그래픽 라이브러리
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
   MdKeyboardArrowRight,
   MdKeyboardArrowLeft,
 } from "react-icons/md";
-import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../../Common/DateFormat";
-import { useEffect, useState } from "react";
-// import { PostData } from "../Network/Connect";
-import { textOverflow } from "../../Common/TextOverflow";
 
+// 커스텀 라이브러리
+import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../../Common/DateFormat";
+import { TextOverflow } from "../../Common/TextOverflow";
+import { DeleteUserReview } from "./AdminModal";
+
+// import { PostData } from "../Network/Connect";
 export default function AdminUserList() {
   const [userList, setUserList] = useState([]);
   const [nowPage, setNowPage] = useState(1);
   const [nowBlock, setNowBlock] = useState(1);
   const [maxBlock, setMaxBlock] = useState(0);
   const [maxPage, setMaxPage] = useState(10);
+  const [reviewData, setReviewData] = useState({});
   /**
    * 서버에서 유저리스트를 받아오는 함수
    *
@@ -62,13 +71,12 @@ export default function AdminUserList() {
       setNowPage(page);
     }
   };
-  // const putUserActivateStatus = async (uid) => {
-  //   // 중간에 모달작업 진행해서 사용자의 최종컨펌을 1회 더 받아야함
-  //   let jsonData = {};
-  //   jsonData["uId"] = uid;
-  //   const response = await PostData("url", JSON.stringify(jsonData));
-  //   console.log(response);
-  // };
+  const handleViewReview = (content) => {
+    console.log(content);
+    setReviewData(content);
+    document.getElementById("deleteUserReview").showModal();
+  };
+
   useEffect(() => {
     setMaxBlock(parseInt(dummyPageNation.total_page / maxPage));
     getUserData();
@@ -90,31 +98,32 @@ export default function AdminUserList() {
           </div>
         </div>
         <div className="flex items-center text-center border-y-2 py-4 mt-4 text-xs">
-          <div className="w-[15%]">사용자 계정</div>
-          <div className="w-[15%]">작성 일자</div>
-          <div className="w-[10%]">닉네임</div>
-          <div className="w-[10%]">신고 횟수</div>
-          <div className="w-[40%]">리뷰 내역</div>
+          <div className="w-[15%] md:hidden">사용자 계정</div>
+          <div className="w-[15%] md:hidden">작성 일자</div>
+          <div className="w-[10%] md:w-[20%]">닉네임</div>
+          <div className="w-[10%] md:w-[20%]">신고 횟수</div>
+          <div className="w-[40%] md:w-[60%]">리뷰 내역</div>
         </div>
         <div className="h-[60%] overflow-y-auto">
           {userList?.map((element, idx) => (
             <div
               className="flex items-center text-center mt-1 border-b-2 py-1 text-xs"
               key={idx}
+              onClick={() => handleViewReview(element)}
             >
-              <div className="w-[15%]">
+              <div className="w-[15%] md:hidden">
                 <div className="text-black">{element.email} </div>
                 <div>{element.email} </div>
               </div>
-              <div className="w-[15%] text-black font-bold">
+              <div className="w-[15%] md:hidden text-black font-bold">
                 {DateFormat(element.write_date, TIME_FORMATTER_MM_dd_yy)}
               </div>
-              <div className="w-[10%] text-black font-bold">
+              <div className="w-[10%] md:w-[20%] text-black font-bold">
                 {element.nick_name}
               </div>
-              <div className="w-[10%] px-10">{element.reports}</div>
-              <div className="w-[40%] flex justify-center px-10 border-10 cursor-pointer">
-                {textOverflow(element.review, 10)}
+              <div className="w-[10%] md:w-[20%] px-10">{element.reports}</div>
+              <div className="w-[40%] md:w-[60%] flex justify-center px-10 border-10 cursor-pointer">
+                {TextOverflow(element.review, 10)}
               </div>
             </div>
           ))}
@@ -185,6 +194,7 @@ export default function AdminUserList() {
           </div>
         </div>
       </div>
+      <DeleteUserReview props={reviewData} />
     </div>
   );
 }
