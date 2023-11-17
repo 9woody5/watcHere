@@ -11,6 +11,7 @@ import ErrorPage from "./Common/Error";
 import AdmimMain from "./Pages/AdminMain";
 import ContentCategory from "./Components/CategoryContent";
 import LoginPage from "./Pages/LoginPage";
+import UsersPage from "./Pages/UsersPage";
 import { footerEnabledRecoil } from "./Common/CommonAtom";
 import { navEnabledRecoil } from "./Common/CommonAtom";
 import { useRecoilState } from "recoil";
@@ -33,6 +34,7 @@ function App() {
               <Route path="/Admin" element={<AdmimMain />} />
               <Route path="/Category" element={<ContentCategory />} />
               <Route path="/Login" element={<LoginPage />} />
+              <Route path="/Users" element={<UsersPage />} />
               <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
           </div>

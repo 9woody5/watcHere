@@ -30,7 +30,7 @@ const LoginPage = () => {
 
   return (
     <div className="wrap login-select relative h-screen w-screen bg-cover bg-[url('../src/assets/img/login_background_img.jpeg')]">
-      <div className="absolute top-0 left-0 w-full h-full bg-custom-gradient">
+      <div className="absolute top-0 left-0 w-full h-[105%] bg-custom-gradient">
         <main className="flex flex-col items-center justify-center">
           <LoginTitle />
           <div className="btn-wrap  text-white font-noto-sans-kr text-[10.699px] mt-[32.097px] mb-[32.097px] w-[445.781px]">

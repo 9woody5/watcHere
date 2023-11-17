@@ -7,6 +7,7 @@ export default {
         "custom-gray": "#4e4e4e",
         "custom-black": "#000",
         "custom-light-gray": "#a3a3a3",
+        "custom-middle-gray": "rgb(70 70 70)",
         "custom-hover-gray": "#dedede",
       },
       backgroundImage: {
