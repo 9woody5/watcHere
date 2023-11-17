@@ -10,7 +10,9 @@ import Footer from "./Common/Footer";
 import ErrorPage from "./Common/Error";
 import AdmimMain from "./Pages/AdminMain";
 import ContentCategory from "./Components/CategoryContent";
+import LoginPage from "./Pages/LoginPage";
 import { footerEnabledRecoil } from "./Common/CommonAtom";
+import { navEnabledRecoil } from "./Common/CommonAtom";
 import { useRecoilState } from "recoil";
 
 function App() {
@@ -18,17 +20,19 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(true);
   // 로그인 로직 작성 시, setLoggedIn(true)로 설정
   const [footerEnabled] = useRecoilState(footerEnabledRecoil);
+  const [navEnabled] = useRecoilState(navEnabledRecoil);
   return (
     <BrowserRouter>
       <div className="App">
         <Reset />
         <div className="w-full flex flex-col h-screen">
-          <MainNav isLoggedIn={isLoggedIn} />
-          <div className=" w-[90%] m-auto flex-1">
+          {navEnabled ? <MainNav isLoggedIn={isLoggedIn} /> : null}
+          <div className=" w-[100%] m-auto flex-1">
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/Admin" element={<AdmimMain />} />
               <Route path="/Category" element={<ContentCategory />} />
+              <Route path="/Login" element={<LoginPage />} />
               <Route path="/*" element={<ErrorPage to="/" />} />
             </Routes>
           </div>
