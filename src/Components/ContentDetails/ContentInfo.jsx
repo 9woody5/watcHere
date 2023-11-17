@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import * as contentFakeData from './createFakerData';
-import ContentBasicInfo from './ContentBasicInfo/ContentBasicInfo.jsx';
+import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 
 function ContentInfo({id}) {
