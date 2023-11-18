@@ -1,3 +1,4 @@
+//글로벌 스테이트 관리용 리코일 파일
 import { atom } from "recoil";
 
 export const loginPageActiveState = atom({
