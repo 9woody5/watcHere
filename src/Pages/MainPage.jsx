@@ -24,7 +24,7 @@ const MainPage = () => {
     <>
       <div className="flex w-full h-full flex-col">
         <MainNav isLoggedIn={isLoggedIn} />
-        <div className=" min-h-full mb-[38px]">
+        <div className="min-h-full">
           <MainSearchBar />
           <MainContent numberOfContent={30} />
         </div>

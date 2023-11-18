@@ -72,27 +72,39 @@ export const Slider = ({ content }) => {
 export default function MainContent() {
   const contents = mockData;
 
+  // 마우스 오버 시, 슬라이드 정지
+  const [swiper, setSwiper] = useState(null);
+  const toggleSlideAutoplay = (index, play) => {
+    if (swiper && swiper.autoplay) {
+      // const slideIndex = index;
+      const isAutoplay = play;
+
+      swiper.autoplay[isAutoplay ? "start" : "stop"]();
+    }
+  };
+
   return (
     <>
       <Swiper
+        onSwiper={setSwiper}
         breakpoints={{
           640: {
-            slidesPerView: 1,
-            slidesPerGroup: 1,
-            pagination: {
-              clickable: false,
-            },
-          },
-          768: {
             slidesPerView: 2,
             slidesPerGroup: 2,
             pagination: {
               clickable: false,
             },
           },
-          1080: {
+          876: {
             slidesPerView: 3,
             slidesPerGroup: 3,
+            pagination: {
+              clickable: false,
+            },
+          },
+          1080: {
+            slidesPerView: 4,
+            slidesPerGroup: 2,
             pagination: {
               clickable: true,
             },
@@ -101,16 +113,20 @@ export default function MainContent() {
         slidesPerView={1}
         spaceBetween={30}
         freeMode={true}
-        // autoplay={{
-        //   delay: 3500,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         navigation={true}
         modules={[FreeMode, Pagination, Autoplay, Navigation]}
         className="mySwiper font-pretendard"
       >
         {contents.map((content, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide
+            key={index}
+            onMouseOver={() => toggleSlideAutoplay(index, false)}
+            onMouseLeave={() => toggleSlideAutoplay(index, true)}
+          >
             <Link to="/contentDetail" className="w-full h-full flex items-center justify-center">
               <Slider content={content} />
             </Link>

@@ -1,3 +1,22 @@
 @tailwind base;
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("./src/assets/fonts/Pretendard-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard-Light";
+  src: url("./src/assets/fonts/Pretendard-Light.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("./src/assets/fonts/Pretendard-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+
 @tailwind components;
 @tailwind utilities;

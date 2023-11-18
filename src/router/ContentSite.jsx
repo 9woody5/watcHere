@@ -4,7 +4,7 @@ import Footer from "../Common/Footer";
 import ChatIcon from "../Components/Main/ChatIcon";
 import { useState } from "react";
 export default function ContentSite() {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  // const [isLoggedIn, setLoggedIn] = useState(true);
   return (
     <div className="flex flex-col min-h-screen">
       {/* <MainNav /> */}

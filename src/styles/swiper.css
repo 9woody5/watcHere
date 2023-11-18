@@ -1,13 +1,14 @@
 .swiper {
   width: 70%;
   height: 50%;
-  margin-top: 120px;
+  margin-top: 100px;
 }
 .swiper-wrapper {
-  height: 330px;
+  height: fit-content;
 }
 
 .swiper-slide {
+  height: calc(100vh - 400px);
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
