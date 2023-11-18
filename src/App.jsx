@@ -5,9 +5,15 @@ import "./App.css";
 import MainPage from "./Pages/MainPage";
 import ErrorPage from "./Common/Error";
 import AdmimMain from "./Pages/AdminMain";
+
+// import ContentCategory from "./Components/CategoryContent";
+// import LoginPage from "./Pages/LoginPage";
+// import { footerEnabledRecoil } from "./Common/CommonAtom";
+// import { navEnabledRecoil } from "./Common/CommonAtom";
+// import { useRecoilState } from "recoil";
+
 import ContentDetail from "./Pages/ContentDetail";
 import ContentCategory from "./Components/Category/CategoryContent";
-import DummyContentDetail from "./Components/Category/dummyContentDetail";
 import ContentSite from "./router/ContentSite";
 import AdminSite from "./router/AdminSite";
 
@@ -27,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "contentDetail/:idx",
-        element: <DummyContentDetail />,
+        element: <ContentDetail />,
       },
       {
         path: "contentDetail",
