@@ -9,6 +9,8 @@ import ContentDetail from "./Pages/ContentDetail";
 import ContentCategory from "./Components/Category/CategoryContent";
 import ContentSite from "./router/ContentSite";
 import AdminSite from "./router/AdminSite";
+import LoginPage from "./Pages/LoginPage";
+import ResultPage from "./Pages/ResultPage";
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
           <Route path="category" element={<ContentCategory />} />
           <Route path="contentDetail/:idx" element={<ContentDetail />} />
           <Route path="contentDetail" element={<ContentDetail />} />
+          <Route path="resultpage" element={<ResultPage />} />
+          <Route path="login" element={<LoginPage />} />
+          {/* <Route path="mypage" element={<MyPage />} /> */}
         </Route>
         <Route path="/admin" element={<AdminSite />}>
           <Route index element={<AdmimMain />} />
