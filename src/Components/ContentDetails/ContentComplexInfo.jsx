@@ -24,10 +24,10 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
   
 
   return (
-    <div className='w-full m-10 flex text-white' id="content-complex-info-box">
+    <div className='w-full flex text-white'>
 
-      <div className='w-2/5 flex flex-col justify-around' id='active-info-box'>
-        <div className='' id='score-info-box'>
+      <div className='w-2/5 flex flex-col justify-around'>
+        <div className='' >
           <div>평점등록</div>
           {/* star관련해서는 따로 컴포넌트 만들기 */}
           <div>{[1,2,3,4,5].map((index)=>(
@@ -39,7 +39,7 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
             />
           ))}</div>
         </div>
-        <div className='w-3/5' id='availale-platforms-info-box'>
+        <div className='w-3/5'>
           <div>시청 가능한 플랫폼</div>
           <div className="carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
             {new Array(5).fill(0).map((p)=>(
@@ -51,10 +51,10 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
         </div>
       </div>
 
-      <div className='w-3/5 mx-8 flex flex-col justify-around' id='creators-info-box'>
-        <div className='m-6' id='director-info-box'>
+      <div className='w-3/5 ml-16 flex flex-col justify-around'>
+        <div className='m-6'>
           <div className='my-3'>감독</div>
-          <div className='w-30 flex' id='director-card'>
+          <div className='w-30 flex'>
             <div className='w-12 mx-4'><img className='rounded-full' src={director.img} alt="" /></div>
             <div className=' flex flex-col justify-around'>
               <div>{director.name}</div>
@@ -62,11 +62,11 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
             </div>
           </div>
         </div>
-        <div className='m-6' id='actors-info-box'>
+        <div className='m-6' >
           <div className='my-3'>출연진</div>
-          <div className='flex' id='actors-box'>
+          <div className='flex'>
             {actors.map(actor=>(
-              <div className='mx-3' id="actor-info-box">
+              <div className='mx-3'>
                 <div className='w-12 my-2'><img className='rounded-full' src={actor.img} alt="" /></div>
                 <div>{actor.name}</div>
               </div>          

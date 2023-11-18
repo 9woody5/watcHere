@@ -22,10 +22,12 @@ const MainPage = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col h-screen">
+      <div className="flex w-full h-full flex-col">
         <MainNav isLoggedIn={isLoggedIn} />
-        <MainSearchBar />
-        <MainContent numberOfContent={30} />
+        <div className=" min-h-full mb-[38px]">
+          <MainSearchBar />
+          <MainContent numberOfContent={30} />
+        </div>
       </div>
     </>
   );

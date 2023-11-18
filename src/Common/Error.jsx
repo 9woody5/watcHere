@@ -7,7 +7,7 @@ export default function Example() {
   };
   return (
     <>
-      <main className="grid min-h-full place-items-center px-6 py-20 sm:pb-32 lg:px-8 font-pretendard">
+      <main className="flex w-full h-screen justify-center items-center px-6 py-20 sm:pb-32 lg:px-8 font-pretendard">
         <div className="text-center">
           <p className="text-[50px] font-semibold text-emerald-500">404</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">페이지를 찾을 수 없어요 😭</h1>

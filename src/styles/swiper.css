@@ -3,6 +3,9 @@
   height: 50%;
   margin-top: 120px;
 }
+.swiper-wrapper {
+  height: 330px;
+}
 
 .swiper-slide {
   text-align: center;
