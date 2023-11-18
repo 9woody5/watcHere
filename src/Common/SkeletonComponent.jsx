@@ -1,3 +1,10 @@
+/**
+ * 썸네일용 스켈레톤 컴포넌트
+ *
+ * 최소 / 최대 고정작업 진행 필요
+ *
+ * @returns
+ */
 export function MovieThumbnailSkeletionComponent() {
   return (
     <div className="border border-blue-300 shadow rounded-md p-4 w-64 h-96 ">

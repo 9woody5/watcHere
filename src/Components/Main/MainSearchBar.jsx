@@ -58,7 +58,7 @@ const MainSearchBar = () => {
             <input
               type="text"
               placeholder="찾고 계신 콘텐츠를 알려주세요 👀"
-              className="input input-bordered rounded-full w-full mt-5 pr-16"
+              className="input rounded-full w-full mt-5 pr-16 transition-all duration-300 ease-in-out hover:ring-2 focus:ring-4 ring-emerald-500 outline-none border-none"
               value={searchValue}
               onChange={handleInputChange}
             />
