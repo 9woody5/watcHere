@@ -6,7 +6,7 @@ export default function Footer() {
   const footerClass = loginPageActive ? "bg-new-color" : "bg-white bg-opacity-10";
 
   return (
-    <footer className={`flex items-center justify-center text-sm h-24 text-white ${footerClass} font-pretendard`}>
+    <footer className={`flex items-center justify-center text-sm h-16 text-white ${footerClass} font-pretendard`}>
       Copyright © 2023 watcHere | All Rights Reserved
     </footer>
   );

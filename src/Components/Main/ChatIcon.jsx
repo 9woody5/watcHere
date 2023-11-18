@@ -23,7 +23,7 @@ const ChatIcon = () => {
   return (
     <>
       <button
-        className="mb-5 fixed bottom-24 right-4 z-50"
+        className="mb-5 fixed bottom-14 right-4 z-50"
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         onClick={handleChatClick}

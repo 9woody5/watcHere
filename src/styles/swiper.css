@@ -1,6 +1,5 @@
 .swiper {
-  width: 70%;
-  height: 50%;
+  width: 90%;
   margin-top: 100px;
 }
 .swiper-wrapper {
@@ -34,6 +33,7 @@
   width: 50px;
   border-radius: 50px;
   color: #fff !important;
+  border: 2px solid #ccc;
   top: 85%;
 }
 

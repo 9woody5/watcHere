@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/img/watcHere_logo.svg";
-import { IoSearchCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { IoSearchCircleSharp } from "react-icons/io5";
+import AutocompleteSuggestions from "./AutocompleteSuggestions";
+import RecentSearches from "./RecentSearches";
+import logo from "../../assets/img/watcHere_logo.svg";
 import mockData from "../../resources/mockData.json";
 
 // 초성 검색 기능
@@ -202,7 +204,7 @@ const MainSearchBar = () => {
     <>
       <div className="search_box flex flex-col first-letter:justify-center items-center font-pretendard">
         <img src={logo} alt="" />
-        <div className="w-[70%] relative">
+        <div className="w-[90%] relative">
           <form className="w-full z-10 absolute" onSubmit={handleSubmit}>
             <input
               type="text"
