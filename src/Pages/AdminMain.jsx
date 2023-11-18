@@ -13,7 +13,7 @@ export default function AdmimMain() {
 
   return (
     <div className="flex min-h-screen w-[80%] xl:w-full ">
-      <div className="w-1/5 xl:w-96 border-2 bg-[#2C2C2C] flex flex-col justify-between">
+      <div className="w-1/5 xl:w-96 bg-[#2C2C2C] flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-center mt-10">
             <div className="text-3xl text-[#9BB0A5]">watc</div>
