@@ -19,14 +19,14 @@ function ContentBasicInfo(props) {
 
       <div className='w-3/5 ml-16 text-white'>
         <div className='w-full m-2 flex justify-between'>
-          <text className='text-xl font-medium'>{title}</text>
+          <div className='text-xl font-medium'>{title}</div>
           <button className='' onClick={(event)=>{setIsMarked(prev=>!prev)}}>
             {isMarked? (<BsBookmarkCheckFill className=' text-5xl grow-0 shrink-0 p-2 text-green-500' />) : (<BsFillBookmarkPlusFill className=' text-5xl grow-0 shrink-0 p-2' />) }
           </button>
         </div>
         <div className='w-full m-2 my-5 flex flex-col'>
-          <text className='text-base my-1 font-medium'>줄거리 정보</text>
-          <text className='text-sm'>{story}</text>
+          <div className='text-base my-1 font-medium'>줄거리 정보</div>
+          <div className='text-sm'>{story}</div>
         </div>
         <table className='table-fixed border-separate border-spacing-y-4 border-spacing-x-10 '>
           <tbody className=''>

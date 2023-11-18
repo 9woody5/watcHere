@@ -12,7 +12,7 @@ function Review({review}) {
     setModalIsOpen(false);
   };
   const handleDelete = () => {
-    console.log('신고완료하였습니다!');
+    alert('신고완료하였습니다!');
     closeModal();
   };
   const convertString2Number = (scoreString) => {
@@ -24,7 +24,6 @@ function Review({review}) {
     }
   }
 
-  console.log('review', review)
   return (
     <div className='w-full my-4 flex'>
 
@@ -39,7 +38,7 @@ function Review({review}) {
       
       <div className='w-1/4 flex flex-col'>
         <div className=''>{[1,2,3,4,5].map((index)=>(
-          <AiFillStar className= {`inline-block text-2xl ${convertString2Number(review.score)>=index? 'text-yellow-200': 'text-white'} text-2xl`} /> ))}
+          <AiFillStar key={`review-socre-star-${index}`} className= {`inline-block text-2xl ${convertString2Number(review.score)>=index? 'text-yellow-200': 'text-white'} text-2xl`} /> ))}
           
         </div>
         <div className='' >
