@@ -18,7 +18,8 @@ export default {
       sm: { max: "639px" },
       // => @media (max-width: 639px) { ... }
     },
-    extend: { colors: {
+    extend: {
+      colors: {
         "custom-gray": "#4e4e4e",
         "custom-black": "#000",
         "custom-light-gray": "#a3a3a3",
@@ -32,6 +33,7 @@ export default {
         "new-color": "#2c2c2c",
         "naver-green": "#2db400",
       },
+
       fontFamily: {
         "noto-sans-kr": [
           '"Noto Sans KR"',
@@ -46,7 +48,8 @@ export default {
           '"Helvetica Neue"',
           "sans-serif",
         ],
-      },},
+      },
+    },
     fontFamily: {
       pretendard: ["Pretendard"],
       pretendardLight: ["Pretendard-Light"],
