@@ -5,6 +5,8 @@
 // 펑션명+Url + data(object) 으로 보내셔야 합니다.
 // 전체적으로 API 나오면 조정작업이 진행됩니다.
 
+// 네트워크 통신용 코드
+
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
@@ -39,7 +41,7 @@ export async function GetData(url) {
 //데이터를 Post 로 보낸 후 결과값이 없고 성공여부만 존재할 경우
 export async function PostData(url, data) {
   try {
-    const response = await axios.post(url, data).then((e) => {
+    await axios.post(url, data).then((e) => {
       return e;
     });
     return true;
@@ -63,7 +65,7 @@ export async function PostDataGetResponse(url, data) {
 //파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
 export async function PutData(url, data) {
   try {
-    const response = await axios.put(url, data).then((e) => {
+    await axios.put(url, data).then((e) => {
       return e;
     });
     return true;
@@ -76,7 +78,7 @@ export async function PutData(url, data) {
 //파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
 export async function DelData(url) {
   try {
-    const response = await axios.delete(url).then((e) => {
+    await axios.delete(url).then((e) => {
       return e;
     });
     return true;

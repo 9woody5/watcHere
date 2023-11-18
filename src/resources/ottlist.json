@@ -1,0 +1,32 @@
+{
+  "ott_list": [
+    {
+      "name": "NETFLIX",
+      "id": 0
+    },
+    {
+      "name": "Watcha",
+      "id": 1
+    },
+    {
+      "name": "TVING",
+      "id": 2
+    },
+    {
+      "name": "Disney +",
+      "id": 3
+    },
+    {
+      "name": "시리즈온",
+      "id": 4
+    },
+    {
+      "name": "Wavve",
+      "id": 5
+    },
+    {
+      "name": "Coupang play",
+      "id": 6
+    }
+  ]
+}
