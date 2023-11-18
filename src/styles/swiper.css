@@ -1,16 +1,19 @@
 .swiper {
   width: 70%;
   height: 50%;
-  margin-top: 30px;
+  margin-top: 100px;
+}
+.swiper-wrapper {
+  height: fit-content;
 }
 
 .swiper-slide {
+  height: calc(100vh - 400px);
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
   overflow: hidden;
 
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;

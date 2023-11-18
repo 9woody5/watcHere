@@ -1,7 +1,7 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
-import { generateContentList } from "./fakeData";
+import mockData from "../../resources/mockData.json";
 
 // Import Swiper styles
 import "swiper/css";
@@ -15,17 +15,17 @@ import "../../styles/swiper.css";
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { useEffect, useState } from "react";
 
-export const Slider = ({ content, numberOfContent }) => {
+export const Slider = ({ content }) => {
   const [isHovered, setIsHoverd] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [contentList, setContentList] = useState([]);
+  const [, setContentList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setTimeout(async () => {
-          const data = generateContentList(numberOfContent);
+          const data = mockData;
           setContentList(data);
           setIsLoading(false);
         }, 1000);
@@ -36,7 +36,7 @@ export const Slider = ({ content, numberOfContent }) => {
     };
 
     fetchData();
-  }, [numberOfContent]);
+  }, []);
 
   return (
     <div
@@ -49,50 +49,62 @@ export const Slider = ({ content, numberOfContent }) => {
           role="status"
           className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
         >
-          <div className="flex items-center justify-center w-full h-[330px] bg-zinc-500 rounded sm:w-96 dark:bg-gray-700"></div>
+          <div className="flex items-center justify-center w-full h-[430px] bg-zinc-500 rounded sm:w-96 dark:bg-gray-700"></div>
         </div>
       ) : (
-        <img src={content.posterImage} alt={content.title} />
+        <img src={content.Images[0]} alt={content.Title} />
       )}
 
       {isHovered && (
         <div
-          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out  opacity-0 hover:opacity-100`}
+          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100 rounded-lg border-solid border-2 border-emerald-500`}
         >
-          <h3>{content.title}</h3>
-          <p>{content.rank}위</p>
-          <span>개봉일: {content.releaseDate}</span>
-          <span>{content.runningTime}min</span>
+          <h3>{content.Title}</h3>
+          <p>평점: {content.imdbRating}</p>
+          <span>개봉일: {content.Released}</span>
+          <span>{content.Runtime}</span>
         </div>
       )}
     </div>
   );
 };
 
-export default function MainContent({ numberOfContent }) {
-  const contents = generateContentList(numberOfContent);
+export default function MainContent() {
+  const contents = mockData;
+
+  // 마우스 오버 시, 슬라이드 정지
+  const [swiper, setSwiper] = useState(null);
+  const toggleSlideAutoplay = (index, play) => {
+    if (swiper && swiper.autoplay) {
+      // const slideIndex = index;
+      const isAutoplay = play;
+
+      swiper.autoplay[isAutoplay ? "start" : "stop"]();
+    }
+  };
 
   return (
     <>
       <Swiper
+        onSwiper={setSwiper}
         breakpoints={{
           640: {
-            slidesPerView: 1,
-            slidesPerGroup: 1,
-            pagination: {
-              clickable: false,
-            },
-          },
-          768: {
             slidesPerView: 2,
             slidesPerGroup: 2,
             pagination: {
               clickable: false,
             },
           },
-          1080: {
+          876: {
             slidesPerView: 3,
             slidesPerGroup: 3,
+            pagination: {
+              clickable: false,
+            },
+          },
+          1080: {
+            slidesPerView: 4,
+            slidesPerGroup: 2,
             pagination: {
               clickable: true,
             },
@@ -101,16 +113,20 @@ export default function MainContent({ numberOfContent }) {
         slidesPerView={1}
         spaceBetween={30}
         freeMode={true}
-        // autoplay={{
-        //   delay: 3500,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         navigation={true}
         modules={[FreeMode, Pagination, Autoplay, Navigation]}
         className="mySwiper font-pretendard"
       >
         {contents.map((content, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide
+            key={index}
+            onMouseOver={() => toggleSlideAutoplay(index, false)}
+            onMouseLeave={() => toggleSlideAutoplay(index, true)}
+          >
             <Link to="/contentDetail" className="w-full h-full flex items-center justify-center">
               <Slider content={content} />
             </Link>
