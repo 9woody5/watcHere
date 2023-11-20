@@ -2,7 +2,7 @@ import UsersProfile from "../Components/Users/UsersProfile";
 import UsersBookmark from "../Components/Users/UsersBookmark";
 import UsersReview from "../Components/Users/UsersReview";
 
-const Users = () => {
+const UsersPage = () => {
   return (
     <div className="flex justify-center">
       <UsersProfile />
@@ -10,4 +10,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersPage;
