@@ -124,7 +124,13 @@
   - 그래픽 리소스가 기본으로 들어가는 위치입니다.
 
 - /resources
+
   - 상황에 따라 임시 json 데이터가 들어갈 경우 사용될 위치 입니다.
+
+- /router(11-18 NEW!!!)
+
+  - react-router-dom 이 v5 에서 v6 문법으로 변경되고 outlet 를 사용함에 따라 content site 와 admin site 를 분리하게 되었습니다.
+  - router 폴더는 해당 라우팅을 담당하는 파일이 존재하고 있습니다.
 
 ---
 
@@ -149,32 +155,71 @@
   - useState와 가장 비슷해서 적응하기 쉬운 방식입니다.
   - 해당 구현 코드는 /Admin/Main.jsx 에서 보실 수 있습니다.
 
-- TextOverflow:
+- TextOverflow(11-18 NEW!!):
 
   - 원문 텍스트와 자를 위치를 보내면 해당 길이 이상의 텍스트 부분은 ... 처리하는 라이브러리입니다.
   - 특별한 기능이 있는건 아닙니다.
 
----
-
-# 푸터 활성화 /비활성화 방법
-
-- import { footerEnabledRecoil } from "[경로명]";
-- const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.
-- 푸터페이지가 열릴때마다 CommonAtom 에 들어있는 footerEnabledRecoil 의 Bool 값을 참조하여 해당 Bool 값이 true 이면 Footer 를 랜더링 하게됩니다.
-- 가장 이상적인 부분은 Admin 페이지를 별도 서버 구성 혹은 메인 라우팅에서 유저/관리자 로 나눈후 서브라우팅으로 쪼개면서 푸터를 나누는게 좋지만
-  현재로써는 방향이 안잡혀 있기 때문에 임시로 Recoil 을 활용한 상태입니다.
-- 이러할 경우에는 Top Navigation 에서 footerEnabledRecoil 을 항상 True 로 선언해주면 관리자 페이지에 들어갈때만 False 로 활성화되어 관리자 페이지에서 Footer 가 사라지고 Top Navigation 을 활용하는 유저 페이지는 항상 Footer 가 등장하게 됩니다.
-
-# 라우터 추가 방법
-
-- 이 프로젝트는 라우터를 React-router-dom 을 사용하고 있습니다.
-- 해당 라우팅은 App.jsx 에서 설정하게 되며 <BrowserRouter> <Routes> 안에
-- <Route path="[접속URL]" element={임포트한 컴포넌트} />
-- 를 추가해주시면 됩니다.
-- 작업하실 때 별도의 라우팅 작업후 주소를 입력하신뒤 작업 후
-- TopNav 에서 라우팅을 연결하면 TopNav 에서 버튼 클릭 후 연결되게 작업될 것입니다.
+- EnterToDiv:
+  - \n 줄바꿈 텍스트를 <div> 로 감싸주는 기능을 하는 커스텀 라이브러리 입니다.
 
 ---
+
+~~# 푸터 활성화 /비활성화 방법~~
+
+~~- import { footerEnabledRecoil } from "[경로명]";~~
+~~- const [, setFooterEnabled] = useRecoilState(footerEnabledRecoil); // 푸터를 활성화 할지 말지를 결정합니다.~~
+~~- 푸터페이지가 열릴때마다 CommonAtom 에 들어있는 footerEnabledRecoil 의 Bool 값을 참조하여 해당 Bool 값이 true 이면 Footer 를 랜더링 하게됩니다.~~
+~~- 가장 이상적인 부분은 Admin 페이지를 별도 서버 구성 혹은 메인 라우팅에서 유저/관리자 로 나눈후 서브라우팅으로 쪼개면서 푸터를 나누는게 좋지만 현재로써는 방향이 안잡혀 있기 때문에 임시로 Recoil 을 활용한 상태입니다.~~
+~~- 이러할 경우에는 Top Navigation 에서 footerEnabledRecoil 을 항상 True 로 선언해주면 관리자 페이지에 들어갈때만 False 로 활성화되어 관리자 페이지에서 Footer 가 사라지고 Top Navigation 을 활용하는 유저 페이지는 항상 Footer 가 등장하게 됩니다.~~
+
+# 푸터 Recoil 기능은 react-router-dom 의 기능을 outlet 적용 및 v6로의 이관으로 인해서 제거 되었습니다.
+
+---
+
+# 라우터 추가 방법 (V6!!!)
+
+- V6 문법으로 변경되었습니다.
+- app.jsx 안에 const router 안에 path: "/" 로 되어있는 object 가 있습니다.
+- 해당 object 안에 childern array 내에 json object 로 path 와 element 를 추가해주시면 됩니다.
+- 그러면 top nav 와 footer 가 붙은 페이지가 로딩되게 됩니다.
+- 이제부터 react-router-dom 은 router 폴더의 ContentSite 파일과 AdminSite 라우터 파일을 참조합니다.
+
+~~- 이 프로젝트는 라우터를 React-router-dom 을 사용하고 있습니다.~~
+~~- 해당 라우팅은 App.jsx 에서 설정하게 되며 <BrowserRouter> <Routes> 안에~~
+~~- <Route path="[접속URL]" element={임포트한 컴포넌트} />~~
+~~- 를 추가해주시면 됩니다.~~
+~~- 작업하실 때 별도의 라우팅 작업후 주소를 입력하신뒤 작업 후~~
+~~- TopNav 에서 라우팅을 연결하면 TopNav 에서 버튼 클릭 후 연결되게 작업될 것입니다.~~
+
+---
+
+# Tailwind CSS 반응형 작업 추가 (11-18 NEW!!)
+
+- Tailwind CSS 에 반응형 설정이 추가되었습니다.
+
+```
+  screens: {
+      "2xl": { max: "9999px" },
+      // => @media (max-width: 1535px) { ... }
+
+      xl: { max: "1279px" },
+      // => @media (max-width: 1279px) { ... }
+
+      lg: { max: "1023px" },
+      // => @media (max-width: 1023px) { ... }
+
+      md: { max: "767px" },
+      // => @media (max-width: 767px) { ... }
+
+      sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
+  }
+```
+
+- 설정은 위의 내용과 같습니다.
+- Tailwind CSS 내에서 xl:block 2xl:hidden 형식으로 추가해주시면 sm~xl 까지 표시 2xl 에서 숨김 형식으로 처리됩니다.
+- 테스트는 설정 후 크롬이나 인터넷 익스플로러 창을 좌우로 변경해보거나 개발자모드에서 모바일 모드를 통해서 확인할 수 있습니다.
 
 # 최초 실행방법
 
