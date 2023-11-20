@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import {
-  loginPageActiveState,
-  navEnabledRecoil,
-  footerEnabledRecoil,
-} from "../Common/CommonAtom";
+import { loginPageActiveState } from "../Common/CommonAtom";
 
 import LoginTitle from "../Components/login/LoginTitle";
 import LoginButton from "../Components/login/LoginButton";
@@ -13,9 +9,9 @@ const LoginPage = () => {
   const [, setLoginPageActive] = useRecoilState(loginPageActiveState);
 
   useEffect(() => {
-    setLoginPageActive(false);
+    setLoginPageActive(true);
     return () => {
-      setLoginPageActive(true);
+      setLoginPageActive(false);
     };
   }, [setLoginPageActive]);
 
