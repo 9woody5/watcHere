@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import MainSearchBar from "../Components/Main/MainSearchBar";
+import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 import MainContent from "./../Components/Main/MainContent";
 import { mainNavEnabled } from "../Common/CommonAtom";
 import { useLocation } from "react-router-dom";

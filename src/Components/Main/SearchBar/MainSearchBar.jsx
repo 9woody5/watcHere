@@ -1,10 +1,11 @@
+// 필터 기능 추가
+
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoSearchCircleSharp } from "react-icons/io5";
-import AutocompleteSuggestions from "./AutocompleteSuggestions";
-import RecentSearches from "./RecentSearches";
-import logo from "../../assets/img/watcHere_logo.svg";
-import mockData from "../../resources/mockData.json";
+import SearchRecords from "./SearchRecords";
+import logo from "../../../assets/img/watcHere_logo.svg";
+import mockData from "../../../resources/mockData.json";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -57,7 +58,25 @@ const MainSearchBar = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const navigate = useNavigate();
+
+  const handleKeyDown = (event) => {
+    // 방향키 Down
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setSelectedItemIndex((prevIndex) => (prevIndex < autoCompleteValue.length - 1 ? prevIndex + 1 : prevIndex));
+    }
+    // 방향키 Up
+    else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setSelectedItemIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
+    }
+    // 엔터 키
+    else if (event.key === "Enter" && selectedItemIndex !== -1) {
+      handleSearchInteraction(autoCompleteValue[selectedItemIndex]);
+    }
+  };
 
   // mockData에서 title가져오기
   const titles = mockData.map((item) => item.Title);
@@ -96,13 +115,13 @@ const MainSearchBar = () => {
 
   const [recentSearches, setRecentSearches] = useState([]);
 
-  const handleSuggestionClick = (suggestion) => {
-    console.log("출력");
-    setSearchValue(suggestion);
+  const handleSearchInteraction = (value, index) => {
+    setSearchValue(value);
     setAutocompleteValue([]);
-    navigate("/resultPage");
-    addToRecentSearches(suggestion);
+    addToRecentSearches(value);
     setRecentSearches(getRecentSearches());
+    setSelectedItemIndex(index);
+    navigate("/resultPage");
   };
 
   const handleClearAllRecentSearches = () => {
@@ -117,59 +136,6 @@ const MainSearchBar = () => {
     setRecentSearches(updatedRecentSearches);
   };
 
-  const renderRecentSearches = () => {
-    if (recentSearches.length > 0) {
-      return (
-        <>
-          <div className="flex justify-between items-center">
-            <span className="w-20 h-6 flex justify-center items-center rounded-full text-xs font-pretendardBold text-white bg-emerald-700 ">
-              최근 검색
-            </span>
-            <button
-              className="text-xs font-pretendardBold w-14 h-5 text-zinc-400 underline"
-              onClick={handleClearAllRecentSearches}
-            >
-              전체 삭제
-            </button>
-          </div>
-          <ul>
-            {recentSearches.map((search, index) => (
-              <li className="px-1 text-sm flex justify-between" key={index}>
-                <span className="text-black cursor-pointer" onClick={() => handleSuggestionClick(search)}>
-                  {search}
-                </span>
-                <button
-                  className="border-emerald-500 border-1 border-solid rounded-lg px-2 text-xs ml-5"
-                  onClick={() => handleRemoveRecentSearch(index)}
-                >
-                  삭제
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-      );
-    }
-  };
-
-  const renderAutocompleteValue = () => {
-    return (
-      <div className="bg-white w-full h-auto flex flex-col gap-1 pt-10 pb-5 px-4 rounded-b-3xl mt-[-25px]">
-        {renderRecentSearches()}
-        <span className="w-20 h-6 my-1 flex justify-center items-center rounded-full text-xs font-pretendardBold text-white bg-emerald-700 ">
-          연관 콘텐츠
-        </span>
-        <ul>
-          {autoCompleteValue.map((suggestion) => (
-            <li className="px-1 text-sm flex" key={suggestion} onClick={() => handleSuggestionClick(suggestion)}>
-              <span className="text-black cursor-pointer">{suggestion}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
   // 검색 결과 페이지로 이동
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -181,7 +147,7 @@ const MainSearchBar = () => {
     }
   };
 
-  // 아이콘 동적 스타일링
+  // 검색 아이콘 동적 스타일링
   const addHoverClass = (event) => {
     if (searchValue !== "") {
       const pathElement = event.currentTarget.querySelector("path");
@@ -205,7 +171,7 @@ const MainSearchBar = () => {
       <div className="search_box flex flex-col first-letter:justify-center items-center font-pretendard">
         <img src={logo} alt="" />
         <div className="w-[90%] relative">
-          <form className="w-full z-10 absolute" onSubmit={handleSubmit}>
+          <form className="w-full z-10 absolute" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <input
               type="text"
               placeholder="찾고 계신 콘텐츠를 알려주세요 👀"
@@ -223,7 +189,17 @@ const MainSearchBar = () => {
                 <IoSearchCircleSharp size="50px" color="40AD80" />
               </i>
             </button>
-            {searchValue && autoCompleteValue.length > 0 && renderAutocompleteValue()}
+            {searchValue && autoCompleteValue.length > 0 && (
+              <SearchRecords
+                autoCompleteValue={autoCompleteValue}
+                handleSearchInteraction={handleSearchInteraction}
+                selectedItemIndex={selectedItemIndex}
+                setSelectedItemIndex={setSelectedItemIndex}
+                recentSearches={recentSearches}
+                handleClearAllRecentSearches={handleClearAllRecentSearches}
+                handleRemoveRecentSearch={handleRemoveRecentSearch}
+              />
+            )}
           </form>
         </div>
       </div>

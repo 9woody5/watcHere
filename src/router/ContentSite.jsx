@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../Common/Header";
 import Footer from "../Common/Footer";
-import ChatIcon from "../Components/Main/ChatIcon";
+import ChatIcon from "../Components/Main/Chat/ChatIcon";
 
 export default function ContentSite() {
   const location = useLocation();

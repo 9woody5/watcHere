@@ -3,10 +3,10 @@ import ResultByCategories from "../Components/SearchResult/ResultByCategories";
 
 const ResultPage = () => {
   return (
-    <>
+    <div className="px-36">
       <ResultAll />
       <ResultByCategories />
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { chatState } from "../../Common/CommonAtom";
+import { chatState } from "../../../Common/CommonAtom";
 import { useState } from "react";
 import { ChatForm } from "./ChatForm";
 
