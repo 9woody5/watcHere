@@ -6,7 +6,7 @@ import ChatIcon from "../Components/Main/ChatIcon";
 export default function ContentSite() {
   const location = useLocation();
   const isHeaderEnabled = !["/", "admin", "/login"].includes(location.pathname);
-  const isFooterEnabled = !["/admin", "/login"].includes(location.pathname);
+  const isFooterEnabled = !["/admin"].includes(location.pathname);
   const isChatEnabled = !["/admin", "/login"].includes(location.pathname);
   // const [isLoggedIn, setLoggedIn] = useState(true);
   return (
