@@ -5,6 +5,7 @@
 }
 
 .swiper-slide {
+  height: auto;
   text-align: center;
   font-size: 20px;
   border-radius: 10px;
@@ -23,24 +24,3 @@
   object-fit: cover;
   border-radius: 10px;
 }
-/* 
-.swiper-button-prev,
-.swiper-button-next {
-  background-color: #333;
-  opacity: 0.6;
-  height: 50px;
-  width: 50px;
-  border-radius: 50px;
-  color: #fff !important;
-  top: 85%;
-}
-
-.swiper-button-prev:after,
-.swiper-button-next:after {
-  font-size: 1.1rem !important;
-  font-weight: 600 !important;
-}
-
-.swiper-pagination-bullet {
-  background-color: #047857;
-} */
