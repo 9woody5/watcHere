@@ -35,8 +35,7 @@ function ReviewInfo({id}) {
   };
 
   return (
-    <div className='w-full flex flex-col text-white'>
-
+    <div className='w-full mb-10 flex flex-col text-white'>
       <div className='flex justify-between'>
         <div className='flex items-center mb-10'>
           <div className='align-middle' >리뷰</div>
