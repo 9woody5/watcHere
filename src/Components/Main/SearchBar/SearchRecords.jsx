@@ -35,6 +35,7 @@ const SearchRecords = ({
                 key={index}
                 onClick={(e) => {
                   e.stopPropagation();
+                  console.log("검색 결과1");
                   setSelectedIndex(index);
                 }}
               >
