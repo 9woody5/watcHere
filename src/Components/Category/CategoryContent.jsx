@@ -58,10 +58,12 @@ export default function ContentCategory() {
   }, [getOttData]);
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="w-full px-36">
+      <div className="w-[90%]">
         <div>
-          <div className="text-3xl text-white font-bold">👀 watchHere 에서 리뷰 많은 컨텐츠 모아보기</div>
-          <div className="mt-10">
+          <div className="mt-10 text-3xl text-white font-bold">
+            👀 watchHere 에서 리뷰 많은 컨텐츠 모아보기
+          </div>
+          <div className="mt-10 flex">
             <CategorySwiper props={categoryList} />
           </div>
         </div>
@@ -79,15 +81,21 @@ export default function ContentCategory() {
             </button>
           ))}
         </div>
-        <div className="mt-10 text-3xl text-white font-bold">🔥 지금 {selectOtt.name} 에서 인기 많은 컨텐츠</div>
+        <div className="mt-10 text-3xl text-white font-bold">
+          🔥 지금 {selectOtt.name} 에서 인기 많은 컨텐츠
+        </div>
         <div className="mt-10 flex">
           <CategorySwiper props={ottHotContentList} />
         </div>
-        <div className="mt-10 text-3xl text-white font-bold">📢 새로 업데이트 된 {selectOtt.name} 컨텐츠</div>
+        <div className="mt-10 text-3xl text-white font-bold">
+          📢 새로 업데이트 된 {selectOtt.name} 컨텐츠
+        </div>
         <div className="mt-10 flex">
           <CategorySwiper props={ottNewContentList} />
         </div>
-        <div className="mt-10 text-3xl text-white font-bold">⭐ 높은 평점을 받은 {selectOtt.name} 컨텐츠</div>
+        <div className="mt-10 text-3xl text-white font-bold">
+          ⭐ 높은 평점을 받은 {selectOtt.name} 컨텐츠
+        </div>
         <div className="mt-10 flex">
           <CategorySwiper props={ottRatingContentList} />
         </div>
