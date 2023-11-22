@@ -48,3 +48,18 @@ export function createReviewData(){
   }
   })
 }
+
+export function createContentScoreData(){
+  return {
+    'meanScore': faker.number.float({ min: 1, max: 5, precision: 0.01 }),
+    'totalScoreNum': faker.number.int({min:10, max:10000}),
+    'scoreNum': 
+      {
+        '1': faker.number.int({min:0, max:1000}), 
+        '2': faker.number.int({min:0, max:1000}), 
+        '3': faker.number.int({min:0, max:1000}), 
+        '4': faker.number.int({min:0, max:1000}), 
+        '5': faker.number.int({min:0, max:1000}), 
+      }
+  }
+}
