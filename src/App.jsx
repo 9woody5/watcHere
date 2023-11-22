@@ -10,6 +10,8 @@ import ContentCategory from "./Components/Category/CategoryContent";
 import ContentSite from "./router/ContentSite";
 import AdminSite from "./router/AdminSite";
 import LoginPage from "./Pages/LoginPage";
+import UsersPage from "./Pages/UsersPage";
+import BookmarkList from "./Components/Users/BookmarkList";
 import ResultPage from "./Pages/ResultPage";
 
 function App() {
@@ -24,8 +26,10 @@ function App() {
           <Route path="contentDetail" element={<ContentDetail />} />
           <Route path="resultpage" element={<ResultPage />} />
           <Route path="login" element={<LoginPage />} />
-          {/* <Route path="mypage" element={<MyPage />} /> */}
+          <Route path="mypage" element={<UsersPage />} />
+          <Route path="mypage/bookmark-list" element={<BookmarkList />} />
         </Route>
+
         <Route path="/admin" element={<AdminSite />}>
           <Route index element={<AdmimMain />} />
         </Route>
