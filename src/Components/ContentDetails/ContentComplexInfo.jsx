@@ -14,7 +14,7 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
           <StarRating/>
         </div> */}
         <div className='w-3/5'>
-          <div>시청 가능한 플랫폼</div>
+          <div className='mb-5'>시청 가능한 플랫폼</div>
           <div className="carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
             {new Array(5).fill(0).map((p)=>(
               <button className="btn carousel-item">

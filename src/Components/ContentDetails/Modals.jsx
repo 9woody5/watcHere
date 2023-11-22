@@ -1,5 +1,7 @@
 import Modal from 'react-modal';
-import React from 'react';
+import React, {useRef, useState} from 'react';
+
+import StarRating from './StarRating';
 
 // DeleteConfirm Modal
 const deleteModalStyles = {
@@ -79,7 +81,19 @@ const reviewInputModalStyles = {
   },
 };
 
-const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit }) => {
+const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit, handleUserScore, handleUserReview }) => {
+  const textAreaRef = useRef('');
+  let timerId = undefined;
+
+  function debounce(func, timeout = 300) {
+    return (...args) => {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -88,8 +102,11 @@ const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit }) => {
       ariaHideApp={false}
       style={reviewInputModalStyles}
     >
-      <h2 className='text-center'>리뷰작성</h2>
-      <textarea placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" ></textarea>
+      <h2 className='text-center mb-3'>리뷰작성</h2>
+      <StarRating handleUserScore={handleUserScore}/>
+      <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
+        onChange={() => debounce(()=>{
+          handleUserReview(textAreaRef.current.value)})()}></textarea>
       <div className='flex justify-around mt-3' >
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onSubmit}>submit</button>
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onRequestClose}>Cancel</button>

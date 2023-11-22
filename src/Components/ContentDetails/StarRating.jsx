@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { AiFillStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-function StarRating(){
+function StarRating({handleUserScore}){
   const [score, setScore] = useState(0);
   const [hoverScore, setHoverScore] = useState(0);
   const [starIndex, setStarIndex] = useState(0);
@@ -21,15 +21,23 @@ function StarRating(){
     setStarIndex(curStarIndex);
   }, [score, hoverScore])
 
+  useEffect(()=>{
+    handleUserScore(score);
+  }, [score])
+
   return (
-    <div>{[1,2,3,4,5].map((index)=>(
-      <AiFillStar key={`hoverscore${index}`} 
-      className={`inline-block ${starIndex>=index? 'text-yellow-200': 'text-white'} text-5xl`}
-      onMouseEnter={()=>handleHoverStar(index)}
-      onMouseLeave={()=>handleMouseLeaveStar()}
-      onClick={()=>handleClickStar(index)}
-      />
-    ))}</div>
+    <div>{[1,2,3,4,5].map((index)=>
+      starIndex>=index? 
+      (<AiFillStar  key={`my-review-score-star-${index}`} className= 'inline-block text-3xl text-yellow-500'
+        onMouseEnter={()=>handleHoverStar(index)}
+        onMouseLeave={()=>handleMouseLeaveStar()}
+        onClick={()=>handleClickStar(index)} />) :
+      ((<AiOutlineStar key={`my-review-score-star-${index}`} className= 'inline-block text-3xl text-yellow-500' 
+        onMouseEnter={()=>handleHoverStar(index)}
+        onMouseLeave={()=>handleMouseLeaveStar()}
+        onClick={()=>handleClickStar(index)}
+      />))
+    )}</div>
   )
 
 }
