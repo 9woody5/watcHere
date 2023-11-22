@@ -53,7 +53,7 @@ export const SwiperComponent = ({ contents }) => {
         spaceBetween={30}
         freeMode={true}
         autoplay={{
-          delay: 2500,
+          delay: 2300,
           disableOnInteraction: false,
         }}
         navigation={true}

@@ -97,7 +97,7 @@ const MainSearchBar = () => {
     const recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
     // 배열에 검색 내역 추가
     recentSearches.unshift(searchValue);
-    // 중복된 값 제거, 개수 제한(예: 4개)
+    // 중복된 값 제거, 개수 5개로 제한
     const uniqueRecentSearches = [...new Set(recentSearches)].slice(0, 5);
     localStorage.setItem("recentSearches", JSON.stringify(uniqueRecentSearches));
   };
@@ -129,7 +129,8 @@ const MainSearchBar = () => {
     setRecentSearches([]);
   };
 
-  const handleRemoveRecentSearch = (index) => {
+  const handleRemoveRecentSearch = (index, e) => {
+    e.stopPropagation();
     const updatedRecentSearches = [...recentSearches];
     updatedRecentSearches.splice(index, 1);
     localStorage.setItem("recentSearches", JSON.stringify(updatedRecentSearches));
@@ -139,12 +140,6 @@ const MainSearchBar = () => {
   // 검색 결과 페이지로 이동
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 검색어 로직 영역
-
-    // 검색 값이 있을 때만 결과 페이지로 이동시킴
-    if (searchValue !== "") {
-      navigate("/resultPage");
-    }
   };
 
   // 검색 아이콘 동적 스타일링

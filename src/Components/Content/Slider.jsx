@@ -34,7 +34,10 @@ const Slider = ({ content }) => {
           role="status"
           className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
         >
-          <div className="flex items-center justify-center w-full h-[430px] bg-zinc-500 rounded sm:w-96 dark:bg-gray-700"></div>
+          <div
+            className="flex items-center justify-center w-full bg-zinc-500 rounded sm:w-96 dark:bg-gray-700"
+            style={{ height: "calc(100vh - 50vh)" }}
+          ></div>
         </div>
       ) : (
         <img src={content.Images[0]} alt={content.Title} />
