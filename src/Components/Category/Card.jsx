@@ -13,23 +13,17 @@ import { AddedFavoritesModal } from "./CategoryModal";
  */
 
 export default function ThumbnailCard({ props }) {
-  const {
-    idx,
-    //  link,
-    name_kr,
-    thumbnail,
-    // type,
-    year,
-  } = props;
+  console.log(props);
+  const { year, id, title, poster_path } = props;
   return (
     <div className="">
       <div className="rounded group">
-        <img src={thumbnail} className="group-hover:opacity-50" alt="" />
+        <img src={poster_path} className="group-hover:opacity-50" alt="" />
         <div className="w-64 h-80 hidden group-hover:block absolute transform -translate-y-full text-white">
           <div className="h-full py-4 flex flex-col justify-between">
             <div>
               <div className="text-xl font-bold w-full bg-[#00B9AE] text-black">
-                {name_kr}
+                {title}
               </div>
               <div>별점</div>
             </div>
@@ -40,7 +34,7 @@ export default function ThumbnailCard({ props }) {
                   <RiBookmarkFill className="w-10 h-10" />
                 </div>
                 <div className="flex items-center justify-center rounded-md bg-[#00B9AE] text-black font-bold text-xl w-2/3 h-12">
-                  <Link to={`/contentDetail/${idx}`}> 상세보기 </Link>
+                  <Link to={`/contentDetail/${id}`}> 상세보기 </Link>
                 </div>
               </div>
             </div>
@@ -48,7 +42,7 @@ export default function ThumbnailCard({ props }) {
         </div>
       </div>
       <div className=" flex items-center text-center text-xl font-bold mt-2">
-        {name_kr}
+        {title}
       </div>
       <div className="flex mt-1">
         <div className="">{year}</div>
