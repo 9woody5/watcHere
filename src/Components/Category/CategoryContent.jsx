@@ -5,7 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 import dummyMovieInfo from "../../resources/movieInfo.json";
 import ottList from "../../resources/ottlist.json";
 
+// 커스텀 컴포넌트
 import CategorySwiper from "./CategorySwiper";
+
+// 네트워크 라이브러리
+import Connect from "../../Network/Connect.json";
+import { GetData } from "../../Network/Connect";
 
 export default function ContentCategory() {
   const [categoryList, setCategoryList] = useState([]);
@@ -28,10 +33,18 @@ export default function ContentCategory() {
    * 추후 useEffect 에서 페이지 로딩시 데이터를 가져오는 역활
    */
   const getCategoryData = async () => {
-    // const response = await GetData("url");
-    const response = null;
+    let page = 1;
+    let sort = "POPULARITY_DESC";
+    let provider = "NETFLIX";
+    let type = "MOVIE";
+    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
+
+    const response = await GetData(
+      Connect["mainUrl"] + Connect["categoryList"] + queryString
+    );
+    console.log(response);
     if (response !== null) {
-      setCategoryList(response);
+      setCategoryList(response.data.results);
     } else {
       // 연출용 랜덤 타임
       setTimeout(() => {
@@ -49,9 +62,9 @@ export default function ContentCategory() {
     }
   };
 
-  useEffect(() => {
-    getCategoryData();
-  }, []);
+  // useEffect(() => {
+  //   getCategoryData();
+  // }, []);
 
   useEffect(() => {
     getOttData();
