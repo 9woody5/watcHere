@@ -7,10 +7,11 @@ import { SwiperComponent } from "../Content/SwiperComponent";
 
 export default function MainContent() {
   const contents = mockData;
+  const autoplayEnabled = true;
 
   return (
     <>
-      <SwiperComponent contents={contents} />
+      <SwiperComponent contents={contents} autoplayEnabled={autoplayEnabled} />
     </>
   );
 }

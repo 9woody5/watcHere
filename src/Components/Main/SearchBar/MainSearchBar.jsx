@@ -86,6 +86,9 @@ const MainSearchBar = () => {
     const value = event.target.value;
     setSearchValue(value);
 
+    // searchValue가 0이 되면 키보드 이벤트 초기화
+    setSelectedItemIndex(value.length === 0 ? 0 : selectedItemIndex);
+
     const suggestions = titles.filter(
       (title) => title.toLowerCase().includes(value.toLowerCase()) || isChosungMatch(value, title)
     );
@@ -121,7 +124,11 @@ const MainSearchBar = () => {
     addToRecentSearches(value);
     setRecentSearches(getRecentSearches());
     setSelectedItemIndex(index);
-    navigate("/resultPage");
+
+    const selectedContent = mockData.find((content) => content.Title === value);
+    if (selectedContent) {
+      navigate(`/resultPage/${selectedContent.id}`);
+    }
   };
 
   const handleClearAllRecentSearches = () => {
@@ -138,8 +145,12 @@ const MainSearchBar = () => {
   };
 
   // 검색 결과 페이지로 이동
-  const handleSubmit = (event) => {
+  const handleSubmit = (event, index) => {
     event.preventDefault();
+
+    if (index !== undefined) {
+      navigate("/resultPage");
+    }
   };
 
   // 검색 아이콘 동적 스타일링
@@ -193,6 +204,7 @@ const MainSearchBar = () => {
                 recentSearches={recentSearches}
                 handleClearAllRecentSearches={handleClearAllRecentSearches}
                 handleRemoveRecentSearch={handleRemoveRecentSearch}
+                searchValue={searchValue}
               />
             )}
           </form>

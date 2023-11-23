@@ -9,19 +9,26 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 import "../../styles/swiper.css";
 
-export const SwiperComponent = ({ contents }) => {
+export const SwiperComponent = ({ contents, customSlidesPerView, autoplayEnabled }) => {
+  console.log("autoplayEnabled:", autoplayEnabled);
   // 마우스 오버 시, 슬라이드 정지
   const [swiper, setSwiper] = useState(null);
   const toggleSlideAutoplay = (playStatus) => {
     if (swiper && swiper.autoplay) {
       const isAutoplay = playStatus;
-
       swiper.autoplay[isAutoplay ? "start" : "stop"]();
     }
   };
+  // 슬라이드 별 콘텐츠 개수 동적 변경
+  const slidesPerView = customSlidesPerView || 4;
+
+  const autoplayConfig = {
+    delay: 2300,
+    disableOnInteraction: false,
+  };
+
   return (
     <>
       <Swiper
@@ -42,7 +49,7 @@ export const SwiperComponent = ({ contents }) => {
             },
           },
           1080: {
-            slidesPerView: 4,
+            slidesPerView: slidesPerView,
             slidesPerGroup: 2,
             pagination: {
               clickable: true,
@@ -52,10 +59,7 @@ export const SwiperComponent = ({ contents }) => {
         slidesPerView={1}
         spaceBetween={30}
         freeMode={true}
-        autoplay={{
-          delay: 2300,
-          disableOnInteraction: false,
-        }}
+        autoplay={autoplayEnabled ? autoplayConfig : false}
         navigation={true}
         modules={[FreeMode, Pagination, Autoplay, Navigation]}
         className="mySwiper font-pretendard"
@@ -66,7 +70,7 @@ export const SwiperComponent = ({ contents }) => {
             onMouseOver={() => toggleSlideAutoplay(false)}
             onMouseLeave={() => toggleSlideAutoplay(true)}
           >
-            <Link to="/contentDetail" className="w-full h-full flex items-center justify-center">
+            <Link to={`/contentDetail/${content.id}`} className="w-full h-full flex items-center justify-center">
               <Slider content={content} />
             </Link>
           </SwiperSlide>
