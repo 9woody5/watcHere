@@ -7,7 +7,7 @@
 }
 
 .swiper-slide {
-  height: calc(100vh - 400px);
+  height: calc(100vh - 50vh);
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
