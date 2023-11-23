@@ -1,6 +1,9 @@
 .swiper {
   width: 90%;
   margin-top: 100px;
+}
+
+.swiper.main_swiper {
   padding: 0 50px;
 }
 .swiper-wrapper {

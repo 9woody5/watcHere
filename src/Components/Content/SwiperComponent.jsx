@@ -61,7 +61,7 @@ export const SwiperComponent = ({ contents, customSlidesPerView, autoplayEnabled
         autoplay={autoplayEnabled ? autoplayConfig : false}
         navigation={true}
         modules={[FreeMode, Pagination, Autoplay, Navigation]}
-        className="mySwiper font-pretendard"
+        className="mySwiper font-pretendard main_swiper"
       >
         {contents.map((content, index) => (
           <SwiperSlide
