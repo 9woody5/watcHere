@@ -3,7 +3,7 @@ import React from "react";
 const LoginButton = ({ buttonText, buttonType }) => {
   // 이벤트 핸들러 함수
   const handleLogin = (type) => {
-    console.log(`${type} 로그인 시도`);
+    // console.log(`${type} 로그인 시도`);
     // 여기에 로그인 로직 추가
   };
   const getBackgroundImage = (type) => {
