@@ -1,6 +1,8 @@
 .result_wrap .mySwiper {
   width: 100% !important;
   margin-top: 30px !important;
+  position: relative;
+  padding: 0;
 }
 .content_item img {
   transition: all 0.2s ease-in-out;
@@ -8,4 +10,9 @@
 }
 .content_item:hover img {
   transform: scale(1.1);
+}
+
+.result_wrap .swiper-button-prev,
+.result_wrap .swiper-button-next {
+  top: 50%;
 }
