@@ -35,10 +35,10 @@ const UsersProfile = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow-3 w-[33%] font-normal text-center text-sm text-white">
-        <h2>유저 닉네임</h2>
+        <h2>닉네임</h2>
         <p>EliceRabbit</p>
         <br />
-        <h2>유저 이메일</h2>
+        <h2>이메일</h2>
         <p>elise@elise.com</p>
       </div>
       <div className="flex items-center justify-end dropdown dropdown-end profile-setting w-[33%]">
@@ -58,9 +58,6 @@ const UsersProfile = () => {
           tabIndex={0}
           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28 text-black"
         >
-          <li>
-            <button>로그아웃</button>
-          </li>
           <li>
             <button>계정변경</button>
           </li>
