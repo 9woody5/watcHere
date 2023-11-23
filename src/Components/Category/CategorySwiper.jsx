@@ -36,21 +36,6 @@ export default function CategorySwiper({ props }) {
         </button>
       </div>
 
-      {/* <div className="mt-1 relative flex md:block">
-        <button
-          ref={prevRef}
-          className="w-12 h-12 rounded-full bg-white flex items-center justify-center"
-        >
-          <MdOutlineArrowBackIosNew className="text-3xl" />
-        </button>
-        <button
-          ref={nextRef}
-          className="w-12 h-12 rounded-full bg-[#40AD80] flex items-center justify-center"
-        >
-          <MdArrowForwardIos className="text-white text-3xl" />
-        </button>
-      </div> */}
-
       <Swiper
         breakpoints={{
           767: {
