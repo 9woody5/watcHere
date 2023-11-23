@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
 import logo from "../../../assets/img/watcHere_logo.svg";
-import mockData from "../../../resources/mockData.json";
+import Connect from "../../../Network/Connect.json";
+import { GetData } from "../../../Network/Connect";
+// import mockData from "../../../resources/mockData.json";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -54,6 +57,24 @@ const MainSearchBar = () => {
     image.src = logo;
   }, []);
 
+  // 데이터 연결 함수
+  const fetchData = async () => {
+    let page = 1;
+    let sort = "POPULARITY_DESC";
+    let provider = "NETFLIX";
+    let type = "MOVIE";
+    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
+
+    const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
+    return response.data;
+  };
+
+  // react-query로 데이터 연결 및 관리
+  const { data: contents } = useQuery({
+    queryKey: ["contents-list"],
+    queryFn: fetchData,
+  });
+
   const [searchValue, setSearchValue] = useState("");
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
@@ -76,8 +97,8 @@ const MainSearchBar = () => {
     }
   };
 
-  // mockData에서 title가져오기
-  const titles = mockData.map((item) => item.Title);
+  // 콘텐츠 title가져오기(추후 api주소 수정)
+  const titles = contents?.results ? contents.results.map((item) => item.title) : [];
 
   // 검색 기능 로직
   const handleInputChange = (event) => {
@@ -85,7 +106,7 @@ const MainSearchBar = () => {
     setSearchValue(value);
 
     // searchValue가 0이 되면 키보드 이벤트 초기화
-    setSelectedItemIndex(value.length === 0 ? 0 : selectedItemIndex);
+    setSelectedItemIndex(value.length === 0 ? -1 : selectedItemIndex);
 
     const suggestions = titles.filter(
       (title) => title.toLowerCase().includes(value.toLowerCase()) || isChosungMatch(value, title)
@@ -123,9 +144,10 @@ const MainSearchBar = () => {
     setRecentSearches(getRecentSearches());
     setSelectedItemIndex(index);
 
-    const selectedContent = mockData.find((content) => content.Title === value);
+    const selectedContent = contents.results.find((content) => content.title === value);
     if (selectedContent) {
-      navigate(`/resultPage/${selectedContent.id}`);
+      const encodedSearchValue = encodeURIComponent(searchValue);
+      navigate(`/resultPage?query=${encodedSearchValue}`);
     }
   };
 

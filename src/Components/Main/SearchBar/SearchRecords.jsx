@@ -77,7 +77,7 @@ const SearchRecords = ({
         <span className="w-20 h-6 my-1 flex justify-center items-center rounded-full text-sm font-pretendardBold text-white bg-emerald-700 ">
           연관 콘텐츠
         </span>
-        <ul className="h-auto max-h-[180px] overflow-y-scroll" ref={autoCompleteRef} tabIndex={0}>
+        <ul className="h-auto max-h-[180px] overflow-y-scroll" ref={autoCompleteRef} tabIndex={-1}>
           {autoCompleteValue.map((suggestion, index) => (
             <li
               className={`px-1 py-1 my-2 text-md flex cursor-pointer rounded-md ${

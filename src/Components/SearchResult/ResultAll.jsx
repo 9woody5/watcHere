@@ -7,7 +7,9 @@ const ResultAll = () => {
   const autoplayEnabled = false;
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
-  const selectedContent = mockData.find((content) => content.Title.toLowerCase() === searchQuery.toLowerCase());
+  const selectedContent = mockData.find((content) =>
+    content.Title.toLowerCase() === searchQuery ? searchQuery.toLowerCase() : ""
+  );
 
   return (
     <>
