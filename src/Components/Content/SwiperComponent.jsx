@@ -12,7 +12,6 @@ import "swiper/css/navigation";
 import "../../styles/swiper.css";
 
 export const SwiperComponent = ({ contents, customSlidesPerView, autoplayEnabled }) => {
-  console.log("autoplayEnabled:", autoplayEnabled);
   // 마우스 오버 시, 슬라이드 정지
   const [swiper, setSwiper] = useState(null);
   const toggleSlideAutoplay = (playStatus) => {
