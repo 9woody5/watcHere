@@ -1,6 +1,7 @@
 .swiper {
   width: 90%;
   margin-top: 100px;
+  padding: 0 50px;
 }
 .swiper-wrapper {
   height: fit-content;
@@ -28,19 +29,27 @@
 .swiper-button-prev,
 .swiper-button-next {
   background-color: #333;
-  opacity: 0.6;
+  /* opacity: 0.6; */
   height: 50px;
   width: 50px;
   border-radius: 50px;
   color: #fff !important;
-  border: 2px solid #ccc;
-  top: 85%;
+  top: 15%;
+  transition: background 0.2s ease-in-out;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #047857;
 }
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 1.1rem !important;
   font-weight: 600 !important;
+}
+.swiper-button-disabled {
+  visibility: hidden;
 }
 
 .swiper-pagination-bullet {

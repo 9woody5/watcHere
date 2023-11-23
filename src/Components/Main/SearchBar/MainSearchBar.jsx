@@ -1,5 +1,3 @@
-// 필터 기능 추가
-
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoSearchCircleSharp } from "react-icons/io5";
@@ -145,12 +143,14 @@ const MainSearchBar = () => {
   };
 
   // 검색 결과 페이지로 이동
-  const handleSubmit = (event, index) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (index !== undefined) {
-      navigate("/resultPage");
-    }
+    // Encode the searchValue to handle special characters
+    const encodedSearchValue = encodeURIComponent(searchValue);
+
+    // Navigate to the resultPage with the search query as a parameter
+    navigate(`/resultPage?query=${encodedSearchValue}`);
   };
 
   // 검색 아이콘 동적 스타일링

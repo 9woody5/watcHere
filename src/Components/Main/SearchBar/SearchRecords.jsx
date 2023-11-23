@@ -1,5 +1,3 @@
-// 검색 내역 전체 key event 적용되도록
-// 삭제 버튼 이벤트 버블링 이슈
 import { useRef, useEffect } from "react";
 import { SlClose } from "react-icons/sl";
 
