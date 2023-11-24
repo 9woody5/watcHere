@@ -88,38 +88,3 @@ export async function DelData(url) {
     return null;
   }
 }
-
-// export const kakaoLogin = async (token) => {
-//   try {
-//     const response = await axios.post(
-//       "http://kdt-sw-6-team05.elicecoding.com/login/kakao",
-//       { token }
-//     );
-//     const jwtToken = response.data.jwtToken;
-//     localStorage.setItem("jwtToken", jwtToken);
-//     axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
-
-//     // 사용자 정보를 반환한다고 가정합니다.
-//     return response.data.user;
-//   } catch (err) {
-//     console.error("카카오 로그인 에러", err);
-//     throw err; // 에러를 던져줌
-//   }
-// };
-
-// export const kakaoLogin = async (token, history) => {
-//   try {
-//     const res = await axios.get(
-//       `http://kdt-sw-6-team05.elicecoding.com/oauth/redirect?token=${token}`
-//     );
-//     console.log(res);
-
-//     const ACCESS_TOKEN = res.data.accessToken;
-//     localStorage.setItem("token", ACCESS_TOKEN); // 예시로 로컬에 저장
-//     history.replace("/"); // 토큰을 받았고 로그인 성공시 메인화면으로 전환
-//   } catch (err) {
-//     console.log("소셜 로그인 에러", err);
-//     window.alert("로그인에 실패하였습니다.");
-//     history.replace("/login");
-//   }
-// };
