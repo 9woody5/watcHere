@@ -1,10 +1,23 @@
 import React from "react";
+import { KAKAO, GOOGLE, NAVER } from "./OAuth";
 
 const LoginButton = ({ buttonText, buttonType }) => {
   // 이벤트 핸들러 함수
   const handleLogin = (type) => {
-    // console.log(`${type} 로그인 시도`);
-    // 여기에 로그인 로직 추가
+    switch (type) {
+      case "kakao":
+        window.location.href = KAKAO.AUTH_URL; // 카카오 로그인 페이지로 리디렉션
+        break;
+      case "google":
+        window.location.href = GOOGLE.AUTH_URL; // 구글 로그인 페이지로 리디렉션
+        break;
+      case "naver":
+        window.location.href = NAVER.AUTH_URL; // 네이버 로그인 페이지로 리디렉션
+        break;
+      default:
+        // 기본 동작이나 오류 처리
+        console.error("지원하지 않는 로그인 타입입니다.");
+    }
   };
   const getBackgroundImage = (type) => {
     switch (type) {

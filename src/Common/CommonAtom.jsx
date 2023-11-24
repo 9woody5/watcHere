@@ -5,6 +5,7 @@ export const loginPageActiveState = atom({
   key: "loginPageActiveState",
   default: false,
 });
+
 export const footerEnabledRecoil = atom({
   key: "footerEnabledRecoil",
   default: true,
