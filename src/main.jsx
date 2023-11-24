@@ -10,14 +10,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
-      <CookiesProvider>
-        <RecoilRoot>
-          <App />
-        </RecoilRoot>
-      </CookiesProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools initialIsOpen={true} />
+    <CookiesProvider>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </CookiesProvider>
+  </QueryClientProvider>
 );
