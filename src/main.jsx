@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  // react.stric 컴포넌트 삭제
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={true} />
     <CookiesProvider>
