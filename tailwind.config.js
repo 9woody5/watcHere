@@ -1,7 +1,12 @@
-import { VitePluginFonts } from "vite-plugin-fonts";
 /** @type {import('tailwindcss').Config} */
+import { resolve } from "path";
 
 export default {
+  resolve: {
+    alias: {
+      $fonts: resolve("./src/assets/fonts"),
+    },
+  },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
@@ -59,23 +64,5 @@ export default {
       pretendardBold: ["Pretendard-Bold"],
     },
   },
-  plugins: [
-    require("daisyui"),
-    VitePluginFonts({
-      files: [
-        {
-          fontFamily: "Pretendard",
-          src: "/src/assets/fonts/Pretendard-Regular.woff2",
-        },
-        {
-          fontFamily: "Pretendard-Light",
-          src: "/src/assets/fonts/Pretendard-Light.woff2",
-        },
-        {
-          fontFamily: "Pretendard-Bold",
-          src: "/src/assets/fonts/Pretendard-Bold.woff2",
-        },
-      ],
-    }),
-  ],
+  plugins: [require("daisyui")],
 };
