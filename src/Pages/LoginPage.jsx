@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginPageActiveState } from "../Common/CommonAtom";
 
-import LoginTitle from "../Components/login/LoginTitle";
-import LoginButton from "../Components/login/LoginButton";
+import LoginTitle from "../Components/Login/LoginTitle";
+import LoginButton from "../Components/Login/LoginButton";
 
 const LoginPage = () => {
   const [, setLoginPageActive] = useRecoilState(loginPageActiveState);
