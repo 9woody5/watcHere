@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { SlClose } from "react-icons/sl";
+import { useNavigate } from "react-router";
 
 const SearchRecords = ({
   autoCompleteValue,
@@ -12,6 +13,7 @@ const SearchRecords = ({
   searchValue,
 }) => {
   const autoCompleteRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 선택된 항목이 변경될 때마다 스크롤 위치를 업데이트
@@ -28,6 +30,8 @@ const SearchRecords = ({
 
   const handleItemClick = (suggestions, index) => {
     handleSearchInteraction(suggestions, index);
+    const encodedSearchValue = encodeURIComponent(searchValue);
+    navigate(`/resultPage?query=${encodedSearchValue}`);
   };
 
   return (
