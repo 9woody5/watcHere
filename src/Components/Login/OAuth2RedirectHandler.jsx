@@ -20,7 +20,7 @@ const OAuth2RedirectHandler = () => {
       console.error("Token not found in URL");
       navigate("/login"); // 로그인 페이지 또는 오류 페이지로 리디렉션 가능
     }
-  }, [navigate]);
+  }, []);
 
   return <div>로그인 처리 중...</div>;
 };
