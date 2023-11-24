@@ -6,6 +6,12 @@ export const loginPageActiveState = atom({
   default: false,
 });
 
+// 로그인 상태를 위한 atom 정의
+export const isLoggedInState = atom({
+  key: "isLoggedInState",
+  default: false,
+});
+
 export const footerEnabledRecoil = atom({
   key: "footerEnabledRecoil",
   default: true,
