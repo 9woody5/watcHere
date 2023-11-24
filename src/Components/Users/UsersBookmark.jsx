@@ -46,7 +46,7 @@ const UsersBookmark = () => {
                 height: "100%",
               }}
             >
-              <div className=" flex flex-col items-center justify-center w-[full] h-[full] border-solid border rounded border-[#40AD80]">
+              <div className=" flex flex-col items-center justify-center w-[full] h-[full]  rounded ">
                 <img
                   src={movie.Images[0]}
                   alt={movie.Title}

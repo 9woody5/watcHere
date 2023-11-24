@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useState } from "react";
 
 // 더미데이터
-import dummyMovieInfo from "../../resources/movieInfo.json";
 import ottList from "../../resources/ottlist.json";
 
 // 커스텀 컴포넌트
@@ -19,21 +18,30 @@ export default function ContentCategory() {
   const [ottRatingContentList, setOttRatingContentList] = useState([]);
   const [selectOtt, setSelectOtt] = useState(ottList.ott_list[0]);
 
-  const handleSelectOtt = (id) => {
+  const handleSelectOtt = async (id) => {
     //여기서 Ott 값을 바꿔 페이지 참조값을 갱신
     setSelectOtt(id);
   };
   const getOttData = useCallback(async () => {
     // selectOtt 값이  변경될때마다 서버에서 ott 데이터를 받아옴
     console.log(selectOtt.id);
-    getCategoryData();
+    setOttHotContentList(await getCategoryData());
+    setOttNewContentList(await getCategoryData());
+    setOttRatingContentList(await getCategoryData());
   }, [selectOtt]);
 
   /**
    * 추후 useEffect 에서 페이지 로딩시 데이터를 가져오는 역활
    */
+  const pageInitData = useCallback(async () => {
+    setCategoryList(await getCategoryData());
+  }, []);
+
   const getCategoryData = async () => {
-    let page = 1;
+    const min = 1;
+    const max = 20;
+    const randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+    let page = randomValue;
     let sort = "POPULARITY_DESC";
     let provider = "NETFLIX";
     let type = "MOVIE";
@@ -42,29 +50,12 @@ export default function ContentCategory() {
     const response = await GetData(
       Connect["mainUrl"] + Connect["categoryList"] + queryString
     );
-    console.log(response);
-    if (response !== null) {
-      setCategoryList(response.data.results);
-    } else {
-      // 연출용 랜덤 타임
-      setTimeout(() => {
-        setCategoryList(dummyMovieInfo.movie_list_info);
-      }, Math.floor(Math.random() * 3000));
-      setTimeout(() => {
-        setOttHotContentList(dummyMovieInfo.movie_list_info);
-      }, Math.floor(Math.random() * 3000));
-      setTimeout(() => {
-        setOttNewContentList(dummyMovieInfo.movie_list_info);
-      }, Math.floor(Math.random() * 3000));
-      setTimeout(() => {
-        setOttRatingContentList(dummyMovieInfo.movie_list_info);
-      }, Math.floor(Math.random() * 3000));
-    }
+    return response.data.results;
   };
 
-  // useEffect(() => {
-  //   getCategoryData();
-  // }, []);
+  useEffect(() => {
+    pageInitData();
+  }, [pageInitData]);
 
   useEffect(() => {
     getOttData();

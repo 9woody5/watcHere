@@ -18,7 +18,7 @@ export function AddedFavoritesModal({ props }) {
     // const response = await PostData("url", JSON.stringify(jsonData));
     // console.log(response);
   };
-  const { email, nick_name, reports, review, write_date } = props;
+  // const { email, nick_name, reports, review, write_date } = props;
   return (
     <dialog id="addFavoritesModal" className="modal">
       <div className="modal-box">
