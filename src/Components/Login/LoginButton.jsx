@@ -44,7 +44,7 @@ const LoginButton = ({ buttonText, buttonType }) => {
   return (
     <div>
       <button
-        className={`block bg-transparent border border-custom-gray rounded-sm cursor-pointer font-normal text-center text-[14.2618px] h-[52.0781px] w-[445.781px] py-[17.9208px] mb-[15.699px] custom-background-class hover:border-custom-light-gray hover:text-custom-hover-gray icon-${buttonType}`}
+        className={`block bg-transparent border border-custom-gray rounded-sm cursor-pointer text-center text-[15px] h-[52.0781px] w-[445.781px] py-[17.9208px] mb-[15.699px] custom-background-class hover:border-custom-light-gray hover:text-custom-hover-gray icon-${buttonType}`}
         style={buttonStyle}
         onClick={() => handleLogin(buttonType)}
       >
