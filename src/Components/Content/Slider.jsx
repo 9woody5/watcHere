@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import mockData from "../../resources/mockData.json";
 
 const Slider = ({ content }) => {
   const [isHovered, setIsHoverd] = useState(false);
@@ -10,8 +9,7 @@ const Slider = ({ content }) => {
     const fetchData = async () => {
       try {
         setTimeout(async () => {
-          const data = mockData;
-          setContentList(data);
+          setContentList(content);
           setIsLoading(false);
         }, 1000);
       } catch (error) {
@@ -45,7 +43,7 @@ const Slider = ({ content }) => {
 
       {isHovered && (
         <div
-          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-start pt-8 bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100 rounded-lg border-solid`}
+          className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center pt-8 bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100 rounded-lg border-solid`}
         >
           <h3>{content.title}</h3>
           <p>{content.name}</p>

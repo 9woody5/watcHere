@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
@@ -78,7 +78,30 @@ const MainSearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+  const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
   const navigate = useNavigate();
+
+  // 검색 영역 내부에 접근할 때만 검색 내역 활성화
+  const searchBoxRef = useRef(null);
+
+  const handleSearchBoxClick = (event) => {
+    if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+      setSearchRecordsVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleSearchBoxClick);
+
+    return () => {
+      document.removeEventListener("click", handleSearchBoxClick);
+    };
+  }, []);
+
+  const handleSearchBarClick = () => {
+    // 검색 바 클릭 시 검색 결과 활성화
+    setSearchRecordsVisible(true);
+  };
 
   const handleKeyDown = (event) => {
     // 방향키 Down
@@ -146,7 +169,7 @@ const MainSearchBar = () => {
 
     const selectedContent = contents.results.find((content) => content.title === value);
     if (selectedContent) {
-      const encodedSearchValue = encodeURIComponent(searchValue);
+      const encodedSearchValue = encodeURIComponent(value);
       navigate(`/resultPage?query=${encodedSearchValue}`);
     }
   };
@@ -168,10 +191,10 @@ const MainSearchBar = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Encode the searchValue to handle special characters
+    // 입력 값 인코딩
     const encodedSearchValue = encodeURIComponent(searchValue);
 
-    // Navigate to the resultPage with the search query as a parameter
+    // 입력된 쿼리 파라미터에 해당되는 결과 페이지로 이동
     navigate(`/resultPage?query=${encodedSearchValue}`);
   };
 
@@ -197,9 +220,9 @@ const MainSearchBar = () => {
   return (
     <>
       <div className="search_box flex flex-col first-letter:justify-center items-center font-pretendard">
-        <img src={logo} alt="" />
-        <div className="w-[90%] relative">
-          <form className="w-full z-10 absolute" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
+        <img src={logo} alt="logo" className="w-[300px]" />
+        <div className="search_bar w-[90%] relative" ref={searchBoxRef}>
+          <form className="w-full z-20 absolute" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <input
               type="text"
               placeholder="찾고 계신 콘텐츠를 알려주세요 👀"
@@ -207,6 +230,7 @@ const MainSearchBar = () => {
               value={searchValue}
               onChange={handleInputChange}
               autoComplete="true"
+              onClick={handleSearchBarClick}
             />
             <button type="submit" disabled={searchValue === ""}>
               <i
@@ -217,19 +241,19 @@ const MainSearchBar = () => {
                 <IoSearchCircleSharp size="50px" color="40AD80" />
               </i>
             </button>
-            {searchValue && autoCompleteValue.length > 0 && (
-              <SearchRecords
-                autoCompleteValue={autoCompleteValue}
-                handleSearchInteraction={handleSearchInteraction}
-                selectedItemIndex={selectedItemIndex}
-                setSelectedItemIndex={setSelectedItemIndex}
-                recentSearches={recentSearches}
-                handleClearAllRecentSearches={handleClearAllRecentSearches}
-                handleRemoveRecentSearch={handleRemoveRecentSearch}
-                searchValue={searchValue}
-              />
-            )}
           </form>
+          {isSearchRecordsVisible && searchValue && autoCompleteValue.length > 0 && (
+            <SearchRecords
+              autoCompleteValue={autoCompleteValue}
+              handleSearchInteraction={handleSearchInteraction}
+              selectedItemIndex={selectedItemIndex}
+              setSelectedItemIndex={setSelectedItemIndex}
+              recentSearches={recentSearches}
+              handleClearAllRecentSearches={handleClearAllRecentSearches}
+              handleRemoveRecentSearch={handleRemoveRecentSearch}
+              searchValue={searchValue}
+            />
+          )}
         </div>
       </div>
     </>

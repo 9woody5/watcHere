@@ -16,6 +16,22 @@ const SearchRecords = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+    // esc키 누르면 키보드 이벤트 인덱싱 초기화
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedItemIndex(-1);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [setSelectedItemIndex]);
+
+  useEffect(() => {
     // 선택된 항목이 변경될 때마다 스크롤 위치를 업데이트
     if (
       // 선택된 콘텐츠가 있는지 먼저 확인
@@ -30,12 +46,12 @@ const SearchRecords = ({
 
   const handleItemClick = (suggestions, index) => {
     handleSearchInteraction(suggestions, index);
-    const encodedSearchValue = encodeURIComponent(searchValue);
+    const encodedSearchValue = encodeURIComponent(suggestions);
     navigate(`/resultPage?query=${encodedSearchValue}`);
   };
 
   return (
-    <div className="bg-white w-full h-auto overflow-hidden flex flex-col gap-1 pt-10 pb-4 px-4 rounded-b-3xl mt-[-25px]">
+    <div className="bg-white w-full h-auto overflow-hidden flex flex-col gap-1 pt-10 pb-4 px-4 rounded-b-3xl mt-[42px] absolute z-10 shadow-2xl">
       {recentSearches.length > 0 && (
         <div>
           <div className="flex justify-between items-center">

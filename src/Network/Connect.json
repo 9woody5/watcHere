@@ -1,5 +1,5 @@
 {
-  "mainUrl": "http://kdt-sw-6-team05.elicecoding.com",
+  "mainUrl": "https://kdt-sw-6-team05.elicecoding.com",
   "mainData": "/Main",
   "categoryData": "/categoryData",
   "userData": "/userData/{userId}",
