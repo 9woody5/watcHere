@@ -3,13 +3,10 @@ import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 import MainContent from "./../Components/Main/MainContent";
 import { mainNavEnabled } from "../Common/CommonAtom";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MainNav from "../Components/Main/MainNav";
 
 const MainPage = () => {
-  // 기본 로그인 상태 false로 설정
-  const [isLoggedIn, setLoggedIn] = useState(true);
-  // 로그인 로직 작성 시, setLoggedIn(true)로 설정
   const [, setMainNavState] = useRecoilState(mainNavEnabled);
   const location = useLocation();
   const isMainPage = location.pathname === "/";
@@ -23,7 +20,7 @@ const MainPage = () => {
   return (
     <>
       <div className="flex w-full h-full flex-col">
-        <MainNav isLoggedIn={isLoggedIn} />
+        <MainNav />
         <div className="min-h-full px-10">
           <MainSearchBar />
           <MainContent numberOfContent={30} />

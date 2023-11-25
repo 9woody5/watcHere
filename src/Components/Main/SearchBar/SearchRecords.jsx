@@ -45,6 +45,7 @@ const SearchRecords = ({
   }, [selectedItemIndex, searchValue]);
 
   const handleItemClick = (suggestions, index) => {
+    console.log("결과페이지");
     handleSearchInteraction(suggestions, index);
     const encodedSearchValue = encodeURIComponent(suggestions);
     navigate(`/resultPage?query=${encodedSearchValue}`);
@@ -78,6 +79,7 @@ const SearchRecords = ({
                   className="text-black cursor-pointer block"
                   onClick={() => {
                     handleSearchInteraction(search);
+                    handleItemClick(search, index);
                   }}
                 >
                   {search}

@@ -19,7 +19,7 @@ const Slider = ({ content }) => {
     };
 
     fetchData();
-  }, []);
+  }, [content]);
 
   return (
     <div
@@ -38,7 +38,7 @@ const Slider = ({ content }) => {
           ></div>
         </div>
       ) : (
-        <img src={content.poster_path} alt={content.Title} />
+        <img src={content.poster_path} alt={content.title} />
       )}
 
       {isHovered && (

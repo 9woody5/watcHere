@@ -1,10 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { HiSquares2X2 } from "react-icons/hi2";
 import { BiSolidUserCircle } from "react-icons/bi";
+import UseAuth from "../../Common/UseAuth";
 
-const MainNav = ({ isLoggedIn }) => {
+const MainNav = () => {
+  const [isLoggedIn, setIsLoggedIn] = UseAuth();
   const navigate = useNavigate();
-  const handleClick = () => {
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false); // 로그아웃 처리
     navigate("/login");
   };
   return (
@@ -48,17 +56,21 @@ const MainNav = ({ isLoggedIn }) => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28"
               >
                 <li>
-                  <Link to="/mypage">내 정보</Link>
+                  <Link to="/mypage">
+                    <button>내 정보</button>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/login">로그아웃</Link>
+                  <Link to="/login">
+                    <button onClick={handleLogoutClick}>로그아웃</button>
+                  </Link>
                 </li>
               </ul>
             </div>
           ) : (
             // 비로그인 상태
             <button
-              onClick={handleClick}
+              onClick={handleLoginClick}
               className="font-pretendard text-white leading-4 w-16 h-8 bg-emerald-500 md:hover:bg-emerald-700 transition-colors rounded flex justify-center items-center"
             >
               로그인

@@ -17,15 +17,12 @@ const Header = () => {
   };
 
   return (
-    <div className="navbar flex justify-end px-3 h-20 font-pretendard z-50">
+    <div className="navbar flex justify-end px-3 h-20 font-pretendard z-50 border-b-1 border-emerald-500">
       <div className="w-[100%] mx-8 flex justify-end items-center">
         {isLoggedIn ? (
           // 로그인 된 상태
           <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
-            >
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:bg-zinc-700">
               <button className="rounded-full">
                 <BiSolidUserCircle size="45" color="9bb0a5" />
               </button>

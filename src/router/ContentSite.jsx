@@ -8,7 +8,6 @@ export default function ContentSite() {
   const isHeaderEnabled = !["/", "admin", "/login"].includes(location.pathname);
   const isFooterEnabled = !["/admin"].includes(location.pathname);
   const isChatEnabled = !["/admin", "/login"].includes(location.pathname);
-  // const [isLoggedIn, setLoggedIn] = useState(true);
   return (
     <div className="flex flex-col min-h-screen">
       {isHeaderEnabled && <Header />}

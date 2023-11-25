@@ -3,5 +3,6 @@
   "mainData": "/Main",
   "categoryData": "/categoryData",
   "userData": "/userData/{userId}",
-  "categoryList": "/api/v1/contents"
+  "categoryList": "/api/v1/contents",
+  "searchData": "/api/v1/search"
 }

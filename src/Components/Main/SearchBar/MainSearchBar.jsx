@@ -51,6 +51,12 @@ const pattern = (ch) => {
 };
 
 const MainSearchBar = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [autoCompleteValue, setAutocompleteValue] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+  const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
+  const navigate = useNavigate();
+
   // 로고가 동시에 뜨도록
   useEffect(() => {
     const image = new Image();
@@ -58,7 +64,7 @@ const MainSearchBar = () => {
   }, []);
 
   // 데이터 연결 함수
-  const fetchData = async () => {
+  const fetchMostViewedData = async () => {
     let page = 1;
     let sort = "POPULARITY_DESC";
     let provider = "NETFLIX";
@@ -69,17 +75,28 @@ const MainSearchBar = () => {
     return response.data;
   };
 
+  // 전체 데이터는 어떻게 가져오는지?
+  const fetchSearchData = async () => {
+    let query = searchValue;
+    let type = "MOVIE";
+    let page = "1";
+    let queryString = `?query=${query}&contentType=${type}&page=${page}`;
+
+    const response = await GetData(Connect["mainUrl"] + Connect["searchData"] + queryString);
+    return response.data;
+  };
+
   // react-query로 데이터 연결 및 관리
-  const { data: contents } = useQuery({
-    queryKey: ["contents-list"],
-    queryFn: fetchData,
+  const { data: mostViewedData } = useQuery({
+    queryKey: ["most-viewed-data"],
+    queryFn: fetchMostViewedData,
   });
 
-  const [searchValue, setSearchValue] = useState("");
-  const [autoCompleteValue, setAutocompleteValue] = useState([]);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
-  const navigate = useNavigate();
+  const { data: searchData } = useQuery({
+    queryKey: ["search-data"],
+    queryFn: fetchSearchData,
+    enabled: searchValue !== "", // Only fetch when searchValue is not empty
+  });
 
   // 검색 영역 내부에 접근할 때만 검색 내역 활성화
   const searchBoxRef = useRef(null);
@@ -121,7 +138,7 @@ const MainSearchBar = () => {
   };
 
   // 콘텐츠 title가져오기(추후 api주소 수정)
-  const titles = contents?.results ? contents.results.map((item) => item.title) : [];
+  const titles = mostViewedData?.results ? mostViewedData.results.map((item) => item.title) : [];
 
   // 검색 기능 로직
   const handleInputChange = (event) => {
@@ -167,7 +184,7 @@ const MainSearchBar = () => {
     setRecentSearches(getRecentSearches());
     setSelectedItemIndex(index);
 
-    const selectedContent = contents.results.find((content) => content.title === value);
+    const selectedContent = searchData.results.find((content) => content.title === value);
     if (selectedContent) {
       const encodedSearchValue = encodeURIComponent(value);
       navigate(`/resultPage?query=${encodedSearchValue}`);
