@@ -17,8 +17,13 @@ export default function ThumbnailCard({ props }) {
   return (
     <div className="w-full">
       <div className="rounded group flex items-center justify-center lg:mx-50 ">
-        <img src={poster_path} className="group-hover:opacity-50" alt="" />
-        <div className="w-64 h-80 hidden group-hover:block absolute  text-white ">
+        <img
+          src={poster_path}
+          className="group-hover:opacity-50"
+          loading="lazy"
+          alt=""
+        />
+        <div className="w-64 h-80 hidden group-hover:block absolute text-white ">
           <div className="h-full py-4 flex flex-col justify-between">
             <div>
               <div className="text-xl font-bold w-full bg-[#00B9AE] text-black">
@@ -33,7 +38,9 @@ export default function ThumbnailCard({ props }) {
                   <RiBookmarkFill
                     className="w-10 h-10"
                     onClick={() =>
-                      document.getElementById("addFavoritesModal").showModal()
+                      document
+                        .getElementById("addFavoritesModal" + id)
+                        .showModal()
                     }
                   />
                 </div>

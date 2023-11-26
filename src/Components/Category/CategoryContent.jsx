@@ -10,48 +10,79 @@ import CategorySwiper from "./CategorySwiper";
 // 네트워크 라이브러리
 import Connect from "../../Network/Connect.json";
 import { GetData } from "../../Network/Connect";
+import { useLocation } from "react-router-dom";
+
+// 더미데이터
+import dummyMovieList from "../../resources/movieInfo.json";
 
 export default function ContentCategory() {
+  const location = useLocation();
+
   const [categoryList, setCategoryList] = useState([]);
   const [ottHotContentList, setOttHotContentList] = useState([]);
   const [ottNewContentList, setOttNewContentList] = useState([]);
   const [ottRatingContentList, setOttRatingContentList] = useState([]);
   const [selectOtt, setSelectOtt] = useState(ottList.ott_list[0]);
 
-  const handleSelectOtt = async (id) => {
-    //여기서 Ott 값을 바꿔 페이지 참조값을 갱신
-    setSelectOtt(id);
-  };
-  const getOttData = useCallback(async () => {
-    // selectOtt 값이  변경될때마다 서버에서 ott 데이터를 받아옴
-    console.log(selectOtt.id);
-    setOttHotContentList(await getCategoryData());
-    setOttNewContentList(await getCategoryData());
-    setOttRatingContentList(await getCategoryData());
-  }, [selectOtt]);
-
-  /**
-   * 추후 useEffect 에서 페이지 로딩시 데이터를 가져오는 역활
-   */
-  const pageInitData = useCallback(async () => {
-    setCategoryList(await getCategoryData());
-  }, []);
-
-  const getCategoryData = async () => {
+  const getCategoryData = useCallback(async () => {
     const min = 1;
     const max = 20;
     const randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
     let page = randomValue;
     let sort = "POPULARITY_DESC";
     let provider = "NETFLIX";
-    let type = "MOVIE";
-    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
+    let type = "";
+    switch (location.pathname) {
+      case "/movie":
+        type = "MOVIE";
+        break;
+      case "/drama":
+        type = "MOVIE";
+        break;
+      case "/tvshow":
+        type = "TV";
+        break;
+      case "/animation":
+        type = "MOVIE";
+        break;
+      default:
+        type = "MOVIE";
+        break;
+    }
 
+    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
     const response = await GetData(
       Connect["mainUrl"] + Connect["categoryList"] + queryString
     );
-    return response.data.results;
+    // 서버에서 데이터를 못받아왔을때 준비된 더미데이터 사용
+    if (response !== null) {
+      return response.data.results;
+    } else {
+      return dummyMovieList.movie_list_info;
+    }
+  }, [location.pathname]);
+
+  const handleSelectOtt = async (id) => {
+    //여기서 Ott 값을 바꿔 페이지 참조값을 갱신
+    setSelectOtt(id);
   };
+
+  const getOttData = useCallback(async () => {
+    // selectOtt 값이  변경될때마다 서버에서 ott 데이터를 받아옴
+    // network waterfall이 발생 할 수 있으나 사이트 이용 경험상 sekleton component 가 대기하고 있기 때문에
+    // 하나라도 빨리 보여주는게 좋을것으로 판단.
+    setOttHotContentList(await getCategoryData());
+    setOttNewContentList(await getCategoryData());
+    setOttRatingContentList(await getCategoryData());
+  }, [getCategoryData]);
+
+  /**
+   * 추후 useEffect 에서 페이지 로딩시 데이터를 가져오는 역활
+   * 각 ott 사이트의 데이터가 변경되어도 watchHere 의 추천리스트는 바뀌지 않아야해서 별도로 뺌
+   */
+  const pageInitData = useCallback(async () => {
+    setCategoryList(await getCategoryData());
+  }, [getCategoryData]);
 
   useEffect(() => {
     pageInitData();
@@ -60,6 +91,7 @@ export default function ContentCategory() {
   useEffect(() => {
     getOttData();
   }, [getOttData]);
+
   return (
     <div className="w-full flex items-center justify-center">
       <div className="w-[90%]">

@@ -1,5 +1,5 @@
 import ThumbnailCard from "./Card";
-import { MovieThumbnailSkeletionComponent } from "../../Common/SkeletonComponent";
+import { SkeletionComponent } from "../../Common/SkeletonComponent";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MdOutlineArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 // Import Swiper styles
@@ -38,14 +38,20 @@ export default function CategorySwiper({ props }) {
 
       <Swiper
         breakpoints={{
-          767: {
+          720: {
             slidesPerView: 1,
           },
-          1023: {
+          1080: {
             slidesPerView: 3,
           },
-          1279: {
+          1440: {
             slidesPerView: 5,
+          },
+          1650: {
+            slidesPerView: 6,
+          },
+          1800: {
+            slidesPerView: 6,
           },
         }}
         navigation={{
@@ -66,7 +72,7 @@ export default function CategorySwiper({ props }) {
             ))
           : tempArr.map((_, idx) => (
               <SwiperSlide key={idx} className={cssModule["swiper-slide"]}>
-                <MovieThumbnailSkeletionComponent />
+                <SkeletionComponent />
               </SwiperSlide>
             ))}
       </Swiper>
