@@ -5,7 +5,7 @@
  *
  * @returns
  */
-export function MovieThumbnailSkeletionComponent() {
+export function SkeletionComponent() {
   return (
     <div className="rounded-md p-4 w-64 h-80 ">
       <div className="animate-pulse flex space-x-4">
