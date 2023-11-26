@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
-import logo from "../../../assets/img/watcHere_logo.svg";
 import Connect from "../../../Network/Connect.json";
 import { GetData } from "../../../Network/Connect";
 // import mockData from "../../../resources/mockData.json";
@@ -50,18 +49,12 @@ const pattern = (ch) => {
   return `(${r})`;
 };
 
-const MainSearchBar = () => {
+const MainSearchBar = ({ style }) => {
   const [searchValue, setSearchValue] = useState("");
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
   const navigate = useNavigate();
-
-  // 로고가 동시에 뜨도록
-  useEffect(() => {
-    const image = new Image();
-    image.src = logo;
-  }, []);
 
   // 데이터 연결 함수
   const fetchMostViewedData = async () => {
@@ -138,7 +131,7 @@ const MainSearchBar = () => {
   };
 
   // 콘텐츠 title가져오기(추후 api주소 수정)
-  const titles = mostViewedData?.results ? mostViewedData.results.map((item) => item.title) : [];
+  const titles = searchData?.results ? searchData.results.map((item) => item.title) : [];
 
   // 검색 기능 로직
   const handleInputChange = (event) => {
@@ -236,8 +229,7 @@ const MainSearchBar = () => {
 
   return (
     <>
-      <div className="search_box flex flex-col first-letter:justify-center items-center font-pretendard">
-        <img src={logo} alt="logo" className="w-[300px]" />
+      <div className="search_box flex flex-col first-letter:justify-center items-center font-pretendard" style={style}>
         <div className="search_bar w-[90%] relative" ref={searchBoxRef}>
           <form className="w-full z-20 absolute" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
             <input

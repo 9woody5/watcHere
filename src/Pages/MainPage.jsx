@@ -5,11 +5,18 @@ import { mainNavEnabled } from "../Common/CommonAtom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import MainNav from "../Components/Main/MainNav";
+import logo from "../assets/img/watcHere_logo.svg";
 
 const MainPage = () => {
   const [, setMainNavState] = useRecoilState(mainNavEnabled);
   const location = useLocation();
   const isMainPage = location.pathname === "/";
+
+  // 로고가 동시에 뜨도록
+  useEffect(() => {
+    const image = new Image();
+    image.src = logo;
+  }, []);
 
   useEffect(() => {
     if (isMainPage) {
@@ -22,6 +29,10 @@ const MainPage = () => {
       <div className="flex w-full h-full flex-col">
         <MainNav />
         <div className="min-h-full px-10">
+          <div className="flex justify-center">
+            <img src={logo} alt="logo" className="w-[300px]" />
+          </div>
+
           <MainSearchBar />
           <MainContent numberOfContent={30} />
         </div>

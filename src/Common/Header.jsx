@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import UseAuth from "./UseAuth";
+import Hlogo from "../assets/img/H_logo.svg";
+import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
+import "../styles/header.css";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = UseAuth();
@@ -16,9 +19,35 @@ const Header = () => {
     navigate("/login");
   };
 
+  const searchCustomStyle = {
+    minWidth: "40vw",
+    marginTop: "-87px",
+    marginRight: "-80px",
+  };
+
   return (
-    <div className="navbar flex justify-end px-3 h-20 font-pretendard z-50 border-b-1 border-emerald-500">
-      <div className="w-[100%] mx-8 flex justify-end items-center">
+    <div className="navbar min-w-[540px] px-3 h-20 font-pretendard z-50 border-b-[1px] border-solid border-emerald-500">
+      <div className="w-[100%] flex justify-around items-center">
+        <div className="ml-8 w-[23px] h-full mr-4">
+          <Link to={"/"}>
+            <img className="h-[45px]" src={Hlogo} alt="logo" />
+          </Link>
+        </div>
+        <ul className="text-white text-[16px] flex justify-center gap-4">
+          <li className="w-[80px]">
+            <Link to={"/movie"}>영화</Link>
+          </li>
+          <li className="w-[80px]">
+            <Link to={"/drama"}>드라마</Link>
+          </li>
+          <li className="w-[80px]">
+            <Link to={"/tvshow"}>예능</Link>
+          </li>
+          <li className="w-[80px]">
+            <Link to={"/animation"}>애니메이션</Link>
+          </li>
+        </ul>
+        <MainSearchBar className="main_search_bar" style={searchCustomStyle} />
         {isLoggedIn ? (
           // 로그인 된 상태
           <div className="dropdown dropdown-end">
