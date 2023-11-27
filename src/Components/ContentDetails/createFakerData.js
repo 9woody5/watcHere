@@ -19,16 +19,16 @@ export function createContentBasicInfo(){
 export function createContentDirector(){
   return {
     'name': '이상순', 
-    'img': faker.image.avatar(),
+    'img': 'https://avatars.githubusercontent.com/u/58373314',
 
   }
 }
 
 export function createContentActors(){
   return [
-    {'name': '정배우', 'img':faker.image.avatar()},
-    {'name': '도배우', 'img':faker.image.avatar()},
-    {'name': '남배우', 'img':faker.image.avatar()},
+    {'name': '정배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
+    {'name': '도배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
+    {'name': '남배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
   ]
 }
 
@@ -41,7 +41,7 @@ export function createAvailablePlatforms(){
 
 export function createReviewData(){
   return new Array(10).fill({}).map((x)=>{
-    return {'userImg': faker.image.avatar(), 'userName': faker.person.fullName(), 
+    return {'userImg': 'https://avatars.githubusercontent.com/u/58373314', 'userName': faker.person.fullName(), 
     'text': faker.lorem.text({ length: { min: 20, max: 60 }, strategy: 'fail' }),
     'date': faker.date.anytime(),
     'score': 3.0
@@ -62,4 +62,34 @@ export function createContentScoreData(){
         '5': faker.number.int({min:0, max:1000}), 
       }
   }
+}
+
+export function reformatContentScoreData(scores){
+  const sumScore = Object.entries(scores).reduce((prev, [score, num])=>prev+(score*num), 0);
+  const totalScoreNum = Object.entries(scores).reduce((prev, [score, num])=>prev+num, 0);
+  
+  return {
+    meanScore: (sumScore/totalScoreNum).toFixed(2), 
+    totalScoreNum,
+    'scoreNum': 
+      { 
+        '1': scores['1']?? 0, 
+        '2': scores['2']?? 0, 
+        '3': scores['3']?? 0, 
+        '4': scores['4']?? 0, 
+        '5': scores['5']?? 0, 
+      }
+  }
+}
+
+export function reformatReviewData(reviews){
+  return reviews.map(({user_id, id, detail, rating, updated_at})=>{
+    return {'userImg': 'https://avatars.githubusercontent.com/u/58373314','userName': user_id,
+            'reviewId': id,
+            'text': detail,
+            'date': (new Date(updated_at)).toLocaleDateString("ko-KR"),
+            'score': rating 
+    }
+  })
+
 }

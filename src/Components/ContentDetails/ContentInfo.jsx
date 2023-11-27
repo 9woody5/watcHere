@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-
 import * as contentFakeData from './createFakerData';
 import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
+import * as Fetchers from './Fetchers'; 
 
-function ContentInfo({id}) {
+function ContentInfo({id, contentType='movie'}) {
   // img, title, story, score, date, genres, nation, learningTime : basic info
   const [img, setImg] = useState(''); // default 이미지도 찾아서 넣기
   const [title, setTitle] = useState('Title');
@@ -20,22 +20,28 @@ function ContentInfo({id}) {
   const [director, setDirector] = useState({});
   const [availablePlatforms, setAvailablePlatforms] = useState([]);
 
-  let basicInfo = {};
-  // take related data
+  /* take related data */
   useEffect(()=>{
-    setTimeout(()=>{
-      basicInfo = contentFakeData.createContentBasicInfo();
-      console.log("basicInfo", basicInfo);
-      setImg('https://picsum.photos/seed/EgMqkPTE/640/480');
-      setTitle(basicInfo.title);
-      setStory(basicInfo.story);
-      setScore(basicInfo.score);
-      setDate(basicInfo.date);
-      setGenres(basicInfo.genres);
-      setNation(basicInfo.nation);
-      setLearningTime(basicInfo.learningTime);
-  
-    } , 500);
+    // 기본 정보 
+    Fetchers.callGetContentAPI(contentType, id)
+      .then(({data})=>{
+        console.log("movie api response", data);
+        setImg(data.full_poster_path);
+        setTitle(data.title);
+        setStory(data.overview);
+        setDate(data.release_date);
+        setGenres(data.genres.map(x=>x.name));
+        setNation('korea'); // 설정필요
+        setLearningTime(data.runtime)
+      });
+    
+      Fetchers.callGetReviewsRatingsAPI(id)
+        .then(({data})=>{
+        const sumScore = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+(score*num), 0);
+        const totalRatingNum = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+num, 0);
+        setScore((sumScore/totalRatingNum).toFixed(2));
+      })
+      
 
     let actorsInfo=[], directorInfo={}, availablePlatformsInfo=[];
     setTimeout(()=>{

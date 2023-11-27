@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 
 import { AiFillStar } from 'react-icons/ai';
-
+import * as Fetchers from './Fetchers'; 
 import * as contentFakeData from './createFakerData';
 
-const reviewRanking2tailWindClassName = {
+const scoreRanking2tailWindClassName = {
   1: 'w-5/6 h-1 bg-white',
   2: 'w-4/6 h-1 bg-white',
   3: 'w-3/6 h-1 bg-white',
@@ -12,7 +12,8 @@ const reviewRanking2tailWindClassName = {
   5: 'w-1/6 h-1 bg-white',
 }
 
-const makeReviewRankingIndexs = (scoreNum) => {
+// score에 따른 랭킹만들기
+const makeScoreRankingIndexs = (scoreNum) => {
   const scoreRankingIndexs = [];
   const score2ranking = {};
 
@@ -41,14 +42,15 @@ function ContentScoreInfo({id}) {
 
   // take related data
   useEffect(()=>{
-    setTimeout(()=>{
-      const data = contentFakeData.createContentScoreData();
-      setcontentScoreInfo(data);
-    } , 0);
+    Fetchers.callGetReviewsRatingsAPI(id)
+      .then(({data})=>{
+        const reformattedScoreData = contentFakeData.reformatContentScoreData(data.ratings);
+        setcontentScoreInfo(reformattedScoreData);
+      })
   }, []);
 
   useEffect(()=>{
-    setScoreRankingIndexs(makeReviewRankingIndexs(contentScoreInfo['scoreNum']));
+    setScoreRankingIndexs(makeScoreRankingIndexs(contentScoreInfo['scoreNum']));
     console.log(scoreRankingIndexs)
   }, [contentScoreInfo])
 
@@ -68,7 +70,7 @@ function ContentScoreInfo({id}) {
             return (
               <div className='w-full flex items-center by-1 h-7 grow'>
                 <div className='w-10 text-center'>{5-index}점</div>
-                <div className={reviewRanking2tailWindClassName[scoreRankingIndexs[index]]}></div>
+                <div className={scoreRanking2tailWindClassName[scoreRankingIndexs[index]]}></div>
                 <div className='w-10 text-center'>({contentScoreInfo['scoreNum'][index+1]})</div>
               </div>
             )

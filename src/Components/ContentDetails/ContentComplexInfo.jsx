@@ -9,10 +9,6 @@ function ContentComplexInfo({actors, director, availablePlatforms}) {
     <div className='w-full flex text-white'>
 
       <div className='w-2/5 flex flex-col justify-around'>
-        {/* <div className='' >
-          <div>평점등록</div>
-          <StarRating/>
-        </div> */}
         <div className='w-3/5'>
           <div className='mb-5'>시청 가능한 플랫폼</div>
           <div className="carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">

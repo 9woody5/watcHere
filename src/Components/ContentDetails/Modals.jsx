@@ -104,9 +104,11 @@ const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit, handleUserScore, h
     >
       <h2 className='text-center mb-3'>리뷰작성</h2>
       <StarRating handleUserScore={handleUserScore}/>
-      <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
+      {/* <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
         onChange={() => debounce(()=>{
-          handleUserReview(textAreaRef.current.value)})()}></textarea>
+          handleUserReview(textAreaRef.current.value)})()}></textarea> */}
+      <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
+        onChange={() => handleUserReview(textAreaRef.current.value)}></textarea>
       <div className='flex justify-around mt-3' >
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onSubmit}>submit</button>
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onRequestClose}>Cancel</button>

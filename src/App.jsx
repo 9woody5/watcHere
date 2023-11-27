@@ -29,6 +29,8 @@ function App() {
           <Route path="animation" element={<ContentCategory />} />
           <Route path="contentDetail/:idx" element={<ContentDetail />} />
           <Route path="contentDetail" element={<ContentDetail />} />
+          <Route path='movie/:id' element={<ContentDetail />} />
+          <Route path='tv/:id' element={<ContentDetail />} />
           <Route path="resultpage" element={<ResultPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="oauth/redirect" element={<OAuth2RedirectHandler />} />

@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {ReviewInputModal} from './Modals';
+import * as Fetchers from './Fetchers'; 
 import * as contentFakeData from './createFakerData';
 import Review from './Review';
 
 function ReviewInfo({id}) {
   /* 리뷰 데이터 관련 */
-  // 어떻게 API가 나올지를 모르니 state는 조금 있다가 분배?
   const [reviews, setReviews] = useState([]);
-  const [reviewFilter, setReviewFilter] = useState('latest');
+  const [reviewFilter, setReviewFilter] = useState('createdAt');
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
 
   const checkReviewTabActive = (reviewTab) =>{
     return reviewFilter === reviewTab? 'tab-active': '';
@@ -17,11 +18,17 @@ function ReviewInfo({id}) {
   // take related data
   useEffect(()=>{
     setLoading(true);
-    setTimeout(()=>{
-      let reviewsInfo = contentFakeData.createReviewData();
-      setReviews(reviewsInfo);
-      setLoading(false);
-    } , 1000);
+    if (reviewFilter === 'my-review'){
+      Fetchers
+    }
+    else{
+      Fetchers.callGetReviewsContentAPI(id, page, reviewFilter)
+        .then(({data})=>{
+          const reformattedReviews = contentFakeData.reformatReviewData(data.reviews.content);
+          setReviews(reformattedReviews)
+          setLoading(false);
+        })
+    }
   }, [reviewFilter]);
 
   /* 리뷰 작성 관련 */
@@ -60,6 +67,8 @@ function ReviewInfo({id}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
+      Fetchers.callPostReviewsAPI(id, userReview, userScore)
+        .then((res)=>{console.log(res)});
       closeModal();
     }
   };
@@ -70,9 +79,9 @@ function ReviewInfo({id}) {
         <div className='flex items-center mb-10'>
           <div className='align-middle' >리뷰</div>
           <div className="ml-3 tabs tabs-boxed text-white bg-white/20">
-            <a className={`tab text-white ${checkReviewTabActive('latest')}`} onClick={()=>{setReviewFilter('latest')}}>최신순</a>
-            <a className={`tab text-white ${checkReviewTabActive('highest')}`} onClick={()=>{setReviewFilter('highest')}}>별점높은순</a>
-            <a className={`tab text-white ${checkReviewTabActive('smallest')}`} onClick={()=>{setReviewFilter('smallest')}}>별점낮은순</a>
+            <a className={`tab text-white ${checkReviewTabActive('createdAt')}`} onClick={()=>{setReviewFilter('createdAt')}}>최신순</a>
+            <a className={`tab text-white ${checkReviewTabActive('ratingDesc')}`} onClick={()=>{setReviewFilter('ratingDesc')}}>별점높은순</a>
+            <a className={`tab text-white ${checkReviewTabActive('ratingAsc')}`} onClick={()=>{setReviewFilter('ratingAsc')}}>별점낮은순</a>
             <a className={`tab text-white ${checkReviewTabActive('my-review')}`} onClick={()=>{setReviewFilter('my-review')}}>나의리뷰</a>
           </div>
           
@@ -93,7 +102,7 @@ function ReviewInfo({id}) {
         {/* {loading&&(<div className="absolute loading loading-spinner loading-md "></div>)}  */}
         <table className="table table-pin-rows">
           <tbody>
-            {reviews.map((review,idx)=>(<tr><td><Review key={`review ${String(idx)}`} review={review} /></td></tr>))}
+            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} review={review} /></td></tr>))}
           </tbody>
         </table>
       </div>
