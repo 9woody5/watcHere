@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Connect from "../../Network/Connect.json";
 import { GetData } from "../../Network/Connect";
 import { useEffect, useState } from "react";
-
+import errorImg from "../../assets/img/404.png";
 /**
  *영화 썸네일 카드 리스트
  *
@@ -21,7 +21,9 @@ export default function ThumbnailCard({ props }) {
   const [review, setReview] = useState(0);
   const [rating, setRating] = useState();
   const location = useLocation();
-
+  const handleImgError = (e) => {
+    e.target.src = errorImg;
+  };
   useEffect(() => {
     async function GetRatings() {
       const response = await GetData(
@@ -49,6 +51,7 @@ export default function ThumbnailCard({ props }) {
           className="group-hover:opacity-50"
           loading="lazy"
           alt=""
+          onError={handleImgError}
         />
         <div className="w-64 h-80 hidden group-hover:block absolute text-white ">
           <div className="h-full py-4 flex flex-col justify-between">
