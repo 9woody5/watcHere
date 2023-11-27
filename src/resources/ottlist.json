@@ -5,28 +5,20 @@
       "id": 0
     },
     {
-      "name": "Watcha",
+      "name": "WATCHA",
       "id": 1
     },
     {
-      "name": "TVING",
+      "name": "DISNEY_PLUS",
       "id": 2
     },
     {
-      "name": "Disney +",
+      "name": "WAVVE",
       "id": 3
     },
     {
-      "name": "시리즈온",
+      "name": "PARAMOUNT_PLUS",
       "id": 4
-    },
-    {
-      "name": "Wavve",
-      "id": 5
-    },
-    {
-      "name": "Coupang play",
-      "id": 6
     }
   ]
 }

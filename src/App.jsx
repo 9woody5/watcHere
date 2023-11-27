@@ -25,12 +25,12 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path="drama" element={<ContentCategory />} />
           <Route path="movie" element={<ContentCategory />} />
-          <Route path="tvShow" element={<ContentCategory />} />
+          <Route path="tv" element={<ContentCategory />} />
           <Route path="animation" element={<ContentCategory />} />
           <Route path="contentDetail/:idx" element={<ContentDetail />} />
           <Route path="contentDetail" element={<ContentDetail />} />
-          <Route path='movie/:id' element={<ContentDetail />} />
-          <Route path='tv/:id' element={<ContentDetail />} />
+          <Route path="movie/:id" element={<ContentDetail />} />
+          <Route path="tv/:id" element={<ContentDetail />} />
           <Route path="resultpage" element={<ResultPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="oauth/redirect" element={<OAuth2RedirectHandler />} />
