@@ -4,7 +4,7 @@ import * as Fetchers from './Fetchers';
 import * as contentFakeData from './createFakerData';
 import Review from './Review';
 
-function ReviewInfo({id}) {
+function ReviewInfo({id, token}) {
   /* 리뷰 데이터 관련 */
   const [reviews, setReviews] = useState([]);
   const [reviewFilter, setReviewFilter] = useState('createdAt');
@@ -29,7 +29,7 @@ function ReviewInfo({id}) {
           setLoading(false);
         })
     }
-  }, [reviewFilter]);
+  }, [reviewFilter, id, token]);
 
   /* 리뷰 작성 관련 */
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -67,9 +67,10 @@ function ReviewInfo({id}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
-      Fetchers.callPostReviewsAPI(id, userReview, userScore)
+      Fetchers.callPostReviewsAPI(id, userReview, userScore, token)
         .then((res)=>{console.log(res)});
       closeModal();
+      window.location.reload(true);
     }
   };
 
@@ -102,7 +103,7 @@ function ReviewInfo({id}) {
         {/* {loading&&(<div className="absolute loading loading-spinner loading-md "></div>)}  */}
         <table className="table table-pin-rows">
           <tbody>
-            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} review={review} /></td></tr>))}
+            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} review={review} id={review.reviewId} /></td></tr>))}
           </tbody>
         </table>
       </div>

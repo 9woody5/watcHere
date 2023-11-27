@@ -33,7 +33,7 @@ function ContentBasicInfo(props) {
             <tr className='text-left'><th>평점</th><td><AiFillStar className='inline-block text-xl '/>{score}</td></tr>
             <tr className='text-left'><th>개봉일자</th><td>{date}</td></tr>
             <tr className='text-left'><th>장르</th><td>{genres.join(', ')}</td></tr>
-            <tr className='text-left'><th>국가</th><td>{nation}</td></tr>
+            {/* <tr className='text-left'><th>국가</th><td>{nation}</td></tr> */}
             <tr className='text-left'><th>러닝타임</th><td>{learningTime}</td></tr>
           </tbody>
         </table>

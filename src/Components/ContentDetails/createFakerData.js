@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 
+const defaultImg = 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=1480'
 
 export function createContentBasicInfo(){
   return {
@@ -24,12 +25,20 @@ export function createContentDirector(){
   }
 }
 
+export function reformatContentDirector(name, img){
+  return {name, img:img??defaultImg}
+}
+
 export function createContentActors(){
   return [
     {'name': '정배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
     {'name': '도배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
     {'name': '남배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
   ]
+}
+
+export function reformatContentActors(actors){
+  return actors.slice(0,3).map(({name, profile_path})=> {return {name, 'img':profile_path?? defaultImg}})
 }
 
 export function createAvailablePlatforms(){

@@ -4,7 +4,7 @@ import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 import * as Fetchers from './Fetchers'; 
 
-function ContentInfo({id, contentType='movie'}) {
+function ContentInfo({id, token, contentType='movie'}) {
   // img, title, story, score, date, genres, nation, learningTime : basic info
   const [img, setImg] = useState(''); // default 이미지도 찾아서 넣기
   const [title, setTitle] = useState('Title');
@@ -26,13 +26,23 @@ function ContentInfo({id, contentType='movie'}) {
     Fetchers.callGetContentAPI(contentType, id)
       .then(({data})=>{
         console.log("movie api response", data);
+
+        // 기본 정보 셋팅
         setImg(data.full_poster_path);
         setTitle(data.title);
         setStory(data.overview);
         setDate(data.release_date);
         setGenres(data.genres.map(x=>x.name));
         setNation('korea'); // 설정필요
-        setLearningTime(data.runtime)
+        setLearningTime(data.runtime);
+
+        //영화 감독 셋팅
+        const reformattedDirector = contentFakeData.reformatContentDirector(data.director_name, data.director_profile_path);
+        setDirector(reformattedDirector);
+
+        //출연진 셋팅
+        const reformattedActors = contentFakeData.reformatContentActors(data.actors);
+        setActors(reformattedActors);
       });
     
       Fetchers.callGetReviewsRatingsAPI(id)
@@ -42,19 +52,7 @@ function ContentInfo({id, contentType='movie'}) {
         setScore((sumScore/totalRatingNum).toFixed(2));
       })
       
-
-    let actorsInfo=[], directorInfo={}, availablePlatformsInfo=[];
-    setTimeout(()=>{
-      actorsInfo = contentFakeData.createContentActors();
-      directorInfo = contentFakeData.createContentDirector();
-      availablePlatformsInfo = contentFakeData.createAvailablePlatforms();
-
-      setActors(actorsInfo);
-      setDirector(directorInfo);
-      setAvailablePlatforms(availablePlatformsInfo);
-    }, 1000);
-
-  }, []);
+  }, [id, token]);
 
   return (
     <div>
