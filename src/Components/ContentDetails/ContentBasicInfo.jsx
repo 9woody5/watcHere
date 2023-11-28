@@ -1,11 +1,22 @@
 import React,{useState} from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import {TrailerVideoModal} from './Modals';
+
 import { BsFillBookmarkPlusFill, BsBookmarkCheckFill, BsFillShareFill } from 'react-icons/bs';
 
 
 function ContentBasicInfo(props) {
-  const {img, title, story, score, date, genres, nation, learningTime} = props;
+  const {img, title, story, score, date, genres, nation, learningTime, videoId} = props;
   const [isMarked, setIsMarked] = useState(false);
+
+  // related Modal
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    };
 
   return (
     <div className='w-full flex'>
@@ -14,7 +25,12 @@ function ContentBasicInfo(props) {
         <div className=''>
           <img className='h-96 m-5 object-cover' src={img}/>
         </div>
-        <button className='w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full'>예고편</button>
+        <button className='w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full' onClick={openModal}>예고편</button>
+        <TrailerVideoModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        youtubeId={videoId}
+        />
       </div>
 
       <div className='w-3/5 ml-16 text-white'>

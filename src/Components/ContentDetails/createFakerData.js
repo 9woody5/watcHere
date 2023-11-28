@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { faker, vi } from '@faker-js/faker';
 
 const defaultImg = 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=1480'
 
@@ -101,4 +101,13 @@ export function reformatReviewData(reviews){
     }
   })
 
+}
+
+export function reformatVideos(videos){
+  for (let video of videos){
+    if (video.type === 'Trailer' && video.site === 'YouTube'){
+      return video.key
+    }
+  }
+  return null;
 }

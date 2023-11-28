@@ -14,6 +14,7 @@ function ContentInfo({id, token, contentType='movie'}) {
   const [genres, setGenres] = useState([]);
   const [nation, setNation] = useState('');
   const [learningTime, setLearningTime] = useState('');
+  const [videoId, setVideoId] = useState(null);
   
   // actors, director, availablePlatforms : complex info
   const [actors, setActors] = useState([]);
@@ -35,6 +36,7 @@ function ContentInfo({id, token, contentType='movie'}) {
         setGenres(data.genres.map(x=>x.name));
         setNation('korea'); // 설정필요
         setLearningTime(data.runtime);
+        setVideoId(contentFakeData.reformatVideos(data.videos))
 
         //영화 감독 셋팅
         const reformattedDirector = contentFakeData.reformatContentDirector(data.director_name, data.director_profile_path);
@@ -56,7 +58,7 @@ function ContentInfo({id, token, contentType='movie'}) {
 
   return (
     <div>
-      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} />
+      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId} />
       <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
     </div>
   )
