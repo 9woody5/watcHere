@@ -89,41 +89,44 @@ export default function AdminUserList() {
           <div className="w-[30%] text-2xl font-bold text-center items-center">
             리뷰 관리
           </div>
-          <div className="w-[70%] flex items-center ">
-            <div className="w-[30%] bg-gray-100 mr-4 rounded-sm"> Filters</div>
+          <div className="w-[70%] flex items-center">
+            <div className="w-[30%] bg-gray-100 mr-4 rounded-sm h-14">
+              {" "}
+              Filters
+            </div>
             <input
-              className="border-2 bg-gray-100 rounded-md w-[70%] mr-4 text-sm"
+              className="border-2 bg-gray-100 rounded-md w-[70%] mr-4 text-sm h-14"
               placeholder="Search by ID, product, or others..."
             />
           </div>
         </div>
-        <div className="flex items-center text-center border-y-2 py-4 mt-4 text-xs">
+        <div className="h-10 mt-10 text-xl flex items-center justify-center text-center">
           <div className="w-[15%] md:hidden">사용자 계정</div>
           <div className="w-[15%] md:hidden">작성 일자</div>
           <div className="w-[10%] md:w-[20%]">닉네임</div>
           <div className="w-[10%] md:w-[20%]">신고 횟수</div>
           <div className="w-[40%] md:w-[60%]">리뷰 내역</div>
         </div>
-        <div className="h-[60%] overflow-y-auto">
+        <div className="h-[60%] overflow-y-auto mt-4">
           {userList?.map((element, idx) => (
             <div
-              className="flex items-center text-center mt-1 border-b-2 py-1 text-xs"
+              className="flex items-center justify-center text-center mt-1 border-b-2 py-1 text-lg"
               key={idx}
               onClick={() => handleViewReview(element)}
             >
-              <div className="w-[15%] md:hidden">
+              <div className="w-[15%] xl:w-[20%] md:hidden">
                 <div className="text-black">{element.email} </div>
                 <div>{element.email} </div>
               </div>
-              <div className="w-[15%] md:hidden text-black font-bold">
+              <div className="w-[15%] xl:w-[20%] md:hidden text-black font-bold">
                 {DateFormat(element.write_date, TIME_FORMATTER_MM_dd_yy)}
               </div>
-              <div className="w-[10%] md:w-[20%] text-black font-bold">
+              <div className="w-[10%] xl:w-[15%] text-black font-bold">
                 {element.nick_name}
               </div>
-              <div className="w-[10%] md:w-[20%] px-10">{element.reports}</div>
-              <div className="w-[40%] md:w-[60%] flex justify-center px-10 border-10 cursor-pointer">
-                {TextOverflow(element.review, 10)}
+              <div className="w-[10%] xl:w-[15%] px-10">{element.reports}</div>
+              <div className="w-[40%] xl:w-[60%] flex justify-center px-10 border-10 cursor-pointer">
+                {TextOverflow(element.review, 40)}
               </div>
             </div>
           ))}

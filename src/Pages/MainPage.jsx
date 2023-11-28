@@ -1,18 +1,22 @@
 import { useRecoilState } from "recoil";
-import MainSearchBar from "../Components/Main/MainSearchBar";
+import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 import MainContent from "./../Components/Main/MainContent";
 import { mainNavEnabled } from "../Common/CommonAtom";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MainNav from "../Components/Main/MainNav";
+import logo from "../assets/img/watcHere_logo.svg";
 
 const MainPage = () => {
-  // 기본 로그인 상태 false로 설정
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  // 로그인 로직 작성 시, setLoggedIn(true)로 설정
   const [, setMainNavState] = useRecoilState(mainNavEnabled);
   const location = useLocation();
   const isMainPage = location.pathname === "/";
+
+  // 로고가 동시에 뜨도록
+  useEffect(() => {
+    const image = new Image();
+    image.src = logo;
+  }, []);
 
   useEffect(() => {
     if (isMainPage) {
@@ -22,9 +26,17 @@ const MainPage = () => {
 
   return (
     <>
-      <MainNav isLoggedIn={isLoggedIn} />
-      <MainSearchBar />
-      <MainContent numberOfContent={30} />
+      <div className="flex w-full h-full flex-col">
+        <MainNav />
+        <div className="min-h-full px-10">
+          <div className="flex justify-center">
+            <img src={logo} alt="logo" className="w-[300px]" />
+          </div>
+
+          <MainSearchBar />
+          <MainContent numberOfContent={30} />
+        </div>
+      </div>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { chatState } from "../../Common/CommonAtom";
+import { chatState } from "../../../Common/CommonAtom";
 import { useState } from "react";
 import { ChatForm } from "./ChatForm";
 
@@ -23,7 +23,7 @@ const ChatIcon = () => {
   return (
     <>
       <button
-        className="mb-5 fixed bottom-24 right-4 z-50"
+        className="mb-5 fixed bottom-14 right-4 z-50"
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         onClick={handleChatClick}

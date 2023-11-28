@@ -135,36 +135,41 @@ export default function AdminUserList() {
           <div className="w-[30%] text-2xl font-bold text-center items-center">
             사용자 관리
           </div>
-          <div className="w-[70%] flex items-center ">
-            <div className="w-[30%] bg-gray-100 mr-4 rounded-sm"> Filters</div>
+          <div className="w-[70%] flex items-center">
+            <div className="w-[30%] bg-gray-100 mr-4 rounded-sm h-14">
+              {" "}
+              Filters
+            </div>
             <input
-              className="border-2 bg-gray-100 rounded-md w-[70%] mr-4 text-sm"
+              className="border-2 bg-gray-100 rounded-md w-[70%] mr-4 text-sm h-14"
               placeholder="Search by ID, product, or others..."
             />
           </div>
         </div>
-        <div className="flex items-center text-center border-y-2 py-4 mt-4 text-xs">
+        <div className="h-10 mt-10 text-xl flex items-center justify-center text-center">
           <div className="w-[20%] xl:w-[25%] md:hidden">사용자 계정</div>
           <div className="w-[20%] xl:w-[25%] md:w-1/3">가입 일자</div>
           <div className="w-[20%] xl:w-[25%] md:w-1/3">닉네임</div>
           <div className="w-[20%] xl:w-[25%] md:w-1/3">활동 상태</div>
           <div className="w-[20%] xl:hidden">상태 변경</div>
         </div>
-        <div className="h-[60%] overflow-y-auto">
+        <div className="h-[60%] overflow-y-auto mt-4">
           {userList?.map((element, idx) => (
             <div
-              className="flex items-center text-center mt-1 border-b-2 py-1 text-xs"
-              onClick={() => handleUserState(element, "checkUserInfoModal")}
+              className="flex items-center text-center mt-1 border-b-2 py-1 text-lg"
               key={idx}
             >
-              <div className="w-[20%] xl:w-[25%]  md:hidden">
+              <div className="w-[20%] xl:w-[25%] md:hidden">
                 <div className="text-black">{element.email} </div>
                 <div>{element.email} </div>
               </div>
               <div className="w-[20%] xl:w-[25%] md:w-1/3 text-black font-bold">
                 {DateFormat(element.join_date, TIME_FORMATTER_MM_dd_yy)}
               </div>
-              <div className="w-[20%] xl:w-[25%] md:w-1/3 text-black font-bold">
+              <div
+                className="w-[20%] xl:w-[25%] md:w-1/3 text-black font-bold"
+                onClick={() => handleUserState(element, "checkUserInfoModal")}
+              >
                 {element.nick_name}
               </div>
               <div className="w-[20%] xl:w-[25%] md:w-1/3 px-10">
