@@ -35,7 +35,7 @@ const UsersProfile = () => {
           // 에러 처리
           console.error("사용자 정보를 불러오는데 실패했습니다.");
         }
-        console.log("데이터", data);
+        // console.log("데이터", data);
       } catch (error) {
         console.error("오류 발생:", error);
       }
