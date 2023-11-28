@@ -111,15 +111,25 @@ const ResultAll = () => {
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
           </div>
-        ) : isError ? (
+        ) : isError || searchResults.length === 0 ? (
           <div className="text-white">
-            <p>‘{searchQuery}’ 에 해당하는 콘텐츠가 없어요😅</p>
-            <p className="mt-2">입력하신 검색어를 다시 확인해 주세요</p>
+            {isError ? (
+              <>
+                <div className="text-white">
+                  <p>에러가 발생했습니다 😓</p>
+                  <p className="mt-2">잠시 후 다시 시도해 주세요</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <p>‘{searchQuery}’ 에 해당하는 콘텐츠가 없어요😅</p>
+                <p className="mt-2">입력하신 검색어를 다시 확인해 주세요</p>
+              </>
+            )}
           </div>
         ) : (
           selectedContent && (
             <>
-              {console.log(searchResults)}
               <p className="text-xl font-bold text-left text-white">🔎 ‘{searchQuery}’의 검색 결과입니다. </p>;
               <SwiperComponent customSlidesPerView={5} contents={searchResults} autoplayEnabled={autoplayEnabled} />
             </>

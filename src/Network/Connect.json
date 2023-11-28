@@ -7,5 +7,7 @@
   "searchMovieData": "/api/v1/search/movie",
   "searchTVData": "/api/v1/search/tv",
   "contentRatings": "/api/v1/reviews/ratings/{contentId}",
-  "contentReviews": "/api/v1/reviews/content/{contentId}"
+  "contentReviews": "/api/v1/reviews/content/{contentId}",
+  "movieDetail": "/api/v1/movie/{movieId}",
+  "tvDetail": "/api/v1/tv/{tvId}"
 }

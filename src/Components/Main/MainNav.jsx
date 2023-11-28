@@ -20,10 +20,7 @@ const MainNav = () => {
       <div className="navbar flex justify-end px-3 h-20 font-pretendard z-50">
         <div className="w-[100%] mx-2 flex justify-end items-center">
           <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle hover:bg-zinc-700 mr-4"
-            >
+            <label tabIndex={0} className="btn btn-ghost btn-circle hover:bg-zinc-700 mr-4">
               <button className="category">
                 <HiSquares2X2 className="menu-icon" size="35" color="#9bb0a5" />
               </button>
@@ -49,10 +46,7 @@ const MainNav = () => {
           {isLoggedIn ? (
             // 로그인 된 상태
             <div className="dropdown dropdown-end">
-              <label
-                tabIndex={0}
-                className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
-              >
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:bg-zinc-700">
                 <button className="rounded-full">
                   <BiSolidUserCircle size="45" color="9bb0a5" />
                 </button>
@@ -67,9 +61,7 @@ const MainNav = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/login">
-                    <button onClick={handleLogoutClick}>로그아웃</button>
-                  </Link>
+                  <button onClick={handleLogoutClick}>로그아웃</button>
                 </li>
               </ul>
             </div>

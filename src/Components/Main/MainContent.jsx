@@ -1,5 +1,3 @@
-// 기본 -> 영화 정보, hover -> 찜(로그인 라우팅), 상세보기(링크)
-
 import { useQuery } from "@tanstack/react-query";
 // import axios from "axios";
 import Connect from "../../Network/Connect.json";
@@ -7,16 +5,61 @@ import { GetData } from "../../Network/Connect";
 import { SwiperComponent } from "../Content/SwiperComponent";
 
 export default function MainContent() {
+  // 장르 데이터 가져오기
+  const fetchContentDetailData = async (contentId) => {
+    try {
+      const responseGenre = await GetData(Connect["mainUrl"] + Connect["movieDetail"].replace("{movieId}", contentId));
+      return responseGenre.data;
+    } catch (error) {
+      console.error("데이터 조회 실패", error);
+      return null;
+    }
+  };
   // 데이터 연결 함수
   const fetchData = async () => {
-    let page = 1;
-    let sort = "POPULARITY_DESC";
-    let provider = "WAVVE";
-    let type = "MOVIE";
-    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
+    try {
+      let page = 1;
+      let sort = "POPULARITY_DESC";
+      let provider = "WAVVE";
+      let type = "MOVIE";
+      let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
 
-    const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
-    return response.data;
+      const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
+
+      // 각 객체의 id 값을 이용하여 fetchContentDetailData 호출
+      const contentDetailsPromises = response.data.results.map(async (content) => {
+        const contentId = content.id;
+        const contentDetail = await fetchContentDetailData(contentId);
+
+        const runtime = contentDetail.runtime;
+        // contentDetail에서 genres 배열의 name 속성 값을 가져와 활용
+        const genreNames = contentDetail.genres.map((genre) => genre.name);
+
+        return {
+          contentId,
+          genreNames,
+          runtime,
+        };
+      });
+
+      // 모든 fetchContentDetailData 호출이 완료될 때까지 기다림
+      const contentDetails = await Promise.all(contentDetailsPromises);
+      const resultsWithGenres = response.data.results.map((result, index) => {
+        return {
+          ...result,
+          genreNames: contentDetails[index].genreNames,
+          runtime: contentDetails[index].runtime,
+        };
+      });
+
+      return {
+        results: resultsWithGenres,
+        contentDetails,
+      };
+    } catch (error) {
+      console.error("데이터 조회 실패", error);
+      throw error;
+    }
   };
 
   // react-query로 데이터 연결 및 관리

@@ -33,60 +33,69 @@ const ResultByCategories = () => {
 
   // 검색 결과 데이터 연결 함수
   const fetchResultData = async () => {
-    const maxPage = 2; // 최대 2페이지까지만 가져옴
-    let query = searchQuery;
-    let allDataTV = [];
-    let allDataMovie = [];
+    try {
+      const maxPage = 3; // 최대 4페이지까지만 가져옴
+      let query = searchQuery;
+      let allDataTV = [];
+      let allDataMovie = [];
 
-    const genreFilter = (data, genre) => {
-      return data.filter((item) => item.genres.some((g) => g.toLowerCase() === genre));
-    };
+      const genreFilter = (data, genre) => {
+        return data.filter((item) => item.genres.some((g) => g.toLowerCase() === genre));
+      };
 
-    for (let page = 1; page <= maxPage; page++) {
-      let queryString = `?query=${query}&page=${page}`;
-      const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
-      const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+      for (let page = 1; page <= maxPage; page++) {
+        let queryString = `?query=${query}&page=${page}`;
+        const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
+        const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
 
-      const mapData = (item) => ({
-        id: item.id,
-        title: item.name || item.title,
-        poster_path: generateImageUrl(item.poster_path),
-        genres: item.genres ? item.genres.map((genre) => genre.name) : [],
-        director_name: item.director_name,
-        runtime: item.runtime,
-      });
+        const mapData = (item) => ({
+          id: item.id,
+          title: item.name || item.title,
+          poster_path: generateImageUrl(item.poster_path),
+          genres: item.genres ? item.genres.map((genre) => genre.name) : [],
+          director_name: item.director_name,
+          runtime: item.runtime,
+        });
 
-      const dataTV = (responseTV.data.results || []).map((item) => mapData(item));
-      const dataMovie = (responseMovie.data.results || []).map((item) => mapData(item));
+        // TV 데이터를 처리
+        const dataTV = (responseTV.data.results || []).map((item) => {
+          const mappedItem = mapData(item);
+          mappedItem.type = "tv"; // type을 'tv'로 설정
+          return mappedItem;
+        });
 
-      console.log(dataTV);
+        // Movie 데이터를 처리
+        const dataMovie = (responseMovie.data.results || []).map((item) => {
+          const mappedItem = mapData(item);
+          mappedItem.type = "movie"; // type을 'movie'로 설정
+          return mappedItem;
+        });
 
-      allDataTV = [...allDataTV, ...dataTV];
-      allDataMovie = [...allDataMovie, ...dataMovie];
+        allDataTV = [...allDataTV, ...dataTV];
+        allDataMovie = [...allDataMovie, ...dataMovie];
+      }
 
-      console.log(allDataMovie);
+      const filteredDataTV = allDataTV.filter((item) => item.poster_path !== null && item.poster_path !== "");
+      const filteredDataMovie = allDataMovie.filter((item) => item.poster_path !== null && item.poster_path !== "");
+
+      const animationDataTV = genreFilter(filteredDataTV, "애니메이션");
+      const nonAnimationDataTV = filteredDataTV.filter((item) => !animationDataTV.includes(item));
+
+      const animationDataMovie = genreFilter(filteredDataMovie, "애니메이션");
+      const nonAnimationDataMovie = filteredDataMovie.filter((item) => !animationDataMovie.includes(item));
+
+      const suffledDataTV = shuffleArray(nonAnimationDataTV);
+      const suffledDataMovie = shuffleArray(nonAnimationDataMovie);
+
+      return {
+        dataTV: suffledDataTV,
+        dataMovie: suffledDataMovie,
+        dataAnime: shuffleArray([...animationDataTV, ...animationDataMovie]),
+      };
+    } catch (error) {
+      console.error("데이터 조회 에러", error);
+      throw error;
     }
-
-    const filteredDataTV = allDataTV.filter((item) => item.poster_path !== null && item.poster_path !== "");
-    const filteredDataMovie = allDataMovie.filter((item) => item.poster_path !== null && item.poster_path !== "");
-
-    const animationDataTV = genreFilter(filteredDataTV, "애니메이션");
-    const nonAnimationDataTV = filteredDataTV.filter((item) => !animationDataTV.includes(item));
-
-    const animationDataMovie = genreFilter(filteredDataMovie, "애니메이션");
-    const nonAnimationDataMovie = filteredDataMovie.filter((item) => !animationDataMovie.includes(item));
-
-    const suffledDataTV = shuffleArray(nonAnimationDataTV);
-    const suffledDataMovie = shuffleArray(nonAnimationDataMovie);
-
-    console.log(suffledDataMovie);
-    console.log(suffledDataTV);
-
-    return {
-      dataTV: suffledDataTV,
-      dataMovie: suffledDataMovie,
-      dataAnime: shuffleArray([...animationDataTV, ...animationDataMovie]),
-    };
   };
 
   const location = useLocation();
