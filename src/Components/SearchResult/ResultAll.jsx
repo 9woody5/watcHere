@@ -71,7 +71,7 @@ const ResultAll = () => {
   } = useQuery({
     queryKey: ["search-result-all", searchQuery],
     queryFn: fetchResultData,
-    staleTime: 1000,
+    staleTime: 60000,
   });
 
   const autoplayEnabled = false;
