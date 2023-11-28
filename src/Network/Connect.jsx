@@ -10,13 +10,16 @@
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
+const header = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Cache-Control": "no-cache",
+};
 // 쿠키 구현부 테스트 필요합니다.
 export async function PostLogin(url, data) {
   const [, setCookie] = useCookies(["accessToken"]);
   try {
-    const response = await axios.post(url, data).then((e) => {
-      return e;
-    });
+    const response = await axios.post(url, data);
     setCookie("accessToken", response);
     return response;
   } catch (e) {
@@ -28,8 +31,8 @@ export async function PostLogin(url, data) {
 //통상적으로 데이터를 API 에서 받아올 경우
 export async function GetData(url) {
   try {
-    const response = await axios.get(url).then((e) => {
-      return e;
+    const response = await axios.get(url, {
+      headers: { ...header },
     });
     return response;
   } catch (e) {
@@ -53,9 +56,7 @@ export async function PostData(url, data) {
 //데이터를 Post 로 보낸후 해당 결과값을 받아와서 표시해야할 경우
 export async function PostDataGetResponse(url, data) {
   try {
-    const response = await axios.post(url, data).then((e) => {
-      return e;
-    });
+    const response = await axios.post(url, data);
     return response;
   } catch (e) {
     console.log(e);

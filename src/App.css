@@ -1,23 +1,14 @@
-@font-face {
-  font-family: "Pretendard";
-  src: url("./src/assets/fonts/Pretendard-Regular.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Pretendard-Light";
-  src: url("./src/assets/fonts/Pretendard-Light.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Pretendard-Bold";
-  src: url("./src/assets/fonts/Pretendard-Bold.woff2") format("woff2");
-  font-display: swap;
+html,
+body {
+  /* height: 100%; */
+  min-width: 480px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background-color: #2c2c2c;
+  position: relative;
 }
 
 body {
-  background-color: #2c2c2c;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-use-select: none;

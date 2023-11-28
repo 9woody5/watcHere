@@ -1,16 +1,22 @@
 .swiper {
-  width: 70%;
-  height: 50%;
-  margin-top: 30px;
+  width: 90%;
+  margin-top: 100px;
+}
+
+.swiper.main_swiper {
+  padding: 0 50px;
+}
+.swiper-wrapper {
+  height: fit-content;
 }
 
 .swiper-slide {
+  height: calc(100vh - 50vh);
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
   overflow: hidden;
 
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,18 +32,27 @@
 .swiper-button-prev,
 .swiper-button-next {
   background-color: #333;
-  opacity: 0.6;
+  /* opacity: 0.6; */
   height: 50px;
   width: 50px;
   border-radius: 50px;
   color: #fff !important;
-  top: 85%;
+  top: 50%;
+  transition: background 0.2s ease-in-out;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #047857;
 }
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 1.1rem !important;
   font-weight: 600 !important;
+}
+.swiper-button-disabled {
+  visibility: hidden;
 }
 
 .swiper-pagination-bullet {

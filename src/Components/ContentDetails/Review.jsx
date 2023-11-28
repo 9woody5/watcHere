@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { AiFillStar } from 'react-icons/ai';
-import {DeleteModal} from './Modals'
+import {DeleteModal} from './Modals';
+import * as Fetchers from './Fetchers';
 
-function Review({review}) {
+function Review({review, id}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -11,8 +12,9 @@ function Review({review}) {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  const handleDelete = () => {
-    alert('신고완료하였습니다!');
+  const handleDelete = (id) => {
+    Fetchers.callReviewReportAPI(id);
+    alert(`${id}를 신고완료하였습니다!`);
     closeModal();
   };
   const convertString2Number = (scoreString) => {
@@ -51,7 +53,7 @@ function Review({review}) {
       <DeleteModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        onDelete={handleDelete}
+        onDelete={()=>handleDelete(id)}
       />
 
     </div>

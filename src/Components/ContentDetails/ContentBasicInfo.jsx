@@ -1,20 +1,36 @@
 import React,{useState} from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import {TrailerVideoModal} from './Modals';
+
 import { BsFillBookmarkPlusFill, BsBookmarkCheckFill, BsFillShareFill } from 'react-icons/bs';
 
 
 function ContentBasicInfo(props) {
-  const {img, title, story, score, date, genres, nation, learningTime} = props;
+  const {img, title, story, score, date, genres, nation, learningTime, videoId} = props;
   const [isMarked, setIsMarked] = useState(false);
+
+  // related Modal
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    };
 
   return (
     <div className='w-full flex'>
 
       <div className='w-2/5 b-3 flex flex-col  items-center'>
         <div className=''>
-          <img className='w-full object-cover' src={img}/>
+          <img className='h-96 m-5 object-cover' src={img}/>
         </div>
-        <button className='w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full'>예고편</button>
+        <button className='w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full' onClick={openModal}>예고편</button>
+        <TrailerVideoModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        youtubeId={videoId}
+        />
       </div>
 
       <div className='w-3/5 ml-16 text-white'>
@@ -30,11 +46,11 @@ function ContentBasicInfo(props) {
         </div>
         <table className='table-fixed border-separate border-spacing-y-4 border-spacing-x-10 '>
           <tbody className=''>
-            <tr className='text-left'><th>평점</th> <td><AiFillStar className='inline-block text-xl '/> {score}</td></tr>
-            <tr className='text-left'><th>개봉일자</th> <td>{date}</td></tr>
-            <tr className='text-left'><th>장르</th> <td>{genres.join(', ')}</td></tr>
-            <tr className='text-left'><th>국가</th> <td>{nation}</td></tr>
-            <tr className='text-left'><th>러닝타임</th> <td>{learningTime}</td></tr>
+            <tr className='text-left'><th>평점</th><td><AiFillStar className='inline-block text-xl '/>{score}</td></tr>
+            <tr className='text-left'><th>개봉일자</th><td>{date}</td></tr>
+            <tr className='text-left'><th>장르</th><td>{genres.join(', ')}</td></tr>
+            {/* <tr className='text-left'><th>국가</th><td>{nation}</td></tr> */}
+            <tr className='text-left'><th>러닝타임</th><td>{learningTime}</td></tr>
           </tbody>
         </table>
         {/* border로 선을만들때, border-style을 꼭 지정해주어야함. 아래는 solid로 설정 */}
