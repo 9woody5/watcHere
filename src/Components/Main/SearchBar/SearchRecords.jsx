@@ -45,11 +45,16 @@ const SearchRecords = ({
   }, [selectedItemIndex, searchValue]);
 
   const handleItemClick = (suggestions, index) => {
-    console.log("결과페이지");
     handleSearchInteraction(suggestions, index);
     const encodedSearchValue = encodeURIComponent(suggestions);
     navigate(`/resultPage?query=${encodedSearchValue}`);
+    // navigate(`/contentDetail?query=${encodedSearchValue}`);
   };
+
+  // 중복된 컨텐츠 제거 => 중복된 key값 제거 후, 새로운 배열 생성
+  const uniqueAutoCompleteValue = autoCompleteValue.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
 
   return (
     <div className="bg-white w-full h-auto overflow-hidden flex flex-col gap-1 pt-10 pb-4 px-4 rounded-b-3xl mt-[42px] absolute z-10 shadow-2xl">
@@ -61,7 +66,10 @@ const SearchRecords = ({
             </span>
             <button
               className="text-sm font-pretendardBold w-14 h-5 text-zinc-400 underline"
-              onClick={handleClearAllRecentSearches}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClearAllRecentSearches();
+              }}
             >
               전체 삭제
             </button>
@@ -70,7 +78,7 @@ const SearchRecords = ({
             {recentSearches.map((search, index) => (
               <li
                 className="px-2 py-1 my-1 mx-1 text-md flex items-center justify-between bg-slate-200 w-auto rounded-full"
-                key={index}
+                key={`recent-${index}`}
                 onClick={() => {
                   setSelectedItemIndex(index);
                 }}
@@ -100,7 +108,7 @@ const SearchRecords = ({
           연관 콘텐츠
         </span>
         <ul className="h-auto max-h-[180px] overflow-y-scroll" ref={autoCompleteRef} tabIndex={-1}>
-          {autoCompleteValue.map((suggestion, index) => (
+          {uniqueAutoCompleteValue.map((suggestion, index) => (
             <li
               className={`px-1 py-1 my-2 text-md flex cursor-pointer rounded-md ${
                 index === selectedItemIndex ? "bg-zinc-700" : ""

@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.5",
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-query-devtools": "^5.8.4",
     "axios": "^1.6.1",
     "daisyui": "^3.9.4",
+    "dayjs": "^1.11.10",
+    "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
@@ -22,7 +25,8 @@
     "recoil": "^0.7.7",
     "socket.io-client": "^4.7.2",
     "styled-reset": "^4.5.1",
-    "swiper": "^11.0.4"
+    "swiper": "^11.0.4",
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",

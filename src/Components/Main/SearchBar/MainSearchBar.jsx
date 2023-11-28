@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
 import Connect from "../../../Network/Connect.json";
 import { GetData } from "../../../Network/Connect";
-// import mockData from "../../../resources/mockData.json";
+import { useDebounce } from "use-debounce";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -54,43 +54,41 @@ const MainSearchBar = ({ style }) => {
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
+  const [debouncedSearchValue] = useDebounce(searchValue, 500);
   const navigate = useNavigate();
 
-  // 데이터 연결 함수
-  const fetchMostViewedData = async () => {
-    let page = 1;
-    let sort = "POPULARITY_DESC";
-    let provider = "NETFLIX";
-    let type = "MOVIE";
-    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
-
-    const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
-    return response.data;
-  };
-
-  // 전체 데이터는 어떻게 가져오는지?
+  // 검색 값으로 데이터 조회
   const fetchSearchData = async () => {
     let query = searchValue;
-    let type = "MOVIE";
     let page = "1";
-    let queryString = `?query=${query}&contentType=${type}&page=${page}`;
+    let queryString = `?query=${query}&page=${page}`;
+    // /api/v1/search/tv?query=%EC%82%AC%EB%9E%8C&page=1
+    // tv는 name, 영화는 title
 
-    const response = await GetData(Connect["mainUrl"] + Connect["searchData"] + queryString);
-    return response.data;
+    const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
+    const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+
+    const dataTV = responseTV.data.results || [];
+    const dataMovie = responseMovie.data.results || [];
+
+    // TV와 MOVIE 데이터 합치기
+    const combinedData = [
+      ...dataTV.map((item) => ({ id: item.id, title: item.name })),
+      ...dataMovie.map((item) => ({ id: item.id, title: item.title })),
+    ];
+
+    const filteredData = combinedData.filter((item) => item.poster_path !== null);
+
+    return filteredData;
   };
 
-  // react-query로 데이터 연결 및 관리
-  const { data: mostViewedData } = useQuery({
-    queryKey: ["most-viewed-data"],
-    queryFn: fetchMostViewedData,
-  });
-
-  const { data: searchData } = useQuery({
+  const { data: searchData = [] } = useQuery({
     queryKey: ["search-data"],
     queryFn: fetchSearchData,
-    enabled: searchValue !== "", // Only fetch when searchValue is not empty
+    enabled: debouncedSearchValue !== "" && debouncedSearchValue.length >= 2,
   });
 
+  ///////////////////////////////// 검색 내역 로직 ////////////////////////////////////
   // 검색 영역 내부에 접근할 때만 검색 내역 활성화
   const searchBoxRef = useRef(null);
 
@@ -129,22 +127,30 @@ const MainSearchBar = ({ style }) => {
       handleSearchInteraction(autoCompleteValue[selectedItemIndex]);
     }
   };
+  const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
-  // 콘텐츠 title가져오기(추후 api주소 수정)
-  const titles = searchData?.results ? searchData.results.map((item) => item.title) : [];
+  useEffect(() => {
+    if (debouncedSearchValue.length >= 2) {
+      const suggestions = titles.filter(
+        (title) =>
+          title.toLowerCase().includes(debouncedSearchValue.toLowerCase()) ||
+          isChosungMatch(debouncedSearchValue, title)
+      );
+      if (JSON.stringify(suggestions) !== JSON.stringify(autoCompleteValue)) {
+        setAutocompleteValue(suggestions);
+      }
+    } else if (autoCompleteValue.length !== 0) {
+      setAutocompleteValue([]);
+    }
+  }, [debouncedSearchValue, titles, autoCompleteValue]);
 
-  // 검색 기능 로직
+  // 검색 입력 값 체크
   const handleInputChange = (event) => {
     const value = event.target.value;
     setSearchValue(value);
 
     // searchValue가 0이 되면 키보드 이벤트 초기화
     setSelectedItemIndex(value.length === 0 ? -1 : selectedItemIndex);
-
-    const suggestions = titles.filter(
-      (title) => title.toLowerCase().includes(value.toLowerCase()) || isChosungMatch(value, title)
-    );
-    setAutocompleteValue(suggestions);
   };
 
   // 로컬 스토리지에 최근 검색 내역 추가하기
@@ -170,32 +176,39 @@ const MainSearchBar = ({ style }) => {
 
   const [recentSearches, setRecentSearches] = useState([]);
 
-  const handleSearchInteraction = (value, index) => {
-    setSearchValue(value);
-    setAutocompleteValue([]);
-    addToRecentSearches(value);
-    setRecentSearches(getRecentSearches());
-    setSelectedItemIndex(index);
+  const handleSearchInteraction = useCallback(
+    (value, index) => {
+      setSearchValue(value);
+      setAutocompleteValue([]);
+      addToRecentSearches(value);
+      setRecentSearches(getRecentSearches());
+      setSelectedItemIndex(index);
 
-    const selectedContent = searchData.results.find((content) => content.title === value);
-    if (selectedContent) {
-      const encodedSearchValue = encodeURIComponent(value);
-      navigate(`/resultPage?query=${encodedSearchValue}`);
-    }
-  };
+      const selectedContent = searchData.find((content) => content.title === value);
+      if (selectedContent) {
+        const encodedSearchValue = encodeURIComponent(value);
+        navigate(`/resultPage?query=${encodedSearchValue}`);
+        // navigate(`/contentDetail?query=${encodedSearchValue}`);
+      }
+    },
+    [searchData, navigate]
+  );
 
   const handleClearAllRecentSearches = () => {
     localStorage.removeItem("recentSearches");
     setRecentSearches([]);
   };
 
-  const handleRemoveRecentSearch = (index, e) => {
-    e.stopPropagation();
-    const updatedRecentSearches = [...recentSearches];
-    updatedRecentSearches.splice(index, 1);
-    localStorage.setItem("recentSearches", JSON.stringify(updatedRecentSearches));
-    setRecentSearches(updatedRecentSearches);
-  };
+  const handleRemoveRecentSearch = useCallback(
+    (index, e) => {
+      e.stopPropagation();
+      const updatedRecentSearches = [...recentSearches];
+      updatedRecentSearches.splice(index, 1);
+      localStorage.setItem("recentSearches", JSON.stringify(updatedRecentSearches));
+      setRecentSearches(updatedRecentSearches);
+    },
+    [recentSearches]
+  );
 
   // 검색 결과 페이지로 이동
   const handleSubmit = (event) => {
