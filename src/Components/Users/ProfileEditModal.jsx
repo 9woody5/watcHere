@@ -18,14 +18,12 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     border: "1px solid #ccc", // 테두리
-    background: "#fff", // 배경색
+    background: "#4e4e4e", // 배경색
     overflow: "auto", // 내용이 많을 경우 스크롤
     WebkitOverflowScrolling: "touch",
     borderRadius: "4px", // 모서리 둥글게
     outline: "none",
     padding: "20px", // 패딩
-    background: "#4e4e4e",
-    // 기타 컨텐츠 스타일
   },
 };
 
@@ -101,7 +99,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     >
       <h2
         tabIndex="0"
-        className="mb-5 text-4xl text-gray-400 text-center font-normal "
+        className="font-mono mb-5 text-4xl text-white text-center font-normal "
       >
         프로필 편집
       </h2>
@@ -116,7 +114,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       </div>
       <button
         type="button"
-        className="flex justify-center items-center mt-6 mx-auto py-2.5 pr-4.5 pl-0 text-base text-gray-400"
+        className="flex justify-center items-center mt-6 mx-auto py-2.5 pr-4.5 pl-0 text-base text-white"
         onClick={handleButtonClick}
       >
         프로필 이미지 변경 <IoIosArrowForward />
