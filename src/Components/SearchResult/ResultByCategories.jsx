@@ -38,6 +38,10 @@ const ResultByCategories = () => {
     let allDataTV = [];
     let allDataMovie = [];
 
+    const genreFilter = (data, genre) => {
+      return data.filter((item) => item.genres.some((g) => g.toLowerCase() === genre));
+    };
+
     for (let page = 1; page <= maxPage; page++) {
       let queryString = `?query=${query}&page=${page}`;
       const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
@@ -62,22 +66,33 @@ const ResultByCategories = () => {
     const filteredDataTV = allDataTV.filter((item) => item.poster_path !== null && item.poster_path !== "");
     const filteredDataMovie = allDataMovie.filter((item) => item.poster_path !== null && item.poster_path !== "");
 
-    const suffledDataTV = shuffleArray(filteredDataTV);
-    const suffledDataMovie = shuffleArray(filteredDataMovie);
+    const animationDataTV = genreFilter(filteredDataTV, "애니메이션");
+    const nonAnimationDataTV = filteredDataTV.filter((item) => !animationDataTV.includes(item));
 
-    return { dataTV: suffledDataTV, dataMovie: suffledDataMovie };
+    const animationDataMovie = genreFilter(filteredDataMovie, "애니메이션");
+    const nonAnimationDataMovie = filteredDataMovie.filter((item) => !animationDataMovie.includes(item));
+
+    const suffledDataTV = shuffleArray(nonAnimationDataTV);
+    const suffledDataMovie = shuffleArray(nonAnimationDataMovie);
+
+    return {
+      dataTV: suffledDataTV,
+      dataMovie: suffledDataMovie,
+      dataAnime: shuffleArray([...animationDataTV, ...animationDataMovie]),
+    };
   };
-  // react-query로 데이터 연결 및 관리
-  const { data: searchResults = { dataTV: [], dataMovie: [] }, isLoading } = useQuery({
-    queryKey: ["search-result-by-categories"],
-    queryFn: fetchResultData,
-  });
 
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
   const category = ["영화", "드라마", "예능", "애니메이션"];
   const dataCate = ["movie", "drama", "tvshow", "anime"];
   const [showAllStates, setShowAllStates] = useState(dataCate.map(() => false));
+
+  // react-query로 데이터 연결 및 관리
+  const { data: searchResults = { dataTV: [], dataMovie: [], dataAnime: [] }, isLoading } = useQuery({
+    queryKey: ["search-result-by-categories", searchQuery],
+    queryFn: fetchResultData,
+  });
 
   const categoriesWithcontent = category
     .map((categoryTitle, index) => {
@@ -88,6 +103,9 @@ const ResultByCategories = () => {
           break;
         case "drama":
           data = searchResults.dataTV || [];
+          break;
+        case "anime":
+          data = searchResults.dataAnime || [];
           break;
         default:
           data = [];
@@ -128,7 +146,7 @@ const ResultByCategories = () => {
                 <button
                   onClick={() => handleShowAllToggle(index)}
                   className={`text-white px-3 py-1 bg-zinc-700 rounded-lg "hover:bg-zinc-900 transition duration-150 ease-in-out  ${
-                    data.length < 4 ? "hidden" : ""
+                    data.length < 7 ? "hidden" : ""
                   }`}
                 >
                   <LuChevronDown
@@ -147,7 +165,7 @@ const ResultByCategories = () => {
                     key={contentIndex}
                     className=" flex items-center mb-2 w-1/3 hover:bg-zinc-900 p-3 rounded-lg transition duration-150 ease-in-out"
                   >
-                    <Link to={`/contentDetail/${content.id}`} className="w-full content_item">
+                    <Link to={`/${content.type}/${content.id}`} className="w-full content_item">
                       <div className="flex items-start h-full w-full">
                         <div className="img_box w-24 h-36 rounded-md overflow-hidden">
                           <img

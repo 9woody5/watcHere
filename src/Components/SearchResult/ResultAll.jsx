@@ -44,6 +44,7 @@ const ResultAll = () => {
         runtime: item.runtime,
         director_name: item.director_name,
         release_date: item.release_date,
+        type: "movie",
       })),
       ...dataTV.map((item) => ({
         id: item.id,
@@ -51,6 +52,7 @@ const ResultAll = () => {
         poster_path: generateImageUrl(item.poster_path),
         director_name: item.director_name,
         first_air_date: item.first_air_date,
+        type: "tv",
       })),
     ];
 
@@ -67,7 +69,7 @@ const ResultAll = () => {
   } = useQuery({
     queryKey: ["search-result-all"],
     queryFn: fetchResultData,
-    // staleTime: 60000,
+    staleTime: 1000,
   });
 
   const autoplayEnabled = false;

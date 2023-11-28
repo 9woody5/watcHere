@@ -5,5 +5,7 @@
   "userData": "/userData/{userId}",
   "categoryList": "/api/v1/contents",
   "searchMovieData": "/api/v1/search/movie",
-  "searchTVData": "/api/v1/search/tv"
+  "searchTVData": "/api/v1/search/tv",
+  "contentRatings": "/api/v1/reviews/ratings/{contentId}",
+  "contentReviews": "/api/v1/reviews/content/{contentId}"
 }

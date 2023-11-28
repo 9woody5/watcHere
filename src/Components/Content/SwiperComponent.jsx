@@ -69,7 +69,10 @@ export const SwiperComponent = ({ contents, customSlidesPerView, autoplayEnabled
             onMouseOver={() => toggleSlideAutoplay(false)}
             onMouseLeave={() => toggleSlideAutoplay(true)}
           >
-            <Link to={`/contentDetail/${content.id}`} className="w-full h-full flex items-center justify-center">
+            <Link
+              to={`/${content.type ? content.type : "movie"}/${content.id}`}
+              className="w-full h-full flex items-center justify-center"
+            >
               <Slider content={content} />
             </Link>
           </SwiperSlide>

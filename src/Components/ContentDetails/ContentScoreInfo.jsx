@@ -47,11 +47,10 @@ function ContentScoreInfo({id}) {
         const reformattedScoreData = contentFakeData.reformatContentScoreData(data.ratings);
         setcontentScoreInfo(reformattedScoreData);
       })
-  }, []);
+  }, [id]);
 
   useEffect(()=>{
     setScoreRankingIndexs(makeScoreRankingIndexs(contentScoreInfo['scoreNum']));
-    console.log(scoreRankingIndexs)
   }, [contentScoreInfo])
 
   return (
