@@ -219,6 +219,7 @@ const MainSearchBar = ({ style }) => {
 
     // 입력된 쿼리 파라미터에 해당되는 결과 페이지로 이동
     navigate(`/resultPage?query=${encodedSearchValue}`);
+    setSearchValue("");
   };
 
   // 검색 아이콘 동적 스타일링

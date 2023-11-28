@@ -33,7 +33,7 @@ const ResultByCategories = () => {
 
   // 검색 결과 데이터 연결 함수
   const fetchResultData = async () => {
-    const maxPage = 3; // 최대 3페이지까지만 가져옴
+    const maxPage = 2; // 최대 3페이지까지만 가져옴
     let query = searchQuery;
     let allDataTV = [];
     let allDataMovie = [];
@@ -59,8 +59,12 @@ const ResultByCategories = () => {
       const dataTV = (responseTV.data.results || []).map((item) => mapData(item));
       const dataMovie = (responseMovie.data.results || []).map((item) => mapData(item));
 
+      console.log(dataTV);
+
       allDataTV = [...allDataTV, ...dataTV];
       allDataMovie = [...allDataMovie, ...dataMovie];
+
+      console.log(allDataMovie);
     }
 
     const filteredDataTV = allDataTV.filter((item) => item.poster_path !== null && item.poster_path !== "");
@@ -74,6 +78,9 @@ const ResultByCategories = () => {
 
     const suffledDataTV = shuffleArray(nonAnimationDataTV);
     const suffledDataMovie = shuffleArray(nonAnimationDataMovie);
+
+    console.log(suffledDataMovie);
+    console.log(suffledDataTV);
 
     return {
       dataTV: suffledDataTV,
@@ -92,6 +99,7 @@ const ResultByCategories = () => {
   const { data: searchResults = { dataTV: [], dataMovie: [], dataAnime: [] }, isLoading } = useQuery({
     queryKey: ["search-result-by-categories", searchQuery],
     queryFn: fetchResultData,
+    staleTime: 60000,
   });
 
   const categoriesWithcontent = category
@@ -180,14 +188,16 @@ const ResultByCategories = () => {
                           {content.director_name && (
                             <span className="text-white  block">감독: {content.director_name}</span>
                           )}
-                          {content.runtime && <span className="text-white  block">{content.runtime}분</span>}
+                          {content.runtime && <span className="text-white  block">러닝타임: {content.runtime}분</span>}
                           {content.first_air_date && (
                             <span className="text-white  block">방영일: {content.first_air_date}</span>
                           )}
                           {content.release_date && (
                             <span className="text-white  block">개봉일: {content.release_date}</span>
                           )}
-                          {content.genres && <span className="text-white  block">장르: {content.genres[0]}</span>}
+                          {content.genres && content.genres.length > 0 && (
+                            <span className="text-white  block">장르: {content.genres[0]}</span>
+                          )}
                         </p>
                       </div>
                     </Link>

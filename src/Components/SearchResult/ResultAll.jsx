@@ -9,6 +9,8 @@ import { useQuery } from "@tanstack/react-query";
 const ResultAll = () => {
   // 기본 이미지 URL
   const baseImageUrl = "https://image.tmdb.org/t/p/w500";
+  const location = useLocation();
+  const searchQuery = new URLSearchParams(location.search).get("query");
 
   // 이미지 URL을 동적으로 생성하는 함수
   const generateImageUrl = (path) => {
@@ -67,14 +69,12 @@ const ResultAll = () => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["search-result-all"],
+    queryKey: ["search-result-all", searchQuery],
     queryFn: fetchResultData,
     staleTime: 1000,
   });
 
   const autoplayEnabled = false;
-  const location = useLocation();
-  const searchQuery = new URLSearchParams(location.search).get("query");
   const searchResults = Array.isArray(combinedData) ? combinedData : [];
   const selectedContent = searchResults.find((content) =>
     content.title.toLowerCase().includes(searchQuery.toLowerCase())
