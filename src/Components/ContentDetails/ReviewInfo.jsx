@@ -7,6 +7,7 @@ import Review from './Review';
 function ReviewInfo({id, token}) {
   /* 리뷰 데이터 관련 */
   const [reviews, setReviews] = useState([]);
+  const [myReviews, setmyReviews] = useState([]);
   const [reviewFilter, setReviewFilter] = useState('createdAt');
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -18,16 +19,23 @@ function ReviewInfo({id, token}) {
   // take related data
   useEffect(()=>{
     setLoading(true);
-    if (reviewFilter === 'my-review'){
-      Fetchers
-    }
-    else{
+    Fetchers.callGetMyReviewAPI(id, token)
+      .then(({data})=>{
+        const reformattedMyReviews = contentFakeData.reformatMyReviewData(data);
+        console.log(reformattedMyReviews);
+        setmyReviews(reformattedMyReviews);
+      })
+
+    if (reviewFilter !== 'my-review'){
       Fetchers.callGetReviewsContentAPI(id, page, reviewFilter)
         .then(({data})=>{
           const reformattedReviews = contentFakeData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
           setLoading(false);
         })
+    }
+    else{
+      setReviews(myReviews);
     }
   }, [reviewFilter, id, token]);
 
@@ -103,7 +111,7 @@ function ReviewInfo({id, token}) {
         {/* {loading&&(<div className="absolute loading loading-spinner loading-md "></div>)}  */}
         <table className="table table-pin-rows">
           <tbody>
-            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} review={review} id={review.reviewId} /></td></tr>))}
+            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} id={id} review={review} token={token} /></td></tr>))}
           </tbody>
         </table>
       </div>

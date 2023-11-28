@@ -51,6 +51,23 @@ const DeleteModal = ({ isOpen, onRequestClose, onDelete }) => {
   );
 }
 
+const DeletionModal = ({isOpen, onRequestClose, onDelete }) => {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Delete Confirmation"
+      ariaHideApp={false}
+      style={deleteModalStyles}
+    >
+      <h2 className='text-center'>정말 삭제하시겠습니까?</h2>
+      <div className='flex justify-around mt-3' >
+        <button className='px-5 py-2 hover:bg-gray-300' onClick={onDelete}>Yes</button>
+        <button className='px-5 py-2 hover:bg-gray-300' onClick={onRequestClose}>Cancel</button>
+      </div>
+    </Modal>
+  );
+}
 
 
 // ReviewInput Modal
@@ -82,7 +99,7 @@ const reviewInputModalStyles = {
   },
 };
 
-const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit, handleUserScore, handleUserReview }) => {
+const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit, handleUserScore, handleUserReview, initialScore=0, initialReview="" }) => {
   const textAreaRef = useRef('');
   let timerId = undefined;
 
@@ -104,12 +121,12 @@ const ReviewInputModal = ({ isOpen, onRequestClose, onSubmit, handleUserScore, h
       style={reviewInputModalStyles}
     >
       <h2 className='text-center mb-3'>리뷰작성</h2>
-      <StarRating handleUserScore={handleUserScore}/>
+      <StarRating handleUserScore={handleUserScore} initialScore={initialScore}/>
       {/* <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
         onChange={() => debounce(()=>{
           handleUserReview(textAreaRef.current.value)})()}></textarea> */}
       <textarea ref={textAreaRef} placeholder="리뷰를 작성해주세요" className="my-5 textarea textarea-bordered textarea-lg align-middle" 
-        onChange={() => handleUserReview(textAreaRef.current.value)}></textarea>
+        onChange={() => handleUserReview(textAreaRef.current.value)} defaultValue={initialReview}></textarea>
       <div className='flex justify-around mt-3' >
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onSubmit}>submit</button>
         <button className='px-5 py-2 hover:bg-gray-300' onClick={onRequestClose}>Cancel</button>
@@ -167,10 +184,10 @@ const TrailerVideoModal = ({ isOpen, onRequestClose, youtubeId }) => {
       ariaHideApp={false}
       style={trailerVideoModalStyles}
     >
-      <button className='text-white' onClick={onRequestClose}>Close Modal</button>
+      <button className='text-white' onClick={onRequestClose}>창닫기</button>
       <YouTube className='flex justify-center' videoId={youtubeId} opts={opts} />
     </Modal>
   );
 }
 
-export {DeleteModal, ReviewInputModal, TrailerVideoModal}
+export {DeleteModal, ReviewInputModal, TrailerVideoModal, DeletionModal}
