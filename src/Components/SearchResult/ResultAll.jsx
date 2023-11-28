@@ -46,6 +46,7 @@ const ResultAll = () => {
         runtime: item.runtime,
         director_name: item.director_name,
         release_date: item.release_date,
+        popularity: item.popularity,
         type: "movie",
       })),
       ...dataTV.map((item) => ({
@@ -54,11 +55,15 @@ const ResultAll = () => {
         poster_path: generateImageUrl(item.poster_path),
         director_name: item.director_name,
         first_air_date: item.first_air_date,
+        popularity: item.popularity,
         type: "tv",
       })),
     ];
 
-    const filteredData = combinedData.filter((item) => item.poster_path !== null && item.poster_path !== "");
+    // popularity 값을 기준으로 내림차순으로 정렬
+    const sortedData = combinedData.sort((a, b) => b.popularity - a.popularity);
+
+    const filteredData = sortedData.filter((item) => item.poster_path !== null && item.poster_path !== "");
 
     return filteredData;
   };

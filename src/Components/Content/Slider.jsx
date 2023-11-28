@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Slider = ({ content }) => {
+const Slider = ({ content, index }) => {
   const [isHovered, setIsHoverd] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [, setContentList] = useState([]);
@@ -36,13 +36,19 @@ const Slider = ({ content }) => {
           ></div>
         </div>
       ) : (
-        <img src={content.poster_path} alt={content.title} loading="lazy" />
+        <>
+          <span className="text-emerald-500 font-pretendardBold italic text-[50px] absolute left-2 top-4 w-12 py-2 border-b-4 border-emerald-500 border-solid">
+            {index}
+          </span>
+          <img src={content.poster_path} alt={content.title} loading="lazy" />
+        </>
       )}
 
       {isHovered && (
         <div
           className={`additional_info w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-zinc-800 text-white flex flex-col items-center justify-center pt-8 bg-opacity-60 px-6 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100 rounded-lg border-solid`}
         >
+          {content.popularity && <span className="text-white">{content.popularity}</span>}
           <h3>{content.title}</h3>
           {content.director_name && <span>감독: {content.director_name}</span>}
           {content.runtime && <span>{content.runtime}분</span>}
