@@ -33,7 +33,7 @@ const ResultByCategories = () => {
 
   // 검색 결과 데이터 연결 함수
   const fetchResultData = async () => {
-    const maxPage = 2; // 최대 3페이지까지만 가져옴
+    const maxPage = 2; // 최대 2페이지까지만 가져옴
     let query = searchQuery;
     let allDataTV = [];
     let allDataMovie = [];

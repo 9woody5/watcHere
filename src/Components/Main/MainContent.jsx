@@ -11,7 +11,7 @@ export default function MainContent() {
   const fetchData = async () => {
     let page = 1;
     let sort = "POPULARITY_DESC";
-    let provider = "NETFLIX";
+    let provider = "WAVVE";
     let type = "MOVIE";
     let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
 
