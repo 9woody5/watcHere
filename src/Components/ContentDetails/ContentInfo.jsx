@@ -30,7 +30,7 @@ function ContentInfo({id, token, contentType='movie'}) {
 
         // 기본 정보 셋팅
         setImg(data.full_poster_path);
-        setTitle(data.title);
+        setTitle(data.title?? data.name);
         setStory(data.overview);
         setDate(data.release_date);
         setGenres(data.genres.map(x=>x.name));

@@ -1,4 +1,4 @@
-import { faker, vi } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 const defaultImg = 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=1480'
 
@@ -53,7 +53,8 @@ export function createReviewData(){
     return {'userImg': 'https://avatars.githubusercontent.com/u/58373314', 'userName': faker.person.fullName(), 
     'text': faker.lorem.text({ length: { min: 20, max: 60 }, strategy: 'fail' }),
     'date': faker.date.anytime(),
-    'score': 3.0
+    'score': 3.0,
+    'isMine': false
   }
   })
 }
@@ -92,8 +93,10 @@ export function reformatContentScoreData(scores){
 }
 
 export function reformatReviewData(reviews){
-  return reviews.map(({user_id, id, detail, rating, updated_at})=>{
-    return {'userImg': 'https://avatars.githubusercontent.com/u/58373314','userName': user_id,
+  return reviews.map(({author, id, detail, rating})=>{
+    const {nickname, updated_at, profile_image} = author;
+    console.log('author:', nickname)
+    return {'userImg': profile_image,'userName': nickname,
             'reviewId': id,
             'text': detail,
             'date': (new Date(updated_at)).toLocaleDateString("ko-KR"),
@@ -101,6 +104,19 @@ export function reformatReviewData(reviews){
     }
   })
 
+}
+
+export function reformatMyReviewData(review){
+  const {author, id, detail, rating} = review;
+  const {nickname, updated_at, profile_image} = author;
+
+  return [{'userImg': profile_image,'userName': nickname,
+            'reviewId': id,
+            'text': detail,
+            'date': (new Date(updated_at)).toLocaleDateString("ko-KR"),
+            'score': rating,
+            'isMine': true
+          }]
 }
 
 export function reformatVideos(videos){
