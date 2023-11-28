@@ -58,8 +58,9 @@ function ContentInfo({id, token, contentType='movie'}) {
 
   return (
     <div>
-      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId} />
-      <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
+      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId}
+        actors={actors} director={director}/>
+      {/* <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo> */}
     </div>
   )
 }
