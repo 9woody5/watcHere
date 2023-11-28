@@ -1,11 +1,47 @@
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../Common/CommonAtom";
 import UseAuth from "./UseAuth";
 import Hlogo from "../assets/img/H_logo.svg";
 import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 import "../styles/header.css";
 
 const Header = () => {
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await fetch(
+            "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setUserInfo({
+              nickname: data.nickname,
+              email: data.email,
+              profile_image: data.profile_image,
+            });
+          } else {
+            console.error("사용자 정보를 불러오는데 실패했습니다.");
+          }
+        } catch (error) {
+          console.error("오류 발생:", error);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
   const [isLoggedIn, setIsLoggedIn] = UseAuth();
   const navigate = useNavigate();
 
@@ -56,7 +92,16 @@ const Header = () => {
               className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
             >
               <button className="rounded-full">
-                <BiSolidUserCircle size="45" color="9bb0a5" />
+                {userInfo.profile_image ? (
+                  <img
+                    src={userInfo.profile_image}
+                    alt="User Profile"
+                    className="rounded-full"
+                    style={{ width: "45px", height: "45px" }}
+                  />
+                ) : (
+                  <BiSolidUserCircle size="45" color="9bb0a5" />
+                )}
               </button>
             </label>
             <ul
