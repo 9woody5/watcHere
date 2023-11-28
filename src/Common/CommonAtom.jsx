@@ -12,6 +12,17 @@ export const isLoggedInState = atom({
   default: false,
 });
 
+// 유저 상태 전역으로 관리하기 위한 정의
+export const userInfoState = atom({
+  key: "userInfoState", // 고유한 키
+  default: {
+    // 초기 상태
+    nickname: "",
+    email: "",
+    profile_image: "",
+  },
+});
+
 export const footerEnabledRecoil = atom({
   key: "footerEnabledRecoil",
   default: true,
