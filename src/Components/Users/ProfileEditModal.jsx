@@ -5,6 +5,7 @@ import {
   userInfoState,
   userFavoriteContentState,
 } from "../../Common/CommonAtom";
+import ContentsSearchSelect from "./ContentsSearchSelect";
 import { IoIosArrowForward } from "react-icons/io";
 import { AiFillPlayCircle } from "react-icons/ai";
 
@@ -77,10 +78,10 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     userFavoriteContentState
   );
   const [nickname, setNickname] = useState(userInfo.nickname);
-  const [title, setTitle] = useState(""); // 새로운 제목 상태
   const [profileImage, setProfileImage] = useState(userInfo.profile_image);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedServiceName, setSelectedServiceName] = useState("");
+  const [selectedContent, setSelectedContent] = useState({}); // 선택된 컨텐츠 상태 추가
 
   // 드롭다운 토글 함수
   const toggleDropdown = () => {
@@ -93,12 +94,25 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     setDropdownOpen(false); // 드롭다운 닫기
   };
 
+  // 컨텐츠 선택 핸들러
+  const handleContentSelect = (selectedContentId, selectedTitle) => {
+    setSelectedContent({ id: selectedContentId, title: selectedTitle });
+  };
+
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("nickname", nickname);
     if (fileInputRef.current.files[0]) {
       formData.append("profile_image", fileInputRef.current.files[0]);
+
+      // Recoil 상태 업데이트
+      setFavoriteContent({
+        ...selectedContent,
+        serviceName: selectedServiceName,
+      });
+
+      onRequestClose();
     }
 
     try {
@@ -123,12 +137,6 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     } catch (error) {
       console.error("오류 발생: ", error);
     }
-
-    // Recoil 상태 업데이트
-    setFavoriteContent({
-      serviceName: selectedServiceName,
-      title: title,
-    });
 
     onRequestClose();
   };
@@ -174,7 +182,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       <div className="user-wrap01">
         <div className="flex justify-center items-center ">
           <img
-            src={userInfo.profile_image}
+            src={profileImage}
             alt="사용자 이미지"
             className="rounded-full w-[150px] h-[150px]"
           />
@@ -260,14 +268,9 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
           )}
         </div>
 
-        <input
-          id="contents-title"
-          type="text"
-          placeholder="영화나 TV 프로그램 제목 입력 (띄어쓰기 포함)"
-          className="input-style01 w-[300px] h-[54px] text-sm text-gray-400 m-5 p-0 px-5 bg-[#2e2e2e] border-none rounded-lg align-middle"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <div className="relative flex justify-center items-center mx-auto py-2.5 px-0 text-gray-400 ">
+          <ContentsSearchSelect onContentSelect={handleContentSelect} />
+        </div>
       </div>
       <ul className="flex justify-between items-center">
         <div className="w-[200px] h-[52px] text-base leading-[50px] text-white border-none bg-[#5e5e5e] rounded-xl mr-2">
