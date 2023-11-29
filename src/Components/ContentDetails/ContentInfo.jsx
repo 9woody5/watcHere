@@ -27,7 +27,6 @@ function ContentInfo({id, token, contentType='movie'}) {
     // 기본 정보 
     Fetchers.callGetContentAPI(contentType, id)
       .then(({data})=>{
-        console.log("movie api response", data);
 
         // 기본 정보 셋팅
         setImg(data.full_poster_path);

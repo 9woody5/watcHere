@@ -16,8 +16,8 @@ function ContentCreators({actors, director}) {
       <div className='m-6' >
         <div className='my-3'>출연진</div>
         <div className='flex'>
-          {actors.map(actor=>(
-            <div className='m-3 flex flex-col justify-center items-center'>
+          {actors.map((actor, idx)=>(
+            <div key={`actor-${idx}`} className='m-3 flex flex-col justify-center items-center'>
               <div className='my-2'><img className='w-12 h-12 rounded-full' src={actor.img} alt="" /></div>
               <div>{actor.name}</div>
             </div>          

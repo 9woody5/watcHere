@@ -175,7 +175,7 @@ const TrailerVideoModal = ({ isOpen, onRequestClose, youtubeId }) => {
       autoplay: 1,
     },
   };
-  console.log('youtubeId:', youtubeId)
+  
   return (
     <Modal
       isOpen={isOpen}

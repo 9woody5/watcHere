@@ -23,7 +23,6 @@ function ReviewInfo({contentType, id, token}) {
     Fetchers.callGetMyReviewAPI(contentType, id, token)
       .then(({data})=>{
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
-        console.log(reformattedMyReviews);
         setmyReviews(reformattedMyReviews);
       })
 
@@ -76,8 +75,7 @@ function ReviewInfo({contentType, id, token}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
-      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token)
-        .then((res)=>{console.log(res)});
+      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token);
       closeModal();
       window.location.reload(true);
     }
@@ -113,7 +111,7 @@ function ReviewInfo({contentType, id, token}) {
         {reviews?
           (<table className="table table-pin-rows">
             <tbody>
-              {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
+              {reviews.map((review,idx)=>(<tr key={`review-${idx}`}><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
             </tbody>
           </table>):
           (<div>해당 컨텐츠는 리뷰가 존재하지 않습니다</div>)

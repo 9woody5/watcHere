@@ -27,7 +27,6 @@ function MyReviewButtons({contentType, id, review, token}){
     setModificationModalIsOpen(false);
   };
   const handleSubmit = () => {
-    console.log('호로로롷',userReview, userScore, reviewId, id)
     if(!userScore){
       alert('점수를 넣어주세요! 🫨');
     } 

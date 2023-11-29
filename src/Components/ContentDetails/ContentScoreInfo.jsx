@@ -69,7 +69,7 @@ function ContentScoreInfo({id}) {
         <div className='w-3/5 p-3 flex flex-col border-white border-solid border-l-2 items-center' id='star-stat'>
           {new Array(5).fill('').map((x, index)=>{
             return (
-              <div className='w-full flex items-center by-1 h-7 grow'>
+              <div key={`star-${index}`} className='w-full flex items-center by-1 h-7 grow'>
                 <div className='w-10 text-center'>{5-index}점</div>
                 <div className={scoreRanking2tailWindClassName[scoreRankingIndexs[index]]}></div>
                 <div className='w-10 text-center'>({contentScoreInfo['scoreNum'][index+1]})</div>
