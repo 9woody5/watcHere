@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {ReviewInputModal} from './Modals';
 import * as Fetchers from './Fetchers'; 
-import * as contentFakeData from './createFakerData';
+// import * as contentFakeData from './createFakerData';
+import * as contentReformatData from './refomatData';
 import Review from './Review';
 
 function ReviewInfo({id, token}) {
@@ -21,7 +22,7 @@ function ReviewInfo({id, token}) {
     setLoading(true);
     Fetchers.callGetMyReviewAPI(id, token)
       .then(({data})=>{
-        const reformattedMyReviews = contentFakeData.reformatMyReviewData(data);
+        const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
         console.log(reformattedMyReviews);
         setmyReviews(reformattedMyReviews);
       })
@@ -29,7 +30,7 @@ function ReviewInfo({id, token}) {
     if (reviewFilter !== 'my-review'){
       Fetchers.callGetReviewsContentAPI(id, page, reviewFilter)
         .then(({data})=>{
-          const reformattedReviews = contentFakeData.reformatReviewData(data.reviews.content);
+          const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
           setLoading(false);
         })

@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 
 import { AiFillStar } from 'react-icons/ai';
 import * as Fetchers from './Fetchers'; 
-import * as contentFakeData from './createFakerData';
+// import * as contentFakeData from './createFakerData';
+import * as contentReformatData from './refomatData';
+
 
 const scoreRanking2tailWindClassName = {
   1: 'w-5/6 h-1 bg-white',
@@ -44,7 +46,7 @@ function ContentScoreInfo({id}) {
   useEffect(()=>{
     Fetchers.callGetReviewsRatingsAPI(id)
       .then(({data})=>{
-        const reformattedScoreData = contentFakeData.reformatContentScoreData(data.ratings);
+        const reformattedScoreData = contentReformatData.reformatContentScoreData(data.ratings);
         setcontentScoreInfo(reformattedScoreData);
       })
   }, [id]);
