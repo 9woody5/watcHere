@@ -4,6 +4,7 @@ import { GetData } from "../../Network/Connect";
 import Connect from "../../Network/Connect.json";
 import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "./ResultSkeletonUI";
+import Pagination from "./Pagination";
 
 const ResultByCategories = () => {
   // 기본 이미지 URL
@@ -101,7 +102,6 @@ const ResultByCategories = () => {
   const searchQuery = new URLSearchParams(location.search).get("query");
   const category = ["영화", "드라마", "애니메이션"];
   const dataCate = ["movie", "drama", "anime"];
-  const itemsPerPage = 6;
 
   // react-query로 데이터 연결 및 관리
   const {
@@ -137,6 +137,7 @@ const ResultByCategories = () => {
     })
     .filter((category) => category.data.length !== 0);
 
+  const itemsPerPage = 6;
   const [currentPages, setCurrentPages] = useState({
     movie: 1,
     drama: 1,
@@ -151,15 +152,6 @@ const ResultByCategories = () => {
     });
   }, [searchQuery]);
 
-  const paginationRange = 10;
-
-  const paginate = (data, category) => {
-    const currentPage = currentPages[category] || 1;
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
-  };
-
   return (
     <div>
       {isLoading ? (
@@ -171,8 +163,10 @@ const ResultByCategories = () => {
         categoriesWithcontent.map(({ title, data }, index) => {
           // 마지막 섹션일 땐 hr태그 제거
           const isLastSection = index === categoriesWithcontent.length - 1;
-          const displayedData = paginate(data, dataCate[index]);
-
+          const displayedData = data.slice(
+            (currentPages[dataCate[index]] - 1) * itemsPerPage,
+            currentPages[dataCate[index]] * itemsPerPage
+          );
           return (
             <section key={index} className="result_wrap mt-14 font-pretendard">
               <div className="headline flex justify-between items-center">
@@ -220,69 +214,17 @@ const ResultByCategories = () => {
               </ul>
               {/* pagination */}
               {Math.ceil(data?.length / itemsPerPage) > 1 && (
-                <nav aria-label="pagination">
-                  <ul className="flex items-center justify-center h-10 text-base gap-1 mt-6">
-                    {currentPages[dataCate[index]] > paginationRange && (
-                      <li>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPages({
-                              ...currentPages,
-                              [dataCate[index]]: currentPages[dataCate[index]] - 10,
-                            });
-                          }}
-                          className="flex items-center justify-center w-8 h-10 rounded-xl text-white hover:text-emerald-500 hover:font-pretendardBold"
-                        >
-                          이전
-                        </button>
-                      </li>
-                    )}
-
-                    {[...Array(Math.min(paginationRange, Math.ceil(data?.length / itemsPerPage)))].map(
-                      (_, pageIndex) => {
-                        const actualPage =
-                          Math.floor(currentPages[dataCate[index]] / paginationRange) * paginationRange + pageIndex + 1;
-                        return (
-                          <li key={pageIndex}>
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPages({
-                                  ...currentPages,
-                                  [dataCate[index]]: actualPage,
-                                });
-                              }}
-                              className={`flex items-center justify-center w-8 h-10 rounded-xl ${
-                                currentPages[dataCate[index]] === actualPage
-                                  ? "border-emerald-600 border-2 text-emerald-600 font-pretendardBold"
-                                  : "hover:bg-zinc-200 hover:bg-opacity-20  text-white"
-                              }`}
-                            >
-                              {actualPage}
-                            </button>
-                          </li>
-                        );
-                      }
-                    )}
-                    {currentPages[dataCate[index]] < Math.ceil(data?.length / itemsPerPage) && (
-                      <li>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPages({
-                              ...currentPages,
-                              [dataCate[index]]: currentPages[dataCate[index]] + paginationRange,
-                            });
-                          }}
-                          className="flex items-center justify-center w-8 h-10 rounded-xl text-white hover:text-emerald-500 hover:font-pretendardBold"
-                        >
-                          다음
-                        </button>
-                      </li>
-                    )}
-                  </ul>
-                </nav>
+                <Pagination
+                  className="flex justify-center my-4"
+                  currentPage={currentPages[dataCate[index]]}
+                  totalPages={Math.ceil(data?.length / itemsPerPage)}
+                  onPageChange={(page) =>
+                    setCurrentPages({
+                      ...currentPages,
+                      [dataCate[index]]: page,
+                    })
+                  }
+                />
               )}
               {!isLastSection && <hr className="opacity-30 mt-4" />}
             </section>
