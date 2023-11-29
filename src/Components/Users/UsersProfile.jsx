@@ -54,14 +54,14 @@ const UsersProfile = () => {
             <img
               src={userInfo.profile_image}
               alt="User Profile"
-              className="absolute translate-x-[50%] translate-y-[-10%] rounded-full"
+              className="absolute translate-x-[70%] translate-y-[-8%] rounded-full"
               style={{ width: "10vw", height: "10vw" }}
             />
           ) : (
             <BiSolidUserCircle
-              size="8vw"
+              size="10vw"
               color="9bb0a5"
-              className="absolute translate-x-[50%] translate-y-[-25%]"
+              className="absolute translate-x-[70%] translate-y-[-8%]"
             />
           )}
 
@@ -74,23 +74,25 @@ const UsersProfile = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center  w-[15%] font-normal text-start text-sm text-white translate-x-[0%] translate-y-[-35%]">
+      <div className="flex flex-col justify-center  w-[15%] font-normal text-center text-sm text-white translate-x-[0%] translate-y-[-15%]">
         <p className="text-base font-bold">닉네임</p>
         <p>{userInfo.nickname}</p>
         <br />
         <p className="text-base font-bold">이메일</p>
         <p>{userInfo.email}</p>
       </div>
-      <div className="favorite-profile w-[40%]">
+
+      <div className="favorite-profile w-[40%] h-[auto]">
         <UserFavoriteContents />
       </div>
+
       <div className="flex items-center justify-end dropdown dropdown-end profile-setting w-[10%]">
         <label
           tabIndex={0}
           className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
           style={{
             position: "absolute",
-            transform: "translate(-50%, -170%)",
+            transform: "translate(-80%, -170%)",
           }}
         >
           <button>
