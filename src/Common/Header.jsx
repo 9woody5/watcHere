@@ -10,8 +10,6 @@ import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 const Header = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [selectedCate, setSelectedCate] = useState("");
-  // 카테고리 path 확인용
-  const location = useLocation();
 
   // token에서 userinfo 데이터 가져오기
   useEffect(() => {
@@ -44,6 +42,9 @@ const Header = () => {
   }, []);
   const [isLoggedIn, setIsLoggedIn] = UseAuth();
   const navigate = useNavigate();
+
+  // 카테고리 path 확인용
+  const location = useLocation();
 
   // pathname에 따른 header 카테고리 상태 업데이트
   useEffect(() => {
@@ -113,10 +114,10 @@ const Header = () => {
               예능
             </li>
           </Link>
-          <Link to={"/animation"} onClick={() => setSelectedCate("anime")}>
+          <Link to={"/animation"} onClick={() => setSelectedCate("animation")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
-                selectedCate === "anime" ? "font-pretendardBold  text-emerald-500" : ""
+                selectedCate === "animation" ? "font-pretendardBold  text-emerald-500" : ""
               }`}
             >
               애니메이션
