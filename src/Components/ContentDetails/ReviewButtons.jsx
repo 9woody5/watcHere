@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {DeleteModal} from './Modals';
 import * as Fetchers from './Fetchers';
 
-function ReviewButtons({id}){
+function ReviewButtons({reviewId, token}){
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -11,8 +11,8 @@ function ReviewButtons({id}){
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  const handleDelete = (id) => {
-    Fetchers.callReviewReportAPI(id);
+  const handleDelete = (reviewId) => {
+    Fetchers.callReviewReportAPI(reviewId, token);
     alert(`신고완료하였습니다!`);
     closeModal();
   };
@@ -24,7 +24,7 @@ function ReviewButtons({id}){
     <DeleteModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        onDelete={()=>handleDelete(id)}
+        onDelete={()=>handleDelete(reviewId)}
       />
   </div>)
 }

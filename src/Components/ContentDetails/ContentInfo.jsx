@@ -34,6 +34,7 @@ function ContentInfo({id, token, contentType='movie'}) {
         setStory(data.overview);
         setDate(data.release_date);
         setGenres(data.genres.map(x=>x.name));
+        setScore(data.vote_average.toFixed(2));
         setNation('korea'); // 설정필요
         setLearningTime(data.runtime);
         setVideoId(contentReformatData.reformatVideos(data.videos))
@@ -46,13 +47,6 @@ function ContentInfo({id, token, contentType='movie'}) {
         const reformattedActors = contentReformatData.reformatContentActors(data.actors);
         setActors(reformattedActors);
       });
-    
-      Fetchers.callGetReviewsRatingsAPI(id)
-        .then(({data})=>{
-        const sumScore = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+(score*num), 0);
-        const totalRatingNum = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+num, 0);
-        setScore((sumScore/totalRatingNum).toFixed(2));
-      })
       
   }, [id, token]);
 
