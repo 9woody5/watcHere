@@ -23,7 +23,6 @@ function ReviewInfo({contentType, id, token}) {
     Fetchers.callGetMyReviewAPI(contentType, id, token)
       .then(({data})=>{
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
-        console.log(reformattedMyReviews);
         setmyReviews(reformattedMyReviews);
       })
 
@@ -42,8 +41,8 @@ function ReviewInfo({contentType, id, token}) {
 
   /* 리뷰 작성 관련 */
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [userScore, setUserScore] = useState(null);
-  const [userReview, setUserReview] = useState(null);
+  const [userScore, setUserScore] = useState(null); // userNewScore
+  const [userReview, setUserReview] = useState(null);  // userNewReview
 
   // 각 해당 컴포넌트에서 score와 review를 설정하도록 한다.
   const handleUserScore = (userScore) => {
@@ -54,7 +53,8 @@ function ReviewInfo({contentType, id, token}) {
   }
 
   const openModal = () => {
-    if (userReview){
+    console.log(myReviews)
+    if (myReviews.length!==0){
       alert('이미 리뷰가 존재합니다. 리뷰는 컨텐츠 당 하나만 작성가능합니다.\n나의 리뷰에서 리뷰를 수정해보세요! 😲');
     }
     else{
@@ -76,8 +76,7 @@ function ReviewInfo({contentType, id, token}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
-      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token)
-        .then((res)=>{console.log(res)});
+      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token);
       closeModal();
       window.location.reload(true);
     }
@@ -110,13 +109,13 @@ function ReviewInfo({contentType, id, token}) {
 
       <div className='relative mb-3 overflow-x-auto h-80' id='reviews-box'>
         {/* {loading&&(<div className="absolute loading loading-spinner loading-md "></div>)}  */}
-        {reviews?
+        {reviews.length!=0?
           (<table className="table table-pin-rows">
             <tbody>
-              {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
+              {reviews.map((review,idx)=>(<tr key={`review-${idx}`}><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
             </tbody>
           </table>):
-          (<div>해당 컨텐츠는 리뷰가 존재하지 않습니다</div>)
+          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 <br/><br/>첫 리뷰작성자가 되어주세요!🥳</div>)
         }
         {/* <table className="table table-pin-rows">
           <tbody>

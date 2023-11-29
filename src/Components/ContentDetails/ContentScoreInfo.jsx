@@ -55,13 +55,14 @@ function ContentScoreInfo({id}) {
     setScoreRankingIndexs(makeScoreRankingIndexs(contentScoreInfo['scoreNum']));
   }, [contentScoreInfo])
 
+  console.log(contentScoreInfo.meanScore);
   return (
     <div className='w-full my-14 text-white'>
       <div className='flex bg-white/10 rounded-xl p-5 justify-center items-center' id='scoreInfo-background'>
         <div className='w-2/5 flex-col '>
           <div className='mb-3 flex justify-center'>
             <AiFillStar className='text-5xl'/>
-            <div className='align-middle text-center text-4xl'>{contentScoreInfo.meanScore}</div>
+            <div className='align-middle text-center text-4xl'>{contentScoreInfo.meanScore? 0: contentScoreInfo.totalScoreNum}</div>
           </div>
           <div className='text-center'>(총 리뷰 수: {contentScoreInfo.totalScoreNum})</div>
         </div>
@@ -69,7 +70,7 @@ function ContentScoreInfo({id}) {
         <div className='w-3/5 p-3 flex flex-col border-white border-solid border-l-2 items-center' id='star-stat'>
           {new Array(5).fill('').map((x, index)=>{
             return (
-              <div className='w-full flex items-center by-1 h-7 grow'>
+              <div key={`star-${index}`} className='w-full flex items-center by-1 h-7 grow'>
                 <div className='w-10 text-center'>{5-index}점</div>
                 <div className={scoreRanking2tailWindClassName[scoreRankingIndexs[index]]}></div>
                 <div className='w-10 text-center'>({contentScoreInfo['scoreNum'][index+1]})</div>

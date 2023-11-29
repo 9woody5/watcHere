@@ -31,7 +31,6 @@ export function reformatContentScoreData(scores){
 export function reformatReviewData(reviews){
   return reviews.map(({author, id, detail, rating})=>{
     const {nickname, updated_at, profile_image} = author;
-    console.log('author:', nickname)
     return {'userImg': profile_image,'userName': nickname,
             'reviewId': id,
             'text': detail,

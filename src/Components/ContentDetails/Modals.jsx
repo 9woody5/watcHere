@@ -1,6 +1,7 @@
 import Modal from 'react-modal';
 import React, {useRef, useState} from 'react';
 import YouTube from 'react-youtube';
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 import StarRating from './StarRating';
 
@@ -175,7 +176,7 @@ const TrailerVideoModal = ({ isOpen, onRequestClose, youtubeId }) => {
       autoplay: 1,
     },
   };
-  console.log('youtubeId:', youtubeId)
+  
   return (
     <Modal
       isOpen={isOpen}
@@ -184,7 +185,7 @@ const TrailerVideoModal = ({ isOpen, onRequestClose, youtubeId }) => {
       ariaHideApp={false}
       style={trailerVideoModalStyles}
     >
-      <button className='text-white ml-auto' onClick={onRequestClose}>X</button>
+      <button className='text-white ml-auto' onClick={onRequestClose}><IoIosCloseCircleOutline className=' text-white text-3xl'/></button>
       <YouTube className='flex justify-center' videoId={youtubeId} opts={opts} />
     </Modal>
   );

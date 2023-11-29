@@ -49,10 +49,10 @@ function ContentBasicInfo(props) {
         </div>
         <table className='table-fixed border-separate border-spacing-y-4 border-spacing-x-2 '>
           <tbody className=''>
-            <tr className='text-left'><th>평점</th><td><AiFillStar className='inline-block text-xl '/>{score}</td></tr>
+            <tr className='text-left'><th>박스오피스 평점 </th><td><AiFillStar className='inline-block text-xl '/>{score}</td></tr>
             {date? (<tr className='text-left'><th>개봉일자</th><td>{date}</td></tr>): (<></>)}
             <tr className='text-left'><th>장르</th><td>{genres.join(', ')}</td></tr>
-            {learningTime? (<tr className='text-left'><th>러닝타임</th><td>{learningTime}</td></tr>):<></>}
+            {learningTime? (<tr className='text-left'><th>러닝타임</th><td>{learningTime}분</td></tr>):<></>}
           </tbody>
         </table>
         {/* border로 선을만들때, border-style을 꼭 지정해주어야함. 아래는 solid로 설정 */}
