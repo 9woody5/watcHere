@@ -1,11 +1,9 @@
-// import mockData from "../../resources/mockData.json";
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetData } from "../../Network/Connect";
 import Connect from "../../Network/Connect.json";
-import { LuChevronDown } from "react-icons/lu";
 import { useQuery } from "@tanstack/react-query";
-import SkeletonLoader from "./SkeletonLoader";
+import SkeletonLoader from "./ResultSkeletonUI";
 
 const ResultByCategories = () => {
   // 기본 이미지 URL
@@ -34,8 +32,9 @@ const ResultByCategories = () => {
   // 검색 결과 데이터 연결 함수
   const fetchResultData = async () => {
     try {
-      const maxPage = 3; // 최대 4페이지까지만 가져옴
-      let query = searchQuery;
+      // 데이터 가져오는 최대 페이지 수
+      const maxPage = 5;
+      const query = new URLSearchParams(location.search).get("query");
       let allDataTV = [];
       let allDataMovie = [];
 
@@ -100,9 +99,9 @@ const ResultByCategories = () => {
 
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
-  const category = ["영화", "드라마", "예능", "애니메이션"];
-  const dataCate = ["movie", "drama", "tvshow", "anime"];
-  const [showAllStates, setShowAllStates] = useState(dataCate.map(() => false));
+  const category = ["영화", "드라마", "애니메이션"];
+  const dataCate = ["movie", "drama", "anime"];
+  const itemsPerPage = 6;
 
   // react-query로 데이터 연결 및 관리
   const { data: searchResults = { dataTV: [], dataMovie: [], dataAnime: [] }, isLoading } = useQuery({
@@ -134,10 +133,27 @@ const ResultByCategories = () => {
     })
     .filter((category) => category.data.length !== 0);
 
-  const handleShowAllToggle = (index) => {
-    const newShowAllStates = [...showAllStates];
-    newShowAllStates[index] = !newShowAllStates[index];
-    setShowAllStates(newShowAllStates);
+  const [currentPages, setCurrentPages] = useState({
+    movie: 1,
+    drama: 1,
+    anime: 1,
+  });
+
+  useEffect(() => {
+    setCurrentPages({
+      movie: 1,
+      drama: 1,
+      anime: 1,
+    });
+  }, [searchQuery]);
+
+  const paginationRange = 10;
+
+  const paginate = (data, category) => {
+    const currentPage = currentPages[category] || 1;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex);
   };
 
   return (
@@ -151,7 +167,7 @@ const ResultByCategories = () => {
         categoriesWithcontent.map(({ title, data }, index) => {
           // 마지막 섹션일 땐 hr태그 제거
           const isLastSection = index === categoriesWithcontent.length - 1;
-          const displayedData = showAllStates[index] ? data : data.slice(0, 6);
+          const displayedData = paginate(data, dataCate[index]);
 
           return (
             <section key={index} className="result_wrap mt-14 font-pretendard">
@@ -160,21 +176,6 @@ const ResultByCategories = () => {
                   <h3 className="text-xl font-bold text-left text-white ml-6 mr-1">{title}</h3>
                   <span className="text-white">({data.length})건</span>
                 </div>
-                <button
-                  onClick={() => handleShowAllToggle(index)}
-                  className={`text-white px-3 py-1 bg-zinc-700 rounded-lg "hover:bg-zinc-900 transition duration-150 ease-in-out  ${
-                    data.length < 7 ? "hidden" : ""
-                  }`}
-                >
-                  <LuChevronDown
-                    size={20}
-                    color="white"
-                    style={{
-                      transform: `rotate(${showAllStates[index] ? -180 : 0}deg)`,
-                      transition: "transform 0.3s ease-in-out",
-                    }}
-                  />
-                </button>
               </div>
               <ul className="mt-4 flex flex-wrap">
                 {displayedData.map((content, contentIndex) => (
@@ -213,6 +214,72 @@ const ResultByCategories = () => {
                   </li>
                 ))}
               </ul>
+              {/* pagination */}
+              {Math.ceil(data?.length / itemsPerPage) > 1 && (
+                <nav aria-label="pagination">
+                  <ul className="flex items-center justify-center h-10 text-base gap-1 mt-6">
+                    {currentPages[dataCate[index]] > paginationRange && (
+                      <li>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPages({
+                              ...currentPages,
+                              [dataCate[index]]: currentPages[dataCate[index]] - 10,
+                            });
+                          }}
+                          className="flex items-center justify-center w-8 h-10 rounded-xl text-white hover:text-emerald-500 hover:font-pretendardBold"
+                        >
+                          이전
+                        </button>
+                      </li>
+                    )}
+
+                    {[...Array(Math.min(paginationRange, Math.ceil(data?.length / itemsPerPage)))].map(
+                      (_, pageIndex) => {
+                        const actualPage =
+                          Math.floor(currentPages[dataCate[index]] / paginationRange) * paginationRange + pageIndex + 1;
+                        return (
+                          <li key={pageIndex}>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCurrentPages({
+                                  ...currentPages,
+                                  [dataCate[index]]: actualPage,
+                                });
+                              }}
+                              className={`flex items-center justify-center w-8 h-10 rounded-xl ${
+                                currentPages[dataCate[index]] === actualPage
+                                  ? "border-emerald-600 border-2 text-emerald-600 font-pretendardBold"
+                                  : "hover:bg-zinc-200 hover:bg-opacity-20  text-white"
+                              }`}
+                            >
+                              {actualPage}
+                            </button>
+                          </li>
+                        );
+                      }
+                    )}
+                    {currentPages[dataCate[index]] < Math.ceil(data?.length / itemsPerPage) && (
+                      <li>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPages({
+                              ...currentPages,
+                              [dataCate[index]]: currentPages[dataCate[index]] + paginationRange,
+                            });
+                          }}
+                          className="flex items-center justify-center w-8 h-10 rounded-xl text-white hover:text-emerald-500 hover:font-pretendardBold"
+                        >
+                          다음
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </nav>
+              )}
               {!isLastSection && <hr className="opacity-30 mt-4" />}
             </section>
           );
