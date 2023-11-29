@@ -25,7 +25,7 @@ function ContentBasicInfo(props) {
 
       <div className='w-2/5 b-3 flex flex-col  items-center'>
         <div className=''>
-          <img className='m-5 object-cover' style={{ height: '580px' }} src={img}/>
+          <img className='object-cover' style={{ height: '580px' }} src={img}/>
         </div>
         <button className='w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none' 
         disabled={videoId?false:true} onClick={openModal}>{videoId?'예고편':'예고편 없음'}</button>

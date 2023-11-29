@@ -184,7 +184,7 @@ const TrailerVideoModal = ({ isOpen, onRequestClose, youtubeId }) => {
       ariaHideApp={false}
       style={trailerVideoModalStyles}
     >
-      <button className='text-white' onClick={onRequestClose}>창닫기</button>
+      <button className='text-white ml-auto' onClick={onRequestClose}>X</button>
       <YouTube className='flex justify-center' videoId={youtubeId} opts={opts} />
     </Modal>
   );

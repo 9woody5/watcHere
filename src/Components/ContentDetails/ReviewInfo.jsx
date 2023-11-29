@@ -5,7 +5,7 @@ import * as Fetchers from './Fetchers';
 import * as contentReformatData from './refomatData';
 import Review from './Review';
 
-function ReviewInfo({id, token}) {
+function ReviewInfo({contentType, id, token}) {
   /* 리뷰 데이터 관련 */
   const [reviews, setReviews] = useState([]);
   const [myReviews, setmyReviews] = useState([]);
@@ -20,7 +20,7 @@ function ReviewInfo({id, token}) {
   // take related data
   useEffect(()=>{
     setLoading(true);
-    Fetchers.callGetMyReviewAPI(id, token)
+    Fetchers.callGetMyReviewAPI(contentType, id, token)
       .then(({data})=>{
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
         console.log(reformattedMyReviews);
@@ -28,7 +28,7 @@ function ReviewInfo({id, token}) {
       })
 
     if (reviewFilter !== 'my-review'){
-      Fetchers.callGetReviewsContentAPI(id, page, reviewFilter)
+      Fetchers.callGetReviewsContentAPI(contentType, id, page, reviewFilter)
         .then(({data})=>{
           const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
@@ -76,7 +76,7 @@ function ReviewInfo({id, token}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
-      Fetchers.callPostReviewsAPI(id, userReview, userScore, token)
+      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token)
         .then((res)=>{console.log(res)});
       closeModal();
       window.location.reload(true);
@@ -110,11 +110,19 @@ function ReviewInfo({id, token}) {
 
       <div className='relative mb-3 overflow-x-auto h-80' id='reviews-box'>
         {/* {loading&&(<div className="absolute loading loading-spinner loading-md "></div>)}  */}
-        <table className="table table-pin-rows">
+        {reviews?
+          (<table className="table table-pin-rows">
+            <tbody>
+              {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
+            </tbody>
+          </table>):
+          (<div>해당 컨텐츠는 리뷰가 존재하지 않습니다</div>)
+        }
+        {/* <table className="table table-pin-rows">
           <tbody>
             {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} id={id} review={review} token={token} /></td></tr>))}
           </tbody>
-        </table>
+        </table> */}
       </div>
 
     </div>

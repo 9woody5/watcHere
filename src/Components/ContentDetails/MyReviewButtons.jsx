@@ -3,7 +3,7 @@ import {ReviewInputModal as ModificationModal, DeletionModal} from './Modals';
 import * as Fetchers from './Fetchers';
 
 
-function MyReviewButtons({id, review, token}){
+function MyReviewButtons({contentType, id, review, token}){
   const {reviewId, text, score} = review
 
   const [userScore, setUserScore] = useState(review.score);
@@ -36,7 +36,7 @@ function MyReviewButtons({id, review, token}){
     }
     else{
       alert('리뷰수정 완료하였습니다! 😁');
-      Fetchers.callPutReviewsAPI(userReview, userScore, id, reviewId, token);
+      Fetchers.callPutReviewsAPI(contentType, userReview, userScore, id, reviewId, token);
       closeModificationModal();
       window.location.reload(true);
     }
