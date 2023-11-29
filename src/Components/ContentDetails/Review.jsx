@@ -32,7 +32,7 @@ function Review({contentType, review, id, token}) {
         </div>
         {review.isMine?
           <MyReviewButtons id={id}  review={review} token={token} contentType={contentType} /> :
-          <ReviewButtons id={id}/>
+          <ReviewButtons reviewId={review.reviewId} token={token}/>
         }
       </div>
     </div>

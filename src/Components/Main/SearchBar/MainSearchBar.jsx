@@ -5,7 +5,6 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
 import Connect from "../../../Network/Connect.json";
 import { GetData } from "../../../Network/Connect";
-import { useDebounce } from "use-debounce";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -54,8 +53,20 @@ const MainSearchBar = ({ style }) => {
   const [autoCompleteValue, setAutocompleteValue] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
-  const [debouncedSearchValue] = useDebounce(searchValue, 500);
   const navigate = useNavigate();
+
+  // 검색 요청 디바운스 적용
+  const [debouncedSearchValue, setDebounceSearchValue] = useState("");
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceSearchValue(searchValue);
+    }, 200);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchValue]);
 
   // 검색 값으로 데이터 조회
   const fetchSearchData = async () => {

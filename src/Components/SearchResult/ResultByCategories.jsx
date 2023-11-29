@@ -104,7 +104,11 @@ const ResultByCategories = () => {
   const itemsPerPage = 6;
 
   // react-query로 데이터 연결 및 관리
-  const { data: searchResults = { dataTV: [], dataMovie: [], dataAnime: [] }, isLoading } = useQuery({
+  const {
+    data: searchResults = { dataTV: [], dataMovie: [], dataAnime: [] },
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["search-result-by-categories", searchQuery],
     queryFn: fetchResultData,
     staleTime: 60000,
@@ -163,7 +167,7 @@ const ResultByCategories = () => {
         <>
           <SkeletonLoader />
         </>
-      ) : (
+      ) : isError ? null : (
         categoriesWithcontent.map(({ title, data }, index) => {
           // 마지막 섹션일 땐 hr태그 제거
           const isLastSection = index === categoriesWithcontent.length - 1;
@@ -181,7 +185,7 @@ const ResultByCategories = () => {
                 {displayedData.map((content, contentIndex) => (
                   <li
                     key={contentIndex}
-                    className=" flex items-center mb-2 w-1/3 hover:bg-zinc-900 p-3 rounded-lg transition duration-150 ease-in-out"
+                    className=" flex items-center mb-2 w-1/3 md:w-full lg:w-1/2 hover:bg-zinc-900 p-3 rounded-lg transition duration-150 ease-in-out"
                   >
                     <Link to={`/${content.type}/${content.id}`} className="w-full content_item">
                       <div className="flex items-start h-full w-full">
