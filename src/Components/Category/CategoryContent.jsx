@@ -26,10 +26,10 @@ export default function ContentCategory() {
 
   const getCategoryData = useCallback(
     async (sorting, ott) => {
-      const min = 1;
-      const max = 20;
-      const randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
-      let page = randomValue;
+      // const min = 1;
+      // const max = 20;
+      // const randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+      let page = 1;
       let sort = sorting || "POPULARITY_DESC";
       let provider = ott || "NETFLIX";
       let type = "";
@@ -46,7 +46,6 @@ export default function ContentCategory() {
           break;
         case "/animation":
           type = "TV";
-          anime = true;
           break;
         default:
           type = "MOVIE";
@@ -66,6 +65,66 @@ export default function ContentCategory() {
     },
     [location.pathname]
   );
+
+  const getWatchHereData = useCallback(async () => {
+    let page = 1;
+    let size = 10;
+    let type = "";
+    let queryString = `?page=${page}&size=${size}`;
+    let response;
+
+    // api 별로 주소 가 다른 문제
+    // 드라마와 애니메이션이 api 가 없기 때문에 임시적으로 다른 데이터를 끼워넣음
+    switch (location.pathname) {
+      case "/movie":
+        type = "movieClickList";
+        response = await GetData(
+          Connect["mainUrl"] + Connect[type] + queryString
+        );
+        if (response !== null) {
+          setCategoryList(response.data.content);
+        } else {
+          setCategoryList(dummyMovieList.movie_list_info);
+        }
+        break;
+      case "/drama":
+        response = await getCategoryData("VOTE_AVERAGE_DESC", selectOtt.name);
+        if (response !== null) {
+          setCategoryList(response);
+        } else {
+          setCategoryList(dummyMovieList.movie_list_info);
+        }
+        break;
+      case "/tv":
+        type = "tvClickList";
+        response = await GetData(
+          Connect["mainUrl"] + Connect[type] + queryString
+        );
+        if (response !== null) {
+          setCategoryList(response.data.content);
+        } else {
+          setCategoryList(dummyMovieList.movie_list_info);
+        }
+        break;
+      case "/animation":
+        response = await getCategoryData("VOTE_AVERAGE_DESC", selectOtt.name);
+        if (response !== null) {
+          setCategoryList(response);
+        } else {
+          setCategoryList(dummyMovieList.movie_list_info);
+        }
+        break;
+      default:
+        break;
+    }
+
+    // // 서버에서 데이터를 못받아왔을때 준비된 더미데이터 사용
+    // if (response !== null) {
+    //   setCategoryList(response.data.content);
+    // } else {
+    //   setCategoryList(dummyMovieList.movie_list_info);
+    // }
+  }, [location.pathname, getCategoryData, selectOtt]);
 
   const handleSelectOtt = async (id) => {
     //여기서 Ott 값을 바꿔 페이지 참조값을 갱신
@@ -87,17 +146,9 @@ export default function ContentCategory() {
     );
   }, [getCategoryData, selectOtt]);
 
-  /**
-   * 추후 useEffect 에서 페이지 로딩시 데이터를 가져오는 역활
-   * 각 ott 사이트의 데이터가 변경되어도 watchHere 의 추천리스트는 바뀌지 않아야해서 별도로 뺌
-   */
-  const pageInitData = useCallback(async () => {
-    setCategoryList(await getCategoryData());
-  }, [getCategoryData]);
-
   useEffect(() => {
-    pageInitData();
-  }, [pageInitData]);
+    getWatchHereData();
+  }, [getWatchHereData]);
 
   useEffect(() => {
     getOttData();
@@ -118,7 +169,7 @@ export default function ContentCategory() {
         <div className="mt-10 w-full flex flex-wrap items-center justify-around">
           {ottList.ott_list.map((element, idx) => (
             <button
-              className={`my-4 border-2 w-40 h-12 rounded-3xl text-xl font-bold border-[#40AD80] ${
+              className={`my-4 border-2 w-80 h-12 rounded-3xl text-xl font-bold border-[#40AD80] ${
                 element.id === selectOtt.id && "bg-[#40AD80] text-white"
               }`}
               key={idx}
