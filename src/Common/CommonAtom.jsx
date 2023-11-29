@@ -23,6 +23,12 @@ export const userInfoState = atom({
   },
 });
 
+// 유저가 좋아하는 컨텐츠 전역으로 관리하기 위한 정의
+export const userFavoriteContentState = atom({
+  key: "userFavoriteContentState",
+  default: {}, // 초기 상태를 빈 객체로 설정
+});
+
 export const footerEnabledRecoil = atom({
   key: "footerEnabledRecoil",
   default: true,

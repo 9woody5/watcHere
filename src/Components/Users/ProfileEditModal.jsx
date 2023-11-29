@@ -1,14 +1,18 @@
 import { useState, useRef } from "react";
 import Modal from "react-modal";
 import { useRecoilState } from "recoil";
-import { userInfoState } from "../../Common/CommonAtom";
+import {
+  userInfoState,
+  userFavoriteContentState,
+} from "../../Common/CommonAtom";
+import ContentsSearchSelect from "./ContentsSearchSelect";
 import { IoIosArrowForward } from "react-icons/io";
+import { AiFillPlayCircle } from "react-icons/ai";
 
 const customStyles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)", // 오버레이 배경색
     zIndex: 1000, // z-index
-    // 기타 오버레이 스타일
   },
   content: {
     top: "50%",
@@ -27,10 +31,73 @@ const customStyles = {
   },
 };
 
+const getBackgroundImage = (type) => {
+  switch (type) {
+    case "NETFLIX":
+      return "../src/assets/img/logo/logo_netflix.png";
+    case "WATCHA":
+      return "../src/assets/img/logo/logo_watcha_rd.png";
+    case "WAVVE":
+      return "../src/assets/img/logo/logo_wavve.png";
+    case "DISNEY_PLUS":
+      return "../src/assets/img/logo/logo_disney_plus.png";
+    case "PARAMOUNT_PLUS":
+      return "../src/assets/img/logo/logo_Paramount_Plus.png";
+    default:
+      return "";
+  }
+};
+
+const DropdownItem = ({ serviceName, children, onClick }) => {
+  const buttonStyle = {
+    backgroundPosition: "16.0485px 50%",
+    backgroundRepeat: "no-repeat",
+    width: "19.2582px",
+    height: "19.2582px",
+    borderRadius: "100%",
+    objectFit: "cover", // React에서는 'object-fit' 대신 'objectFit'을 사용
+  };
+
+  return (
+    <li onClick={() => onClick(serviceName)}>
+      <div className="flex justify-start">
+        <img
+          src={getBackgroundImage(serviceName)}
+          alt={serviceName}
+          style={buttonStyle}
+        />
+        <p>{children}</p>
+      </div>
+    </li>
+  );
+};
+
 const ProfileEditModal = ({ isOpen, onRequestClose }) => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [favoriteContent, setFavoriteContent] = useRecoilState(
+    userFavoriteContentState
+  );
   const [nickname, setNickname] = useState(userInfo.nickname);
   const [profileImage, setProfileImage] = useState(userInfo.profile_image);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedServiceName, setSelectedServiceName] = useState("");
+  const [selectedContent, setSelectedContent] = useState({}); // 선택된 컨텐츠 상태 추가
+
+  // 드롭다운 토글 함수
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  // 드롭다운 아이템 클릭 핸들러
+  const handleDropdownItemClick = (serviceName) => {
+    setSelectedServiceName(serviceName);
+    setDropdownOpen(false); // 드롭다운 닫기
+  };
+
+  // 컨텐츠 선택 핸들러
+  const handleContentSelect = (selectedContentId, selectedTitle) => {
+    setSelectedContent({ id: selectedContentId, title: selectedTitle });
+  };
 
   const handleSave = async () => {
     const token = localStorage.getItem("token");
@@ -38,6 +105,14 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     formData.append("nickname", nickname);
     if (fileInputRef.current.files[0]) {
       formData.append("profile_image", fileInputRef.current.files[0]);
+
+      // Recoil 상태 업데이트
+      setFavoriteContent({
+        ...selectedContent,
+        serviceName: selectedServiceName,
+      });
+
+      onRequestClose();
     }
 
     try {
@@ -62,6 +137,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     } catch (error) {
       console.error("오류 발생: ", error);
     }
+
     onRequestClose();
   };
 
@@ -106,7 +182,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       <div className="user-wrap01">
         <div className="flex justify-center items-center ">
           <img
-            src={userInfo.profile_image}
+            src={profileImage}
             alt="사용자 이미지"
             className="rounded-full w-[150px] h-[150px]"
           />
@@ -132,10 +208,69 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
           id="name-change"
           type="text"
           placeholder="1자~10자까지 가능합니다. (띄어쓰기 포함)"
-          className="input-style01 w-[300px] h-[54px] text-lg text-gray-400 m-5 p-0 px-5 bg-[#2e2e2e] border-none rounded-lg align-middle"
+          className="input-style01 w-[300px] h-[54px] text-sm text-gray-400 mx-5 p-0 px-5 bg-[#2e2e2e] border-none rounded-lg align-middle"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
         />
+      </div>
+
+      <div className="flex justify-center items-center mx-auto py-2.5 px-0 text-gray-400 ">
+        <div className="dropdown dropdown-start profile-setting">
+          <label htmlFor="contents-icons" tabIndex={0}>
+            <button onClick={toggleDropdown}>
+              {selectedServiceName ? (
+                <img
+                  src={getBackgroundImage(selectedServiceName)}
+                  alt={`${selectedServiceName}`}
+                  className="rounded-full w-[50px] h-[50px] object-cover"
+                />
+              ) : (
+                <AiFillPlayCircle size={45} />
+              )}
+            </button>
+          </label>
+          {dropdownOpen && (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40 text-black"
+            >
+              <DropdownItem
+                serviceName="NETFLIX"
+                onClick={handleDropdownItemClick}
+              >
+                NETFLIX
+              </DropdownItem>
+              <DropdownItem
+                serviceName="WATCHA"
+                onClick={handleDropdownItemClick}
+              >
+                WATCHA
+              </DropdownItem>
+              <DropdownItem
+                serviceName="WAVVE"
+                onClick={handleDropdownItemClick}
+              >
+                WAVVE
+              </DropdownItem>
+              <DropdownItem
+                serviceName="DISNEY_PLUS"
+                onClick={handleDropdownItemClick}
+              >
+                DISNEY PLUS
+              </DropdownItem>
+              <DropdownItem
+                serviceName="PARAMOUNT_PLUS"
+                onClick={handleDropdownItemClick}
+              >
+                PARAMOUNT PLUS
+              </DropdownItem>
+            </ul>
+          )}
+        </div>
+
+        <div className="relative flex justify-center items-center mx-auto py-2.5 px-0 text-gray-400 ">
+          <ContentsSearchSelect onContentSelect={handleContentSelect} />
+        </div>
       </div>
       <ul className="flex justify-between items-center">
         <div className="w-[200px] h-[52px] text-base leading-[50px] text-white border-none bg-[#5e5e5e] rounded-xl mr-2">

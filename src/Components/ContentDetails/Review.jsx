@@ -3,7 +3,7 @@ import { AiFillStar } from 'react-icons/ai';
 import ReviewButtons from './ReviewButtons';
 import MyReviewButtons from './MyReviewButtons';
 
-function Review({review, id, token}) {
+function Review({contentType, review, id, token}) {
   const convertString2Number = (scoreString) => {
     try{
       return parseInt(scoreString);
@@ -31,7 +31,7 @@ function Review({review, id, token}) {
           
         </div>
         {review.isMine?
-          <MyReviewButtons id={id}  review={review} token={token} /> :
+          <MyReviewButtons id={id}  review={review} token={token} contentType={contentType} /> :
           <ReviewButtons id={id}/>
         }
       </div>

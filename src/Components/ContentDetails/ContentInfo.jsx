@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import * as contentFakeData from './createFakerData';
+// import * as contentFakeData from './createFakerData';
+import * as contentReformatData from './refomatData';
 import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 import * as Fetchers from './Fetchers'; 
@@ -36,14 +37,14 @@ function ContentInfo({id, token, contentType='movie'}) {
         setGenres(data.genres.map(x=>x.name));
         setNation('korea'); // 설정필요
         setLearningTime(data.runtime);
-        setVideoId(contentFakeData.reformatVideos(data.videos))
+        setVideoId(contentReformatData.reformatVideos(data.videos))
 
         //영화 감독 셋팅
-        const reformattedDirector = contentFakeData.reformatContentDirector(data.director_name, data.director_profile_path);
+        const reformattedDirector = contentReformatData.reformatContentDirector(data.director_name, data.director_profile_path);
         setDirector(reformattedDirector);
 
         //출연진 셋팅
-        const reformattedActors = contentFakeData.reformatContentActors(data.actors);
+        const reformattedActors = contentReformatData.reformatContentActors(data.actors);
         setActors(reformattedActors);
       });
     

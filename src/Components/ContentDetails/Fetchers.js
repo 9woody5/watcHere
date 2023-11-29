@@ -12,14 +12,16 @@ export const callGetContentAPI = (contentType, id) => {
 /* review-controller */
 
 // 컨텐츠 리뷰목록 조회
-export const callGetReviewsContentAPI = (reviewId, page, sortBy, size=10) => {
-  return axios.get(`${hostUrl}/api/v1/reviews/content/${reviewId}?page=${page}&size=${size}&sortBy=${sortBy}`);
+export const callGetReviewsContentAPI = (contentType, id, page, sortBy, size=10) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
+  return axios.get(`${hostUrl}/api/v1/reviews/content/${id}?contentType=${contentType}&page=${page}&size=${size}&sortBy=${sortBy}`);
 }
 
 // 리뷰 작성 : jwt 필요
-export const callPostReviewsAPI = (content_id, detail, rating, token) => {
+export const callPostReviewsAPI = (contentType, contentId, detail, rating, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
   return axios.post(`${hostUrl}/api/v1/reviews`, 
-    {content_id:parseInt(content_id), detail, rating:parseInt(rating)},
+    {content_id:parseInt(contentId), detail, rating:parseInt(rating), content_type:contentType},
     {headers: {
       Authorization: `Bearer ${token}`}
     }
@@ -41,17 +43,19 @@ export const callGetReviewsRatingsAPI = (contentId) => {
 }
 
 // 컨텐츠별 마이 리뷰 조회
-export const callGetMyReviewAPI = (contentId, token) => {
-  return axios.get(`${hostUrl}/api/v1/reviews/my-review/${contentId}?`,
+export const callGetMyReviewAPI = (contentType, contentId, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
+  return axios.get(`${hostUrl}/api/v1/reviews/my-review/${contentId}?contentType=${contentType}`,
   {headers: {
     Authorization: `Bearer ${token}`}
   });
 }
 
 // 리뷰 수정
-export const callPutReviewsAPI = (detail, rating, content_id, reviewId, token) => {
+export const callPutReviewsAPI = (contentType, detail, rating, contentId, reviewId, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
   return axios.put(`${hostUrl}/api/v1/reviews/${reviewId}`,
-    {content_id:parseInt(content_id), detail, rating:parseInt(rating)},
+    {content_id:parseInt(contentId), detail, rating:parseInt(rating), content_type:contentType},
     {headers: {
       Authorization: `Bearer ${token}`}}
   );
