@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Connect from "../../Network/Connect.json";
 import { GetData } from "../../Network/Connect";
 import { SwiperComponent } from "../Content/SwiperComponent";
+import MainSkeletonUI from "./MainSkeletonUI";
 
 export default function MainContent() {
   // 장르 데이터 가져오기
@@ -63,12 +64,20 @@ export default function MainContent() {
   };
 
   // react-query로 데이터 연결 및 관리
-  const { data: contents } = useQuery({
+  const { data: contents, isLoading } = useQuery({
     queryKey: ["contents-list"],
     queryFn: fetchData,
   });
 
   const autoplayEnabled = true;
 
-  return <>{contents && <SwiperComponent contents={contents.results} autoplayEnabled={autoplayEnabled} />}</>;
+  return (
+    <>
+      {isLoading ? (
+        <MainSkeletonUI />
+      ) : (
+        <>{contents && <SwiperComponent contents={contents.results} autoplayEnabled={autoplayEnabled} />}</>
+      )}
+    </>
+  );
 }

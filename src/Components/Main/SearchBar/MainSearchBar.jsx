@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
@@ -129,7 +129,7 @@ const MainSearchBar = ({ style }) => {
   };
   const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (debouncedSearchValue.length >= 2) {
       const suggestions = titles.filter(
         (title) =>
@@ -210,6 +210,7 @@ const MainSearchBar = ({ style }) => {
     [recentSearches]
   );
 
+  const inputRef = useRef(null);
   // 검색 결과 페이지로 이동
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -220,6 +221,7 @@ const MainSearchBar = ({ style }) => {
     // 입력된 쿼리 파라미터에 해당되는 결과 페이지로 이동
     navigate(`/resultPage?query=${encodedSearchValue}`);
     setSearchValue("");
+    inputRef.current.blur();
   };
 
   // 검색 아이콘 동적 스타일링
@@ -254,6 +256,7 @@ const MainSearchBar = ({ style }) => {
               onChange={handleInputChange}
               autoComplete="true"
               onClick={handleSearchBarClick}
+              ref={inputRef}
             />
             <button type="submit" disabled={searchValue === ""}>
               <i
@@ -275,6 +278,7 @@ const MainSearchBar = ({ style }) => {
               handleClearAllRecentSearches={handleClearAllRecentSearches}
               handleRemoveRecentSearch={handleRemoveRecentSearch}
               searchValue={searchValue}
+              setSearchValue={setSearchValue}
             />
           )}
         </div>

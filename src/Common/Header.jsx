@@ -6,24 +6,21 @@ import { userInfoState } from "../Common/CommonAtom";
 import UseAuth from "./UseAuth";
 import Hlogo from "../assets/img/H_logo.svg";
 import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
-import "../styles/header.css";
 
 const Header = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [selectedCate, setSelectedCate] = useState("");
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await fetch(
-            "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           const data = await response.json();
           if (response.ok) {
             setUserInfo({
@@ -63,34 +60,55 @@ const Header = () => {
 
   return (
     <div className="navbar min-w-[540px] px-3 h-20 font-pretendard z-50 border-b-[1px] border-solid border-emerald-500">
-      <div className="w-[100%] flex justify-around items-center">
-        <div className="ml-8 w-[23px] h-full mr-4">
+      <div className="w-[100%] flex justify-evenly items-center">
+        <div className="w-[23px] h-full mr-4">
           <Link to={"/"}>
             <img className="h-[45px]" src={Hlogo} alt="logo" />
           </Link>
         </div>
-        <ul className="text-white text-[16px] flex justify-center gap-4">
-          <li className="w-[80px]">
-            <Link to={"/movie"}>영화</Link>
-          </li>
-          <li className="w-[80px]">
-            <Link to={"/drama"}>드라마</Link>
-          </li>
-          <li className="w-[80px]">
-            <Link to={"/tv"}>예능</Link>
-          </li>
-          <li className="w-[80px]">
-            <Link to={"/animation"}>애니메이션</Link>
-          </li>
+        <ul className="text-white text-[18px] flex justify-center gap-4">
+          <Link to={"/movie"} onClick={() => setSelectedCate("movie")}>
+            <li
+              className={`w-28 py-3 text-center rounded-xl  ${
+                selectedCate === "movie" ? "font-pretendardBold text-emerald-500" : ""
+              }`}
+            >
+              영화
+            </li>
+          </Link>
+          <Link to={"/drama"} onClick={() => setSelectedCate("drama")}>
+            <li
+              className={`w-28 py-3 text-center rounded-xl  ${
+                selectedCate === "drama" ? "font-pretendardBold text-emerald-500" : ""
+              }`}
+            >
+              드라마
+            </li>
+          </Link>
+          <Link to={"/tv"} onClick={() => setSelectedCate("tv")}>
+            <li
+              className={`w-28 py-3 text-center rounded-xl  ${
+                selectedCate === "tv" ? "font-pretendardBold  text-emerald-500" : ""
+              }`}
+            >
+              예능
+            </li>
+          </Link>
+          <Link to={"/animation"} onClick={() => setSelectedCate("anime")}>
+            <li
+              className={`w-28 py-3 text-center rounded-xl  ${
+                selectedCate === "anime" ? "font-pretendardBold  text-emerald-500" : ""
+              }`}
+            >
+              애니메이션
+            </li>
+          </Link>
         </ul>
         <MainSearchBar className="main_search_bar" style={searchCustomStyle} />
         {isLoggedIn ? (
           // 로그인 된 상태
           <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
-            >
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:bg-zinc-700">
               <button className="rounded-full">
                 {userInfo.profile_image ? (
                   <img

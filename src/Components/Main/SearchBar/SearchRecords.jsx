@@ -11,13 +11,16 @@ const SearchRecords = ({
   handleClearAllRecentSearches,
   handleRemoveRecentSearch,
   searchValue,
+  setSearchValue,
 }) => {
   const autoCompleteRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     // esc키 누르면 키보드 이벤트 인덱싱 초기화
+    setSelectedItemIndex(-1);
     const handleKeyDown = (e) => {
+      e.stopPropagation();
       if (e.key === "Escape") {
         setSelectedItemIndex(-1);
       }
@@ -48,7 +51,7 @@ const SearchRecords = ({
     handleSearchInteraction(suggestions, index);
     const encodedSearchValue = encodeURIComponent(suggestions);
     navigate(`/resultPage?query=${encodedSearchValue}`);
-    // navigate(`/contentDetail?query=${encodedSearchValue}`);
+    setSearchValue("");
   };
 
   // 중복된 컨텐츠 제거 => 중복된 key값 제거 후, 새로운 배열 생성
@@ -107,7 +110,7 @@ const SearchRecords = ({
         <span className="w-20 h-6 my-1 flex justify-center items-center rounded-full text-sm font-pretendardBold text-white bg-emerald-700 ">
           연관 콘텐츠
         </span>
-        <ul className="h-auto max-h-[180px] overflow-y-scroll" ref={autoCompleteRef} tabIndex={-1}>
+        <ul className="h-auto max-h-[180px] overflow-y-scroll" ref={autoCompleteRef} tabIndex={0}>
           {uniqueAutoCompleteValue.map((suggestion, index) => (
             <li
               className={`px-1 py-1 my-2 text-md flex cursor-pointer rounded-md ${

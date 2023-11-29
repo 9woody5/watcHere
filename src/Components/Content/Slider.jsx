@@ -8,8 +8,10 @@ const Slider = ({ content }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setContentList(content);
-        setIsLoading(false);
+        setTimeout(() => {
+          setContentList(content);
+          setIsLoading(false);
+        }, 500);
       } catch (error) {
         console.error("에러 발생", error);
         setIsLoading(false);
@@ -25,19 +27,7 @@ const Slider = ({ content }) => {
       onMouseOver={() => !isLoading && setIsHovered(true)}
       onMouseLeave={() => !isLoading && setIsHovered(false)}
     >
-      {isLoading ? (
-        <div
-          role="status"
-          className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
-        >
-          <div
-            className="flex items-center justify-center w-full bg-zinc-500 rounded sm:w-96 dark:bg-gray-700"
-            style={{ height: "calc(100vh - 50vh)" }}
-          ></div>
-        </div>
-      ) : (
-        <img src={content.poster_path} alt={content.title} loading="lazy" />
-      )}
+      <img src={content.poster_path} alt={content.title} loading="lazy" />
 
       {isHovered && (
         <div
