@@ -46,11 +46,6 @@ const UsersProfile = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const updateUserInfo = (newUserInfo) => {
-    setUserInfo(newUserInfo);
-    // API 호출 등으로 서버에 정보 업데이트
-  };
-
   return (
     <div className=" relative flex items-center justify-between border-solid border-2 border-custom-light-gray rounded-sm bg-custom-middle-gray w-[60%] h-[250px] ">
       <div className="user-profile w-[25%] ">
@@ -59,27 +54,16 @@ const UsersProfile = () => {
             <img
               src={userInfo.profile_image}
               alt="User Profile"
-              className="absolute translate-x-[50%] translate-y-[-25%] rounded-full"
-              style={{ width: "8vw", height: "8vw" }}
+              className="absolute translate-x-[70%] translate-y-[-8%] rounded-full"
+              style={{ width: "10vw", height: "10vw" }}
             />
           ) : (
             <BiSolidUserCircle
-              size="8vw"
+              size="10vw"
               color="9bb0a5"
-              className="absolute translate-x-[50%] translate-y-[-25%]"
+              className="absolute translate-x-[70%] translate-y-[-8%]"
             />
           )}
-
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="btn btn-ghost avatar hover:bg-zinc-700"
-            style={{
-              position: "absolute",
-              transform: "translate(60%, 150%)",
-            }}
-          >
-            프로필 편집
-          </button>
 
           <ProfileEditModal
             isOpen={isModalOpen}
@@ -90,23 +74,25 @@ const UsersProfile = () => {
         </div>
       </div>
 
-      <div className="flex flex-col  flex-grow-3 w-[15%] font-normal text-start text-sm text-white translate-x-[0%] translate-y-[-35%]">
+      <div className="flex flex-col justify-center  w-[15%] font-normal text-center text-sm text-white translate-x-[0%] translate-y-[-15%]">
         <p className="text-base font-bold">닉네임</p>
         <p>{userInfo.nickname}</p>
         <br />
         <p className="text-base font-bold">이메일</p>
         <p>{userInfo.email}</p>
       </div>
-      <div className="favorite-profile w-[40%]">
+
+      <div className="favorite-profile w-[40%] h-[auto]">
         <UserFavoriteContents />
       </div>
+
       <div className="flex items-center justify-end dropdown dropdown-end profile-setting w-[10%]">
         <label
           tabIndex={0}
           className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
           style={{
             position: "absolute",
-            transform: "translate(-50%, -170%)",
+            transform: "translate(-80%, -170%)",
           }}
         >
           <button>
@@ -115,10 +101,10 @@ const UsersProfile = () => {
         </label>
         <ul
           tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28 text-black"
+          className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-28 text-black"
         >
           <li>
-            <button>계정변경</button>
+            <button onClick={() => setIsModalOpen(true)}>프로필 편집</button>
           </li>
           <li>
             <button>회원탈퇴</button>
