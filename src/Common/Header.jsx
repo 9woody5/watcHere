@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../Common/CommonAtom";
@@ -10,7 +10,10 @@ import MainSearchBar from "../Components/Main/SearchBar/MainSearchBar";
 const Header = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [selectedCate, setSelectedCate] = useState("");
+  // 카테고리 path 확인용
+  const location = useLocation();
 
+  // token에서 userinfo 데이터 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem("token");
@@ -42,6 +45,22 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = UseAuth();
   const navigate = useNavigate();
 
+  // pathname에 따른 header 카테고리 상태 업데이트
+  useEffect(() => {
+    const pathname = location.pathname;
+    switch (pathname) {
+      case "/movie":
+      case "/drama":
+      case "/tv":
+      case "/animation":
+        setSelectedCate(pathname.slice(1));
+        break;
+      default:
+        setSelectedCate("");
+    }
+  }, [location.pathname]);
+
+  /////////////////////// 로그인 정보 //////////////////////
   const handleLoginClick = () => {
     navigate("/login");
   };
@@ -59,7 +78,7 @@ const Header = () => {
   };
 
   return (
-    <div className="navbar min-w-[540px] px-3 h-20 font-pretendard z-50 border-b-[1px] border-solid border-emerald-500">
+    <div className="navbar sticky top-0 bg-[#2c2c2c] min-w-[540px] px-3 h-20 font-pretendard z-50 border-b-[1px] border-solid border-emerald-500">
       <div className="w-[100%] flex justify-evenly items-center">
         <div className="w-[23px] h-full mr-4">
           <Link to={"/"}>

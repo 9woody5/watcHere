@@ -1,10 +1,10 @@
 import { SwiperComponent } from "../Content/SwiperComponent";
-// import mockData from "../../resources/mockData.json";
 import { GetData } from "../../Network/Connect";
 import Connect from "../../Network/Connect.json";
-import "./SearchResult.css";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import "./SearchResult.css";
+import noResult from "../../assets/img/no_results.png";
 
 const ResultAll = () => {
   // 기본 이미지 URL
@@ -95,19 +95,19 @@ const ResultAll = () => {
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
             <div
-              className="flex items-center justify-center w-full bg-zinc-500 rounded-lg dark:bg-gray-700"
+              className="flex items-center justify-center w-full sm:hidden bg-zinc-500 rounded-lg dark:bg-gray-700"
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
             <div
-              className="flex items-center justify-center w-full bg-zinc-500 rounded-lg dark:bg-gray-700"
+              className="flex items-center justify-center w-full md:hidden bg-zinc-500 rounded-lg dark:bg-gray-700"
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
             <div
-              className="flex items-center justify-center w-full bg-zinc-500 rounded-lg dark:bg-gray-700"
+              className="flex items-center justify-center w-full md:hidden bg-zinc-500 rounded-lg dark:bg-gray-700"
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
             <div
-              className="flex items-center justify-center w-full bg-zinc-500 rounded-lg dark:bg-gray-700"
+              className="flex items-center justify-center w-full md:hidden bg-zinc-500 rounded-lg dark:bg-gray-700"
               style={{ height: "calc(100vh - 50vh)" }}
             ></div>
           </div>
@@ -121,10 +121,13 @@ const ResultAll = () => {
                 </div>
               </>
             ) : (
-              <>
-                <p>‘{searchQuery}’ 에 해당하는 콘텐츠가 없어요😅</p>
+              <div className="flex flex-col items-center mt-4 md:mt-12">
+                <p className="text-lg font-pretendardBold">‘{searchQuery}’ 에 해당하는 콘텐츠가 없어요😅</p>
                 <p className="mt-2">입력하신 검색어를 다시 확인해 주세요</p>
-              </>
+                <div className="w-[400px]">
+                  <img src={noResult} alt="no-results" />
+                </div>
+              </div>
             )}
           </div>
         ) : (
@@ -136,7 +139,7 @@ const ResultAll = () => {
           )
         )}
       </section>
-      <hr className="opacity-30" />
+      {!isError && searchResults.length > 0 && <hr className="opacity-30" />}
     </>
   );
 };
