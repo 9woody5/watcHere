@@ -17,32 +17,62 @@ import errorImg from "../../assets/img/404.png";
  */
 
 export default function ThumbnailCard({ props }) {
-  const { year, id, title, poster_path } = props;
+  const { year, id, title, name, poster_path, movie_id, tv_show_id } = props;
   const [review, setReview] = useState(0);
-  const [rating, setRating] = useState();
+  // const [rating, setRating] = useState();
   const location = useLocation();
+
   const handleImgError = (e) => {
     e.target.src = errorImg;
   };
   useEffect(() => {
-    async function GetRatings() {
-      const response = await GetData(
-        Connect["mainUrl"] +
-          Connect["contentRatings"].replace("{contentId}", id)
-      );
-      return response;
-    }
+    // async function GetRatings() {
+    //   const response = await GetData(
+    //     Connect["mainUrl"] +
+    //       Connect["contentRatings"].replace(
+    //         "{contentId}",
+    //         id || movie_id || tv_show_id
+    //       )
+    //   );
+    //   return response;
+    // }
     async function GetReview() {
+      let type = "";
+
+      switch (location.pathname) {
+        case "/movie":
+          type = "MOVIE";
+          break;
+        case "/drama":
+          type = "MOVIE";
+          break;
+        case "/tv":
+          type = "TV";
+          break;
+        case "/animation":
+          type = "TV";
+          break;
+        default:
+          break;
+      }
+      let page = 0;
+      let size = 10;
+      let sortBy = "createdAtDesc";
+      let queryString = `?contentType=${type}&page=${page}&size${size}&sortBy=${sortBy}`;
       const response = await GetData(
         Connect["mainUrl"] +
-          Connect["contentReviews"].replace("{contentId}", id)
+          Connect["contentReviews"].replace(
+            "{contentId}",
+            id || movie_id || tv_show_id
+          ) +
+          queryString
       );
       return response;
     }
 
-    setRating(GetRatings());
+    // setRating(GetRatings());
     setReview(GetReview());
-  }, [id]);
+  }, [id, movie_id, tv_show_id, location.pathname]);
   return (
     <div className="w-full">
       <div className="rounded group flex items-center justify-center lg:mx-50 ">
@@ -57,9 +87,9 @@ export default function ThumbnailCard({ props }) {
           <div className="h-full py-4 flex flex-col justify-between">
             <div>
               <div className="text-xl font-bold w-full bg-[#00B9AE] text-black">
-                {title}
+                {title || name}
               </div>
-              <div>
+              {/* <div>
                 <div className="rating rating-lg rating-half">
                   <input
                     type="radio"
@@ -119,7 +149,7 @@ export default function ThumbnailCard({ props }) {
                     className="bg-green-500 mask mask-star-2 mask-half-2"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="">
               <div>
@@ -141,7 +171,12 @@ export default function ThumbnailCard({ props }) {
                   />
                 </div>
                 <div className="flex items-center justify-center rounded-md bg-[#00B9AE] text-black font-bold text-xl w-2/3 h-12">
-                  <Link to={`${location.pathname}/${id}`}> 상세보기 </Link>
+                  <Link
+                    to={`${location.pathname}/${id || movie_id || tv_show_id}`}
+                  >
+                    {" "}
+                    상세보기{" "}
+                  </Link>
                 </div>
               </div>
             </div>

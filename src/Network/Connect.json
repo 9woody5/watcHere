@@ -9,5 +9,9 @@
   "contentRatings": "/api/v1/reviews/ratings/{contentId}",
   "contentReviews": "/api/v1/reviews/content/{contentId}",
   "movieDetail": "/api/v1/movie/{movieId}",
-  "tvDetail": "/api/v1/tv/{tvId}"
+  "tvDetail": "/api/v1/tv/{tvId}",
+  "adminUserList": "/api/v1/users/admin",
+  "adminUserBan": "/api/v1/users/admin/ban",
+  "movieClickList": "/api/v1/topclick/movies",
+  "tvClickList": "/api/v1/topclick/tvshows"
 }

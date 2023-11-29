@@ -62,11 +62,8 @@ export default function CategorySwiper({ props }) {
         className={cssModule["swiper"]}
       >
         {props.length > 0
-          ? props?.map((element) => (
-              <SwiperSlide
-                key={element.id}
-                className={cssModule["swiper-slide"]}
-              >
+          ? props?.map((element, idx) => (
+              <SwiperSlide key={idx} className={cssModule["swiper-slide"]}>
                 <ThumbnailCard props={element} />
               </SwiperSlide>
             ))
