@@ -7,7 +7,6 @@ const baseUrl = "https://image.tmdb.org/t/p/w500";
 
 function UserFavoriteContents() {
   const favoriteContent = useRecoilValue(userFavoriteContentState);
-  console.log(favoriteContent);
 
   let contentDisplay;
 
