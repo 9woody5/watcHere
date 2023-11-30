@@ -9,7 +9,10 @@ export const loginPageActiveState = atom({
 // 채팅 닉네임
 export const usernameState = atom({
   key: "usernameState",
-  default: "",
+  default: {
+    nickname: "",
+    email: "",
+  },
 });
 
 // 로그인 상태를 위한 atom 정의
@@ -61,15 +64,14 @@ export const mainNavEnabled = atom({
   },
 });
 
-
 /* 컨텐츠 상세페이지 관련 */
 // 리뷰 목록
 export const reviewsState = atom({
-  key: 'reviewsState',
+  key: "reviewsState",
   default: [],
-})
+});
 // 마이 리뷰 목록
 export const myReviewState = atom({
-  key: 'myReviewState',
+  key: "myReviewState",
   default: [],
-})
+});

@@ -11,7 +11,7 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
   const jwtToken = localStorage.getItem("token");
   const [chat, setChat] = useRecoilState(chatState);
   const [isLoggedIn] = useRecoilState(isLoggedInState);
-  const [username, setUsername] = useRecoilState(usernameState);
+  const [userInfo, setUserInfo] = useRecoilState(usernameState);
 
   const fetchUserInfo = async () => {
     // 사용자 정보를 가져오는 코드
@@ -24,7 +24,10 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
         const { data } = response;
 
         if (data && data.nickname) {
-          setUsername(data.nickname);
+          setUserInfo({
+            username: data.nickname,
+            email: data.email,
+          });
         } else {
           console.error("사용자 정보에 닉네임이 없음");
         }
@@ -79,8 +82,8 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
         <ChatForm
           isLoggedIn={isLoggedIn}
           fetchUserInfo={fetchUserInfo}
-          username={username}
-          setUsername={setUsername}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
           isChatFormVisible={isChatFormVisible}
         />
       )}

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import MessageList from "./MessageList";
 import { createClient } from "@supabase/supabase-js";
+import { useRecoilState } from "recoil";
+import { usernameState } from "../../Common/CommonAtom";
 
 const jwtToken = localStorage.getItem("token");
 
@@ -10,11 +12,12 @@ const supabase = createClient("https://efwyaewnaeiblkswsccs.supabase.co", import
   },
 });
 
-export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
+export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
   const [textValue, setTextValue] = useState("");
   const [messages, setMessages] = useState([]);
   const [uniqueUserCount, setUniqueUserCount] = useState(null);
   const containerRef = useRef(null);
+  const [userInfo] = useRecoilState(usernameState);
 
   useEffect(() => {
     async function fetchData() {
@@ -70,7 +73,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
       // supabase에 메시지 추가
       const { data, error } = await supabase
         .from("messages")
-        .insert([{ username, content: textValue }], { returning: "minimal" })
+        .insert([{ username: userInfo.username, email: userInfo.email, content: textValue }], { returning: "minimal" })
         .select();
 
       if (error) {
@@ -135,7 +138,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
           <MessageList
             isLoggedIn={isLoggedIn}
             fetchUserInfo={fetchUserInfo}
-            currentUser={{ username }}
+            // currentUser={{ username }}
             messages={messages}
           />
         </div>
