@@ -100,8 +100,8 @@ const ResultByCategories = () => {
 
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
-  const category = ["영화", "드라마", "애니메이션"];
-  const dataCate = ["movie", "drama", "anime"];
+  const category = ["영화", "TV", "애니메이션"];
+  const dataCate = ["movie", "tvshow", "anime"];
 
   // react-query로 데이터 연결 및 관리
   const {
@@ -121,7 +121,7 @@ const ResultByCategories = () => {
         case "movie":
           data = searchResults.dataMovie || [];
           break;
-        case "drama":
+        case "tvshow":
           data = searchResults.dataTV || [];
           break;
         case "anime":
@@ -140,14 +140,14 @@ const ResultByCategories = () => {
   const itemsPerPage = 6;
   const [currentPages, setCurrentPages] = useState({
     movie: 1,
-    drama: 1,
+    tvshow: 1,
     anime: 1,
   });
 
   useEffect(() => {
     setCurrentPages({
       movie: 1,
-      drama: 1,
+      tvshow: 1,
       anime: 1,
     });
   }, [searchQuery]);
