@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillStar } from "react-icons/ai";
+
 import { TrailerVideoModal } from "./Modals";
-
 import { BsFillBookmarkPlusFill, BsBookmarkCheckFill, BsFillShareFill } from "react-icons/bs";
-
+import * as Fetchers from './Fetchers'; 
 import ContentCreators from "./ContentCreators";
 
 function ContentBasicInfo(props) {
-  const { img, title, story, score, date, genres, nation, learningTime, videoId, actors, director } = props;
-  const [isMarked, setIsMarked] = useState(false);
+  const { img, title, story, score, date, genres, nation, learningTime, videoId, contentType, id } = props;
+  const [isMarked, setIsMarked] = useState(null);
+
+  const token = localStorage.getItem("token");
 
   // related Modal
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,6 +20,22 @@ function ContentBasicInfo(props) {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  useEffect(()=>{
+    if(isMarked===true){
+      Fetchers.callPostLikesAPI(contentType, id, token);
+    }
+    else if (isMarked===false){
+      Fetchers.callDeleteLikesAPI(contentType, id, token);
+    }
+
+  }, [isMarked])
+
+  useEffect(()=>{
+    Fetchers.callGetLikesAPI(contentType, id, token)
+      .then(({data})=>setIsMarked(data))
+  }, [id, token])
+
 
   return (
     <div className="w-full flex">

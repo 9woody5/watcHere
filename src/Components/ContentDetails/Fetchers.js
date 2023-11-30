@@ -8,6 +8,39 @@ export const callGetContentAPI = (contentType, id) => {
   return axios.get(`${hostUrl}/api/v1/${contentType}/${id}`);
 }
 
+/* like-controller */
+// 좋아요 조회
+export const callGetLikesAPI = (contentType, id, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
+  return axios.get(`${hostUrl}/api/v1/likes/my-content?content_type=${contentType}&content_id=${id}`,
+    {headers: {
+      Authorization: `Bearer ${token}`}
+    }
+  )
+}
+
+// 좋아요 기능
+export const callPostLikesAPI = (contentType, id, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
+  id = parseInt(id);
+  return axios.post(`${hostUrl}/api/v1/likes?content_type=${contentType}&content_id=${id}`,
+    {content_type:contentType, content_id:id},
+    {headers: {
+      Authorization: `Bearer ${token}`}
+    }
+  );
+}
+
+// 좋아요 취소 기능
+export const callDeleteLikesAPI = (contentType, id, token) => {
+  contentType = contentType? contentType.toUpperCase(): contentType;
+  return axios.delete(`${hostUrl}/api/v1/likes?content_type=${contentType}&content_id=${id}`,
+    {headers: {
+      Authorization: `Bearer ${token}`}
+    }
+  )
+}
+
 
 /* review-controller */
 
