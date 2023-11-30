@@ -59,7 +59,7 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
   return (
     <>
       <button
-        className="mb-5 fixed bottom-14 right-4 z-50"
+        className="mb-5 fixed bottom-0 right-4 z-50"
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         onClick={handleChatClick}

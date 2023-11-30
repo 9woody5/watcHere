@@ -122,7 +122,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
   }, [messages]);
 
   return (
-    <div className="fixed z-50 bottom-40 right-5 w-[400px] h-[540px] overflow-hidden gap-5 rounded-[30px] bg-white font-pretendard shadow-xl">
+    <div className="fixed z-50 bottom-28 right-5 w-[400px] h-[540px] overflow-hidden gap-5 rounded-[30px] bg-white font-pretendard shadow-xl">
       <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[460px] w-[400px] relative">
         <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[400px] h-[85px] px-6 py-3 border-b-[1px] border-solid border-zinc-100">
           <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-4">
