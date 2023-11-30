@@ -23,7 +23,7 @@ function ContentBasicInfo(props) {
     <div className="w-full flex">
       <div className="w-2/5 b-3 flex flex-col  items-center">
         <div className="">
-          <img className="object-cover" style={{ height: "580px" }} src={img} />
+          <img className="object-cover" style={{ height: "420px" }} src={img} />
         </div>
         <button
           className="w-full mt-6 btn bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
@@ -87,8 +87,8 @@ function ContentBasicInfo(props) {
           </tbody>
         </table>
         {/* border로 선을만들때, border-style을 꼭 지정해주어야함. 아래는 solid로 설정 */}
-        <div className="mt-10 w-full border-solid border-b border-gray-400 "></div>
-        <ContentCreators actors={actors} director={director}></ContentCreators>
+        {/* <div className="mt-10 w-full border-solid border-b border-gray-400 "></div> */}
+        {/* <ContentCreators actors={actors} director={director}></ContentCreators> */}
       </div>
     </div>
   );
