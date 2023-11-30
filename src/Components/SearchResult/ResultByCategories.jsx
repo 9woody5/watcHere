@@ -1,7 +1,6 @@
+import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetData } from "../../Network/Connect";
-import Connect from "../../Network/Connect.json";
 import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "./ResultSkeletonUI";
 import Pagination from "./Pagination";
@@ -45,8 +44,10 @@ const ResultByCategories = () => {
 
       for (let page = 1; page <= maxPage; page++) {
         let queryString = `?query=${query}&page=${page}`;
-        const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
-        const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+        const responseTV = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/tv${queryString}`);
+        const responseMovie = await axios.get(
+          `https://kdt-sw-6-team05.elicecoding.com/api/v1/search/movie${queryString}`
+        );
 
         const mapData = (item) => ({
           id: item.id,
