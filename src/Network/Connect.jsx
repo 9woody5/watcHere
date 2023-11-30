@@ -124,3 +124,16 @@ export async function DelData(url) {
     return null;
   }
 }
+//파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
+export async function DelDataJwt(url) {
+  try {
+    console.log(url);
+    const response = axios.delete(url, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}

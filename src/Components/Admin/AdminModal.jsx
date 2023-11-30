@@ -1,5 +1,5 @@
 /// 네트워크 라이브러리
-import { PutGetResponse } from "../../Network/Connect";
+import { DelDataJwt, PutGetResponse } from "../../Network/Connect";
 import connect from "../../Network/Connect.json";
 
 /**
@@ -110,15 +110,17 @@ export function CheckUserInfoModal({ props }) {
  *
  * 유저 리뷰 삭제용 모달
  */
-export function DeleteUserReview({ props }) {
-  const delUserReview = async (uid) => {
-    let jsonData = {};
-    jsonData["uId"] = uid;
-    console.log("데이터 전송 준비");
-    // const response = await PostData("url", JSON.stringify(jsonData));
-    // console.log(response);
+export function DeleteUserReview({ props, getReviewList }) {
+  const { detail, likes, reports, author, id } = props;
+  const delUserReview = async () => {
+    const response = await DelDataJwt(
+      connect.mainUrl + connect.adminReviewDel.replace("{id}", id)
+    );
+    if (response.status === 200) {
+      await getReviewList();
+    }
   };
-  const { email, nick_name, reports, review, write_date } = props;
+
   return (
     <dialog id="deleteUserReview" className="modal">
       <div className="modal-box bg-white text-black">
@@ -127,12 +129,14 @@ export function DeleteUserReview({ props }) {
           <div className="p-2 text-xl">
             현재 확인하는 리뷰의 정보는 다음과 같습니다.
           </div>
-          <div className="p-2">이메일 : {email}</div>
-          <div className="p-2">닉네임 : {nick_name}</div>
+          <div className="p-2">이메일 : {author?.email}</div>
+          <div className="p-2">닉네임 : {author?.nickname}</div>
+          <div className="p-2">좋아요 횟수 : {likes}</div>
           <div className="p-2">신고 횟수 : {reports}</div>
-          <div className="p-2">작성 리뷰</div>
-          <div className="p-2 pl-10">{review}</div>
-          <div className="p-2">작성일: {write_date}</div>
+
+          <div className="p-2">작성 리뷰 : {detail}</div>
+          <div className="p-2 pl-10">{}</div>
+          <div className="p-2">작성일: {}</div>
           <div className="p-2 text-red-600 text-xl font-semibold">
             삭제하시겠습니까?
           </div>
@@ -141,7 +145,7 @@ export function DeleteUserReview({ props }) {
           <form method="dialog">
             <button
               className="btn btn-outline btn-warning"
-              onClick={() => delUserReview("userId, reviewId")}
+              onClick={() => delUserReview(id)}
             >
               삭제하기
             </button>
