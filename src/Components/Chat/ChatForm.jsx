@@ -46,16 +46,32 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
     };
   }, []);
 
+  const previousUserCount = useRef(null);
+
   useEffect(() => {
     const fetchUniqueUsernamesCount = async () => {
-      const { data, error } = await supabase.rpc("get_unique_usernames_count");
+      try {
+        const { data, error } = await supabase.rpc("get_unique_usernames_count");
 
-      if (error) {
-        console.error("사용자 조회 에러", error);
-        return;
+        if (error) {
+          console.error("사용자 조회 에러:", error.message);
+          return;
+        }
+
+        if (data && !error) {
+          setUniqueUserCount((prevValue) => {
+            if (prevValue !== data) {
+              previousUserCount.current = prevValue;
+              return data;
+            }
+            return prevValue;
+          });
+        }
+      } catch (error) {
+        console.error("사용자 조회 에러:", error.message);
       }
-      setUniqueUserCount(data);
     };
+
     // 새로운 메시지가 추가될 때에만 호출
     if (messages.length > 0) {
       fetchUniqueUsernamesCount();
@@ -77,7 +93,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
         .select();
 
       if (error) {
-        console.error("메시지 전송 실패", error);
+        console.error("메시지 전송 실패", error.message);
         return;
       }
 
@@ -131,16 +147,8 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
             </div>
           </div>
         </div>
-        <div
-          className="chat_area flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[395px] w-[400px] pl-3 pb-2"
-          // ref={containerRef}
-        >
-          <MessageList
-            isLoggedIn={isLoggedIn}
-            fetchUserInfo={fetchUserInfo}
-            // currentUser={{ username }}
-            messages={messages}
-          />
+        <div className="chat_area flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[395px] w-[400px] pl-3 pb-2">
+          <MessageList isLoggedIn={isLoggedIn} fetchUserInfo={fetchUserInfo} messages={messages} />
         </div>
       </div>
       <div className="flex justify-start items-center gap-6 px-4 py-4 border-blue-200">

@@ -11,7 +11,7 @@ const MessageList = ({ messages }) => {
     const username = message?.username;
     const content = message?.content;
     const createdAt = message?.created_at;
-    const formattedDate = dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss");
+    const formattedDate = dayjs(createdAt).format("YYYY.MM.DD HH:mm:ss");
     const isMyMessage = userInfo.email === message?.email;
 
     return (
