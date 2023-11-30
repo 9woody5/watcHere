@@ -1,29 +1,27 @@
 // 코어 라이브러리
-import { useEffect, useState } from "react";
-
-// 더미데이터
-import dummyReviewList from "../../resources/userreview.json";
-import dummyPageNation from "../../resources/pagenition.json";
+import { useCallback, useEffect, useState } from "react";
 
 // 그래픽 라이브러리
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-  MdKeyboardArrowRight,
-  MdKeyboardArrowLeft,
-} from "react-icons/md";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 // 커스텀 라이브러리
 import DateFormat, { TIME_FORMATTER_MM_dd_yy } from "../../Common/DateFormat";
 import { TextOverflow } from "../../Common/TextOverflow";
+
+// 네트워크 라이브러리
+import { GetDataJwt } from "../../Network/Connect";
+import Connect from "../../Network/Connect.json";
 import { DeleteUserReview } from "./AdminModal";
 
-// import { PostData } from "../Network/Connect";
 export default function AdminUserList() {
-  const [userList, setUserList] = useState([]);
-  const [nowPage, setNowPage] = useState(1);
-  const [nowBlock, setNowBlock] = useState(1);
-  const [maxBlock, setMaxBlock] = useState(0);
+  // const [pageState, usePageState] = useState({
+  //   reviewList: [],
+  //   nowPage: 0,
+  //   maxPage: 10,
+  //   reviewData: {},
+  // });
+  const [reviewList, setReviewList] = useState([]);
+  const [nowPage, setNowPage] = useState(0);
   const [maxPage, setMaxPage] = useState(10);
   const [reviewData, setReviewData] = useState({});
   /**
@@ -33,54 +31,38 @@ export default function AdminUserList() {
    *
    * null 값이 들어올경우에는 임시 json 파일을 로딩해서 정보를 보여준다.
    */
-  const getUserData = async () => {
-    // const response = await GetData("url");
-    const response = null;
-    if (response !== null) {
-      setUserList(response);
-    } else {
-      setUserList(dummyReviewList.user_data);
-    }
-  };
+  const getReviewList = useCallback(async () => {
+    let queryString = `?page=${nowPage}&size=${maxPage}`;
+    const response = await GetDataJwt(
+      Connect.mainUrl + Connect.adminReviewList + queryString
+    );
+
+    setReviewList(response.data);
+  }, [nowPage, maxPage]);
 
   /**
-   * 페이지 이동을 블록단위로 하는 기능
-   * @param {int} block --- 움직일 블록 번호
-   */
-  const handlePageBlock = (block) => {
-    setNowBlock(block);
-    setNowPage(1);
-  };
-  /**
    * 구현기능 : 페이지 이동
+   *
    * 이슈 : Arrow가 불필요한 시점에 노출되는 문제
    *
    */
   const handlePageClick = (page) => {
     if (page <= 0) {
-      if (nowBlock > 1) {
-        setNowPage(maxPage);
-        setNowBlock(nowBlock - 1);
-      }
-    } else if (page > maxPage) {
-      if (nowBlock < maxBlock) {
-        setNowPage(1);
-        setNowBlock(nowBlock + 1);
-      }
+      setNowPage(0);
+    } else if (page >= reviewList.total_pages) {
+      setNowPage(reviewList.total_pages - 1);
     } else {
       setNowPage(page);
     }
   };
   const handleViewReview = (content) => {
-    console.log(content);
     setReviewData(content);
     document.getElementById("deleteUserReview").showModal();
   };
 
   useEffect(() => {
-    setMaxBlock(parseInt(dummyPageNation.total_page / maxPage));
-    getUserData();
-  }, [maxPage]);
+    getReviewList();
+  }, [getReviewList]);
 
   return (
     <div className="h-full bg-gray-300 flex flex-col justify-center">
@@ -108,25 +90,25 @@ export default function AdminUserList() {
           <div className="w-[40%] md:w-[60%]">리뷰 내역</div>
         </div>
         <div className="h-[60%] overflow-y-auto mt-4">
-          {userList?.map((element, idx) => (
+          {reviewList.content?.map((element, idx) => (
             <div
               className="flex items-center justify-center text-center mt-1 border-b-2 py-1 text-lg"
               key={idx}
               onClick={() => handleViewReview(element)}
             >
               <div className="w-[15%] xl:w-[20%] md:hidden">
-                <div className="text-black">{element.email} </div>
+                <div className="text-black">{element.author.email} </div>
                 <div>{element.email} </div>
               </div>
               <div className="w-[15%] xl:w-[20%] md:hidden text-black font-bold">
-                {DateFormat(element.write_date, TIME_FORMATTER_MM_dd_yy)}
+                {/* {DateFormat(element.write_date, TIME_FORMATTER_MM_dd_yy)} */}
               </div>
               <div className="w-[10%] xl:w-[15%] text-black font-bold">
-                {element.nick_name}
+                {element.author.nickname}
               </div>
               <div className="w-[10%] xl:w-[15%] px-10">{element.reports}</div>
               <div className="w-[40%] xl:w-[60%] flex justify-center px-10 border-10 cursor-pointer">
-                {TextOverflow(element.review, 40)}
+                {TextOverflow(element.detail, 40)}
               </div>
             </div>
           ))}
@@ -135,14 +117,20 @@ export default function AdminUserList() {
           <div className="flex items-center justify-center">
             <div> show Result :</div>
             <div>
-              <div className="dropdown">
-                <label tabIndex={0} className="btn m-1 ">
+              <div className="dropdown dropdown-bottom">
+                <label
+                  tabIndex={0}
+                  className="btn  btn-success w-20 ml-4 text-xl"
+                >
                   {maxPage}
                 </label>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-gray-200 rounded-box"
+                  className="dropdown-content z-[1] menu p-2 shadow-md rounded-box w-24 flex items-center justify-center text-xl text-black"
                 >
+                  <li>
+                    <a onClick={() => setMaxPage(20)}>20</a>
+                  </li>
                   <li>
                     <a onClick={() => setMaxPage(10)}>10</a>
                   </li>
@@ -154,28 +142,19 @@ export default function AdminUserList() {
             </div>
           </div>
           <div className="flex items-center justify-center mr-4">
-            {nowBlock > 1 && (
-              <div>
-                <MdKeyboardDoubleArrowLeft
-                  onClick={() => {
-                    handlePageBlock(nowBlock - 1);
-                  }}
-                />
-              </div>
-            )}
             <div>
               <MdKeyboardArrowLeft
                 onClick={() => handlePageClick(nowPage - 1)}
               />
             </div>
 
-            {Array.from({ length: maxPage }, (_, index) => (
+            {Array.from({ length: reviewList.total_pages }, (_, index) => (
               <button
                 key={index}
                 className={`mx-2 ${
-                  nowPage === index + 1 ? "text-blue-700 font-bold" : ""
+                  nowPage === index ? "text-blue-700 font-bold" : ""
                 }`}
-                onClick={() => handlePageClick(index + 1)}
+                onClick={() => handlePageClick(index)}
               >
                 {index + 1}
               </button>
@@ -185,19 +164,10 @@ export default function AdminUserList() {
                 onClick={() => handlePageClick(nowPage + 1)}
               />
             </div>
-            {nowBlock < maxBlock && (
-              <div>
-                <MdKeyboardDoubleArrowRight
-                  onClick={() => {
-                    handlePageBlock(nowBlock + 1);
-                  }}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
-      <DeleteUserReview props={reviewData} />
+      <DeleteUserReview props={reviewData} getReviewList={getReviewList} />
     </div>
   );
 }

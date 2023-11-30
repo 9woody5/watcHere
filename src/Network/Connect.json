@@ -13,5 +13,9 @@
   "adminUserList": "/api/v1/users/admin",
   "adminUserBan": "/api/v1/users/admin/ban",
   "movieClickList": "/api/v1/topclick/movies",
-  "tvClickList": "/api/v1/topclick/tvshows"
+  "tvClickList": "/api/v1/topclick/tvshows",
+  "myinfo": "/api/v1/users/me",
+  "bookmark": "/api/v1/likes",
+  "adminReviewList": "/api/v1/reviews",
+  "adminReviewDel": "/api/v1/reviews/{id}"
 }
