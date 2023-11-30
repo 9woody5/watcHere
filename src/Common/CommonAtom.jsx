@@ -6,6 +6,12 @@ export const loginPageActiveState = atom({
   default: false,
 });
 
+// 채팅 닉네임
+export const usernameState = atom({
+  key: "usernameState",
+  default: "",
+});
+
 // 로그인 상태를 위한 atom 정의
 export const isLoggedInState = atom({
   key: "isLoggedInState",

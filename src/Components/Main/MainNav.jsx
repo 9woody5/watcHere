@@ -52,7 +52,7 @@ const MainNav = () => {
   };
   return (
     <>
-      <div className="navbar flex justify-end px-3 h-20 font-pretendard z-50">
+      <div className="navbar flex justify-end px-10 h-20 font-pretendard z-50">
         <div className="w-[100%] mx-2 flex justify-end items-center">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle hover:bg-zinc-700 mr-4">

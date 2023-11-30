@@ -20,6 +20,7 @@ body {
   color: #047857;
 }
 
+/* 검색어 조회 영역 */
 .records::-webkit-scrollbar {
   width: 12px; /* 스크롤바의 너비 */
 }
@@ -32,5 +33,21 @@ body {
 }
 
 .records::-webkit-scrollbar-track {
+  background: #fff; /*스크롤바 뒷 배경 색상*/
+}
+
+/* 채팅 영역 */
+.msg_area::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.msg_area::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #ccc; /* 스크롤바의 색상 */
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+
+.msg_area::-webkit-scrollbar-track {
   background: #fff; /*스크롤바 뒷 배경 색상*/
 }
