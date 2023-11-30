@@ -15,14 +15,11 @@ const UsersProfile = () => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
       try {
-        const response = await fetch(
-          "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const data = await response.json();
         if (response.ok) {
@@ -51,15 +48,12 @@ const UsersProfile = () => {
     if (isConfirmed) {
       const token = localStorage.getItem("token"); // 토큰 가져오기
       try {
-        const response = await fetch(
-          "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (response.ok) {
           // 탈퇴 처리 성공
@@ -95,11 +89,7 @@ const UsersProfile = () => {
               style={{ width: "10vw", height: "10vw" }}
             />
           ) : (
-            <BiSolidUserCircle
-              size="10vw"
-              color="9bb0a5"
-              className="absolute translate-x-[50%] translate-y-[-8%]"
-            />
+            <BiSolidUserCircle size="10vw" color="9bb0a5" className="absolute translate-x-[50%] translate-y-[-8%]" />
           )}
 
           <ProfileEditModal
@@ -111,11 +101,11 @@ const UsersProfile = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center  w-[15%] font-normal text-center text-sm text-white translate-x-[0%] translate-y-[-15%]">
-        <p className="text-base font-bold">닉네임</p>
+      <div className="flex flex-col justify-center  w-[15%] font-normal text-[15px] text-white translate-x-[0%] translate-y-[-15%]">
+        <p className="font-pretendardBold text-lg">닉네임</p>
         <p>{userInfo.nickname}</p>
         <br />
-        <p className="text-base font-bold">이메일</p>
+        <p className="text-lg font-pretendardBold">이메일</p>
         <p>{userInfo.email}</p>
       </div>
 
@@ -124,23 +114,22 @@ const UsersProfile = () => {
       </div>
 
       <div className=" dropdown dropdown-end profile-setting w-[10%] translate-y-[-250%] ">
-        <label
-          tabIndex={0}
-          className=" relative btn btn-ghost btn-circle avatar hover:bg-zinc-70 "
-        >
+        <label tabIndex={0} className=" relative btn btn-ghost btn-circle avatar hover:bg-zinc-70 ">
           <button className=" ">
             <FaGear size={22} />
           </button>
 
           <ul
             tabIndex={0}
-            className=" absolute top-full left-0 menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-28 text-black"
+            className=" absolute top-full left-0 menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 text-zinc-600 rounded-box w-28"
           >
             <li>
               <button onClick={() => setIsModalOpen(true)}>프로필 편집</button>
             </li>
             <li>
-              <button onClick={handleUserDeletion}>회원탈퇴</button>
+              <button onClick={handleUserDeletion} className=" text-red-600 hover:text-red-600">
+                회원탈퇴
+              </button>
             </li>
           </ul>
         </label>

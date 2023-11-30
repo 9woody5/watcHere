@@ -21,17 +21,11 @@ export default function CategorySwiper({ props }) {
   const nextRef = useRef(null);
   return (
     <>
-      <div className="mt-1 relative -top-20 left-full flex md:hidden">
-        <button
-          ref={prevRef}
-          className="w-12 h-12 -ml-44 rounded-full bg-white flex items-center justify-center"
-        >
+      <div className="mt-10 relative -top-20 left-full flex md:hidden">
+        <button ref={prevRef} className="w-12 h-12 -ml-44 rounded-full bg-white flex items-center justify-center">
           <MdOutlineArrowBackIosNew className="text-3xl" />
         </button>
-        <button
-          ref={nextRef}
-          className="w-12 h-12 ml-10 rounded-full bg-[#40AD80] flex items-center justify-center"
-        >
+        <button ref={nextRef} className="w-12 h-12 ml-10 rounded-full bg-[#40AD80] flex items-center justify-center">
           <MdArrowForwardIos className="text-white text-3xl" />
         </button>
       </div>
