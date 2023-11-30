@@ -17,14 +17,7 @@ function TextLineSplitter(text) {
  */
 export function AddedFavoritesModal({ props }) {
   const { title, name, poster_path, id } = props;
-  // const postFavorites = async (movieId) => {
-  //   let jsonData = {};
-  //   jsonData["movieId"] = movieId;
-  //   console.log("데이터 전송 준비");
-  //   // const response = await PostData("url", JSON.stringify(jsonData));
-  //   // console.log(response);
-  // };
-  // const { email, nick_name, reports, review, write_date } = props;
+
   const handleImgError = (e) => {
     e.target.src = errorImg;
   };
