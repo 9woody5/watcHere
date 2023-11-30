@@ -112,7 +112,7 @@ const UsersReviewInfo = () => {
         {loading ? (
           <div>Loading...</div>
         ) : userReviews.length === 0 ? (
-          <div>
+          <div className="font-xl font-bold">
             작성하신 리뷰가 없어요🧐 <br />
           </div>
         ) : (
