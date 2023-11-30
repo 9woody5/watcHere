@@ -29,7 +29,7 @@ const MainPage = () => {
       <div className="flex w-full h-full flex-col">
         <MainNav />
         <div className="min-h-full px-10">
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-5">
             <img src={logo} alt="logo" className="w-[300px]" />
           </div>
 

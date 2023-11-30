@@ -156,7 +156,7 @@ export default function ContentCategory() {
           {ottList.ott_list.map((element, idx) => (
             <button
               className={`border-2 w-80 h-12 rounded-3xl text-xl font-bold border-[#40AD80] text-white ${
-                element.id === selectOtt.id && "bg-[#40AD80]"
+                element.id === selectOtt.id && "bg-emerald-700"
               }`}
               key={idx}
               onClick={() => handleSelectOtt(element)}

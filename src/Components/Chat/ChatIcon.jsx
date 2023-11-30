@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import { isLoggedInState, usernameState } from "../../../Common/CommonAtom";
-import { chatState } from "../../../Common/CommonAtom";
+import { isLoggedInState, usernameState } from "../../Common/CommonAtom";
+import { chatState } from "../../Common/CommonAtom";
 import { ChatForm } from "./ChatForm";
 import axios from "axios";
 
@@ -76,7 +76,13 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
         </svg>
       </button>
       {isChatFormVisible && (
-        <ChatForm isLoggedIn={isLoggedIn} fetchUserInfo={fetchUserInfo} username={username} setUsername={setUsername} />
+        <ChatForm
+          isLoggedIn={isLoggedIn}
+          fetchUserInfo={fetchUserInfo}
+          username={username}
+          setUsername={setUsername}
+          isChatFormVisible={isChatFormVisible}
+        />
       )}
     </>
   );

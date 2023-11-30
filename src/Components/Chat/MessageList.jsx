@@ -21,8 +21,8 @@ const MessageList = ({ currentUser, messages }) => {
             {username}
           </span>
           <div
-            className={`px-2 py-2 rounded-xl bg-${
-              isMyMessage ? "emerald-500 ml-2" : "[#f1f1f1] mr-2"
+            className={`px-2 py-2 rounded-xl ${
+              isMyMessage ? "bg-emerald-500 ml-2" : "bg-[#f1f1f1] mr-2"
             } max-w-[350px] h-auto`}
           >
             <p

@@ -15,7 +15,6 @@ function Review({contentType, review, id, token}) {
 
   return (
     <div className='w-full my-4 flex'>
-
       <div className='w-3/4 flex flex-col'>
         <div className='flex items-center'>
           <img className='w-8 mx-2 rounded-full' src={review.userImg} alt="" />

@@ -14,6 +14,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
   const [textValue, setTextValue] = useState("");
   const [messages, setMessages] = useState([]);
   const [uniqueUserCount, setUniqueUserCount] = useState(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -47,21 +48,16 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
       const { data, error } = await supabase.rpc("get_unique_usernames_count");
 
       if (error) {
-        console.error("Error fetching unique usernames count:", error);
+        console.error("사용자 조회 에러", error);
         return;
       }
       setUniqueUserCount(data);
     };
-    // 1초마다 사용자 수 count
-    const intervalId = setInterval(fetchUniqueUsernamesCount, 5000);
-
-    // 컴포넌트가 언마운트될 때 타이머를 정리
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
-  const containerRef = useRef(null);
+    // 새로운 메시지가 추가될 때에만 호출
+    if (messages.length > 0) {
+      fetchUniqueUsernamesCount();
+    }
+  }, [messages]);
 
   const handleChange = (e) => {
     setTextValue(e.target.value);
@@ -69,8 +65,6 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
 
   const submitText = async (e) => {
     e.preventDefault();
-
-    // await fetchUserInfo();
 
     if (textValue !== "") {
       // supabase에 메시지 추가
