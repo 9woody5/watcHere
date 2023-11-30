@@ -60,3 +60,16 @@ export const mainNavEnabled = atom({
     default: false,
   },
 });
+
+
+/* 컨텐츠 상세페이지 관련 */
+// 리뷰 목록
+export const reviewsState = atom({
+  key: 'reviewsState',
+  default: [],
+})
+// 마이 리뷰 목록
+export const myReviewState = atom({
+  key: 'myReviewState',
+  default: [],
+})

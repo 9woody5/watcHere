@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-
+import {useRecoilValue } from "recoil";
 import { AiFillStar } from 'react-icons/ai';
-import * as Fetchers from './Fetchers'; 
-// import * as contentFakeData from './createFakerData';
-import * as contentReformatData from './refomatData';
 
+import * as Fetchers from './Fetchers'; 
+import * as contentReformatData from './refomatData';
+import { myReviewState } from "../../Common/CommonAtom";
 
 const scoreRanking2tailWindClassName = {
   1: 'w-5/6 h-1 bg-white',
@@ -35,6 +35,7 @@ const makeScoreRankingIndexs = (scoreNum) => {
 }
 
 function ContentScoreInfo({id}) {
+  const [myReviews] = useRecoilValue(myReviewState);
   const [contentScoreInfo, setcontentScoreInfo] = useState({
     'meanScore': 0,
     'totalScoreNum': 0,
@@ -49,20 +50,19 @@ function ContentScoreInfo({id}) {
         const reformattedScoreData = contentReformatData.reformatContentScoreData(data.ratings);
         setcontentScoreInfo(reformattedScoreData);
       })
-  }, [id]);
+  }, [id, myReviews]);  // id를 통해 각 컨텐츠마다 한번씩 정보를 불러오고, 나의 리뷰가 바뀔때마다 업데이트 해주기위함
 
   useEffect(()=>{
     setScoreRankingIndexs(makeScoreRankingIndexs(contentScoreInfo['scoreNum']));
   }, [contentScoreInfo])
 
-  console.log(contentScoreInfo.meanScore);
   return (
     <div className='w-full my-14 text-white'>
       <div className='flex bg-white/10 rounded-xl p-5 justify-center items-center' id='scoreInfo-background'>
         <div className='w-2/5 flex-col '>
           <div className='mb-3 flex justify-center'>
             <AiFillStar className='text-5xl'/>
-            <div className='align-middle text-center text-4xl'>{contentScoreInfo.meanScore? 0: contentScoreInfo.totalScoreNum}</div>
+            <div className='align-middle text-center text-4xl'>{contentScoreInfo.meanScore? contentScoreInfo.meanScore: 0}</div>
           </div>
           <div className='text-center'>(총 리뷰 수: {contentScoreInfo.totalScoreNum})</div>
         </div>
@@ -71,7 +71,7 @@ function ContentScoreInfo({id}) {
           {new Array(5).fill('').map((x, index)=>{
             return (
               <div key={`star-${index}`} className='w-full flex items-center by-1 h-7 grow'>
-                <div className='w-10 text-center'>{5-index}점</div>
+                <div className='w-10 text-center'>{1+index}점</div>
                 <div className={scoreRanking2tailWindClassName[scoreRankingIndexs[index]]}></div>
                 <div className='w-10 text-center'>({contentScoreInfo['scoreNum'][index+1]})</div>
               </div>
