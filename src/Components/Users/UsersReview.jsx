@@ -75,7 +75,7 @@ const UsersReview = ({ review }) => {
           </div>
           <div className="text-xs">{formatDate(review.author.created_at)}</div>
         </div>
-        <div className="flex flex-1">
+        <div className="flex w-[20%]">
           {[1, 2, 3, 4, 5].map((index) => (
             <AiFillStar
               key={`user-review-score-star-${index}`}
