@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {ReviewInputModal} from './Modals';
 import * as Fetchers from './Fetchers'; 
-// import * as contentFakeData from './createFakerData';
 import * as contentReformatData from './refomatData';
 import Review from './Review';
+import { myReviewState ,reviewsState } from "../../Common/CommonAtom";
 
 function ReviewInfo({contentType, id, token}) {
   /* 리뷰 데이터 관련 */
-  const [reviews, setReviews] = useState([]);
-  const [myReviews, setmyReviews] = useState([]);
+  const [myReviews, setMyReviews] = useRecoilState(myReviewState);
+  const [reviews, setReviews] = useRecoilState(reviewsState);
+
   const [reviewFilter, setReviewFilter] = useState('createdAt');
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -17,27 +19,33 @@ function ReviewInfo({contentType, id, token}) {
     return reviewFilter === reviewTab? 'tab-active': '';
   }
 
-  // take related data
-  useEffect(()=>{
-    setLoading(true);
+  /* 리뷰 업데이트 관련 */
+  const updateMyReviewState = (contentType, id, token) => {
     Fetchers.callGetMyReviewAPI(contentType, id, token)
       .then(({data})=>{
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
-        setmyReviews(reformattedMyReviews);
-      })
-
+        setMyReviews(reformattedMyReviews);
+    })
+  }
+  const updateReviewsState = (contentType, id, page, reviewFilter) => {
     if (reviewFilter !== 'my-review'){
       Fetchers.callGetReviewsContentAPI(contentType, id, page, reviewFilter)
         .then(({data})=>{
           const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
-          setLoading(false);
         })
     }
     else{
       setReviews(myReviews);
     }
-  }, [reviewFilter, id, token]);
+  }
+  useEffect(()=>{
+    updateMyReviewState(contentType,id,token);
+  }, [])
+
+  useEffect(()=>{
+    updateReviewsState(contentType,id,page, reviewFilter);
+  }, [reviewFilter, id, token, myReviews]);
 
   /* 리뷰 작성 관련 */
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -53,7 +61,6 @@ function ReviewInfo({contentType, id, token}) {
   }
 
   const openModal = () => {
-    console.log(myReviews)
     if (myReviews.length!==0){
       alert('이미 리뷰가 존재합니다. 리뷰는 컨텐츠 당 하나만 작성가능합니다.\n나의 리뷰에서 리뷰를 수정해보세요! 😲');
     }
@@ -76,9 +83,11 @@ function ReviewInfo({contentType, id, token}) {
     else{
       // 리뷰등록처리
       alert('리뷰등록 완료하였습니다! 😁');
-      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token);
+      Fetchers.callPostReviewsAPI(contentType, id, userReview, userScore, token)
+        .then(()=>{
+          updateMyReviewState(contentType,id,token);
+        });
       closeModal();
-      window.location.reload(true);
     }
   };
 
@@ -115,15 +124,9 @@ function ReviewInfo({contentType, id, token}) {
               {reviews.map((review,idx)=>(<tr key={`review-${idx}`}><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
             </tbody>
           </table>):
-          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 <br/><br/>첫 리뷰작성자가 되어주세요!🥳</div>)
+          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 리뷰를 작성해보세요! </div>)
         }
-        {/* <table className="table table-pin-rows">
-          <tbody>
-            {reviews.map((review,idx)=>(<tr><td><Review key={review.reviewId} id={id} review={review} token={token} /></td></tr>))}
-          </tbody>
-        </table> */}
       </div>
-
     </div>
   )
 }

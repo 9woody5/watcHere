@@ -3,7 +3,6 @@ import { useRecoilValue } from "recoil";
 import { userFavoriteContentState } from "../../Common/CommonAtom";
 
 // 기본 이미지 호스팅 URL
-const baseUrl = "https://image.tmdb.org/t/p/w500";
 
 function UserFavoriteContents() {
   const favoriteContent = useRecoilValue(userFavoriteContentState);
@@ -11,7 +10,7 @@ function UserFavoriteContents() {
   let contentDisplay;
 
   if (favoriteContent.title) {
-    const imageUrl = baseUrl + favoriteContent.poster_path;
+    const imageUrl = favoriteContent.full_poster_path;
 
     // 이미 선택된 컨텐츠가 있는 경우, 직접 표시
     contentDisplay = (

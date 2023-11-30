@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import {useSetRecoilState } from "recoil";
+
 import {ReviewInputModal as ModificationModal, DeletionModal} from './Modals';
 import * as Fetchers from './Fetchers';
-
+import { myReviewState } from "../../Common/CommonAtom";
+import * as contentReformatData from './refomatData';
 
 function MyReviewButtons({contentType, id, review, token}){
   const {reviewId, text, score} = review
+  const setMyReviews = useSetRecoilState(myReviewState);
 
   const [userScore, setUserScore] = useState(review.score);
   const [userReview, setUserReview] = useState(review.text);
@@ -35,9 +39,16 @@ function MyReviewButtons({contentType, id, review, token}){
     }
     else{
       alert('리뷰수정 완료하였습니다! 😁');
-      Fetchers.callPutReviewsAPI(contentType, userReview, userScore, id, reviewId, token);
+      Fetchers.callPutReviewsAPI(contentType, userReview, userScore, id, reviewId, token)
+      .then(()=>{
+        Fetchers.callGetMyReviewAPI(contentType, id, token)
+        .then(({data})=>{
+          const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
+          setMyReviews(reformattedMyReviews);
+          })
+      });
       closeModificationModal();
-      window.location.reload(true);
+      // window.location.reload(true);
     }
   };
 
@@ -49,11 +60,11 @@ function MyReviewButtons({contentType, id, review, token}){
     setDeletionModalIsOpen(false);
   };
   const handleDelete = (reviewId, token) => {
-    Fetchers.callDeleteReviewsAPI(reviewId, token);
+    Fetchers.callDeleteReviewsAPI(reviewId, token)
+      .then(setMyReviews([]));
     alert(`삭제완료하였습니다!`);
     closeDeletionModal();
-    window.location.reload(true);
-
+    // window.location.reload(true);
   };
 
   return (
@@ -82,7 +93,6 @@ function MyReviewButtons({contentType, id, review, token}){
     </div>
   )
 }
-
 
 
 export default MyReviewButtons;

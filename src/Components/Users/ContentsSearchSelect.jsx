@@ -3,7 +3,7 @@ import { Select } from "flowbite-react";
 import { useSetRecoilState } from "recoil";
 import { userFavoriteContentState } from "../../Common/CommonAtom";
 
-const ContentsSearchSelect = () => {
+const ContentsSearchSelect = ({ onContentSelect }) => {
   const [inputText, setInputText] = useState("");
   const [contents, setContents] = useState([]); // 영화와 TV 프로그램을 포함하는 배열
   const [selectedContent, setSelectedContent] = useState(""); // 선택된 컨텐츠
@@ -18,6 +18,7 @@ const ContentsSearchSelect = () => {
     if (selected) {
       setSelectedContent(selected.id);
       setFavoriteContent(selected); // 전체 객체를 저장
+      onContentSelect(selected.id, selected.title, selected.full_poster_path); // poster 정보 포함하여 호출
     }
   };
 
@@ -66,17 +67,7 @@ const ContentsSearchSelect = () => {
       />
       <Select
         onChange={handleSelect}
-        onMouseDown={(e) => {
-          const selectedId = e.target.value;
-          const selected = contents.find(
-            (content) => content.id === parseInt(selectedId)
-          );
-
-          if (selected) {
-            setSelectedContent(selected.id);
-            setFavoriteContent(selected); // 전체 객체를 저장
-          }
-        }}
+        value={selectedContent} // 현재 선택된 컨텐츠 ID를 사용
         className="my-2 w-[300px]"
         style={{
           backgroundColor: "#2e2e2e",
@@ -85,6 +76,9 @@ const ContentsSearchSelect = () => {
           translate: "(10px, 10px)",
         }}
       >
+        <option value="" disabled>
+          검색된 목록 중에서 선택해주세요.
+        </option>
         {contents
           .filter((content) => content.title) // title이 undefined가 아닌 항목만 필터링
           .map((content) => (

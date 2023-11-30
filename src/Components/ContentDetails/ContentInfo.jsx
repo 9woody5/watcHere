@@ -54,7 +54,7 @@ function ContentInfo({id, token, contentType='movie'}) {
     <div>
       <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId}
         actors={actors} director={director}/>
-      {/* <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo> */}
+      <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
     </div>
   )
 }
