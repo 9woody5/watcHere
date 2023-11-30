@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ADMIN_MENU_USER,
   ADMIN_MENU_REVIEW,
@@ -7,9 +7,31 @@ import { GoPeople } from "react-icons/go";
 import { GrDocumentText } from "react-icons/gr";
 import AdminUserList from "../Components/Admin/AdminUserList";
 import AdminReviewList from "../Components/Admin/AdminReviewList";
-
+import { GetDataJwt } from "../Network/Connect";
+import connect from "../Network/Connect.json";
+import { useNavigate } from "react-router-dom";
 export default function AdmimMain() {
   const [selectMenu, setSelectNemu] = useState(ADMIN_MENU_USER); // 현재 버튼의 상태를 봅니다.
+  const [userInfo, setUserInfo] = useState({});
+  const nav = useNavigate();
+
+  useEffect(() => {
+    const GetUserInfo = async () => {
+      if (localStorage.getItem("token") === null) {
+        nav("/");
+      } else {
+        const response = await GetDataJwt(
+          `${connect.mainUrl}${connect.myinfo}`
+        );
+        if (response.data.role !== "ADMIN") {
+          nav("/");
+        } else {
+          setUserInfo(response.data);
+        }
+      }
+    };
+    GetUserInfo();
+  }, [nav]);
 
   return (
     <div className="flex min-h-screen w-[80%] xl:w-full ">
@@ -50,19 +72,27 @@ export default function AdmimMain() {
         </div>
         <div className="mx-10 mb-5">
           <div className="flex items-center text-white xl:hidden">
-            <div>이미지</div>
+            <img src={userInfo?.profile_image} />
             <div className="ml-4">
-              <div>관리자</div>
-              <div>이메일</div>
+              <div>{userInfo?.role}</div>
+              <div>{userInfo?.email}</div>
             </div>
           </div>
-          <div className="border-2 flex flex-col items-center justify-center text-white xl:block 2xl:hidden">
-            <div>이미지</div>
-            <div>관리자</div>
-            <div>이메일</div>
+          <div className="border-2 flex items-center justify-center text-white xl:block 2xl:hidden">
+            <img src={userInfo?.profile_image} />
+            <div className="">
+              <div>{userInfo?.role}</div>
+              <div>{userInfo?.email}</div>
+            </div>
           </div>
           <div>
-            <button className="text-black rounded-md p-2 font-semibold bg-white mt-4">
+            <button
+              className="text-black rounded-md p-2 font-semibold bg-white mt-4"
+              onClick={() => {
+                localStorage.removeItem("token");
+                nav("/");
+              }}
+            >
               로그아웃
             </button>
           </div>

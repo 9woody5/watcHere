@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AddedFavoritesModal } from "./CategoryModal";
 import { useLocation } from "react-router-dom";
 import Connect from "../../Network/Connect.json";
-import { GetData } from "../../Network/Connect";
+import { GetData, PostDataJwt } from "../../Network/Connect";
 import { useEffect, useState } from "react";
 import errorImg from "../../assets/img/no_img.png";
 /**
@@ -20,6 +20,24 @@ export default function ThumbnailCard({ props, type }) {
   const { year, id, title, name, poster_path, movie_id, tv_show_id } = props;
   const [review, setReview] = useState(0);
   const location = useLocation();
+
+  const handleAddBookmark = async (path, type, id) => {
+    let queryString = "";
+    if (path === "/animation") {
+      if (type === "movie") {
+        queryString = `?content_type=MOVIE&content_id=${id}`;
+      } else {
+        queryString = `?content_type=TV&content_id=${id}`;
+      }
+    } else {
+      if (path === "/movie") {
+        queryString = `?content_type=MOVIE&content_id=${id}`;
+      } else if (path == "/tv") {
+        queryString = `?content_type=TV&content_id=${id}`;
+      }
+    }
+    await PostDataJwt(Connect.mainUrl + Connect.bookmark + queryString);
+  };
   const handleImgError = (e) => {
     e.target.src = errorImg;
   };
@@ -85,24 +103,38 @@ export default function ThumbnailCard({ props, type }) {
                 <div className="flex items-center justify-center bg-emerald-500 w-12 h-12 cursor-pointer rounded-lg">
                   <RiBookmarkFill
                     className="w-10 h-10"
-                    onClick={() =>
+                    onClick={() => {
+                      handleAddBookmark(
+                        location.pathname,
+                        type,
+                        id || movie_id || tv_show_id
+                      );
                       document
                         .getElementById("addFavoritesModal" + id)
-                        .showModal()
-                    }
+                        .showModal();
+                    }}
                   />
                 </div>
                 {/* 텍스트만 클릭 가능한 상태라 수정했습니다 */}
-                {location.pathname === "/animation" && type === "movie" ? (
+                {location.pathname === "/animation" && type === "movie" && (
                   <Link
                     to={`/movie/${id || movie_id || tv_show_id}`}
                     className="flex items-center justify-center rounded-md bg-emerald-500 text-black font-bold text-xl w-2/3 h-12"
                   >
                     <div className="">상세보기</div>
                   </Link>
-                ) : (
+                )}
+                {location.pathname === "/animation" && type !== "movie" && (
                   <Link
                     to={`/tv/${id || movie_id || tv_show_id}`}
+                    className="flex items-center justify-center rounded-md bg-emerald-500 text-black font-bold text-xl w-2/3 h-12"
+                  >
+                    <div className="">상세보기</div>
+                  </Link>
+                )}
+                {location.pathname !== "/animation" && (
+                  <Link
+                    to={`${location.pathname}/${id || movie_id || tv_show_id}`}
                     className="flex items-center justify-center rounded-md bg-emerald-500 text-black font-bold text-xl w-2/3 h-12"
                   >
                     <div className="">상세보기</div>
