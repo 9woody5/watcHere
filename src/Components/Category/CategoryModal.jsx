@@ -1,5 +1,5 @@
 import { MdOutlineCancel } from "react-icons/md";
-
+import errorImg from "../../assets/img/no_img.png";
 function TextLineSplitter(text) {
   const parts = text.split(":");
 
@@ -25,6 +25,10 @@ export function AddedFavoritesModal({ props }) {
   //   // console.log(response);
   // };
   // const { email, nick_name, reports, review, write_date } = props;
+  const handleImgError = (e) => {
+    e.target.src = errorImg;
+  };
+
   return (
     <dialog id={"addFavoritesModal" + id} className="modal">
       <div className="modal-box bg-white text-black">
@@ -39,7 +43,7 @@ export function AddedFavoritesModal({ props }) {
             src={poster_path}
             loading="lazy"
             alt=""
-            className="m-10 object-none"
+            onError={handleImgError}
           />
         </div>
 
