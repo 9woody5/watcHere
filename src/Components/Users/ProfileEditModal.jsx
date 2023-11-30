@@ -41,8 +41,6 @@ const getBackgroundImage = (type) => {
       return "../src/assets/img/logo/logo_wavve.png";
     case "DISNEY_PLUS":
       return "../src/assets/img/logo/logo_disney_plus.png";
-    case "PARAMOUNT_PLUS":
-      return "../src/assets/img/logo/logo_Paramount_Plus.png";
     default:
       return "";
   }
@@ -275,12 +273,6 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
                 onClick={handleDropdownItemClick}
               >
                 DISNEY PLUS
-              </DropdownItem>
-              <DropdownItem
-                serviceName="PARAMOUNT_PLUS"
-                onClick={handleDropdownItemClick}
-              >
-                PARAMOUNT PLUS
               </DropdownItem>
             </ul>
           )}
