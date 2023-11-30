@@ -41,11 +41,11 @@ function ReviewInfo({contentType, id, token}) {
   }
   useEffect(()=>{
     updateMyReviewState(contentType,id,token);
-  }, [])
+  }, [id, token])
 
   useEffect(()=>{
     updateReviewsState(contentType,id,page, reviewFilter);
-  }, [reviewFilter, id, token, myReviews]);
+  }, [reviewFilter, myReviews]);
 
   /* 리뷰 작성 관련 */
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -61,7 +61,10 @@ function ReviewInfo({contentType, id, token}) {
   }
 
   const openModal = () => {
-    if (myReviews.length!==0){
+    if(!token){
+      alert('리뷰를 작성하시려면, 로그인을 먼저 해주세요!');
+    }
+    else if (myReviews.length!==0){
       alert('이미 리뷰가 존재합니다. 리뷰는 컨텐츠 당 하나만 작성가능합니다.\n나의 리뷰에서 리뷰를 수정해보세요! 😲');
     }
     else{

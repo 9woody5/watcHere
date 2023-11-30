@@ -31,6 +31,7 @@ export const callPostReviewsAPI = (contentType, contentId, detail, rating, token
 // 리뷰 신고
 export const callReviewReportAPI = (reviewId, token) => {
   return axios.put(`${hostUrl}/api/v1/reviews/${reviewId}/report`,
+    {id:reviewId},
     {headers: {
       Authorization: `Bearer ${token}`}}
   );
