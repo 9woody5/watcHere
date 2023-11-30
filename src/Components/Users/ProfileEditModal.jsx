@@ -77,8 +77,11 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
   const [favoriteContent, setFavoriteContent] = useRecoilState(
     userFavoriteContentState
   );
+  //api PUT을 위한 state
   const [nickname, setNickname] = useState(userInfo.nickname);
   const [profileImage, setProfileImage] = useState(userInfo.profile_image);
+  const [poster, setPoster] = useState(userInfo.poster);
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedServiceName, setSelectedServiceName] = useState("");
   const [selectedContent, setSelectedContent] = useState({}); // 선택된 컨텐츠 상태 추가
@@ -95,14 +98,21 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
   };
 
   // 컨텐츠 선택 핸들러
-  const handleContentSelect = (selectedContentId, selectedTitle) => {
+  const handleContentSelect = (
+    selectedContentId,
+    selectedTitle,
+    selectedPoster
+  ) => {
     setSelectedContent({ id: selectedContentId, title: selectedTitle });
+    setPoster(selectedPoster); // 포스터 URL 상태 업데이트
   };
 
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
+
     formData.append("nickname", nickname);
+
     if (fileInputRef.current.files[0]) {
       formData.append("profile_image", fileInputRef.current.files[0]);
 
@@ -110,10 +120,12 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       setFavoriteContent({
         ...selectedContent,
         serviceName: selectedServiceName,
+        full_poster_path: poster,
       });
 
       onRequestClose();
     }
+    formData.append("poster", poster);
 
     try {
       const response = await fetch(
@@ -129,8 +141,14 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       );
 
       const data = await response.json();
+
       if (response.ok) {
-        setUserInfo({ ...userInfo, nickname, profile_image: profileImage });
+        setUserInfo({
+          ...userInfo,
+          nickname,
+          profile_image: profileImage,
+          full_poster_path: poster,
+        });
       } else {
         console.error("프로필 수정 실패: ", data);
       }
