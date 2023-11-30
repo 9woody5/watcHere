@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../../Common/CommonAtom";
 import { FaGear } from "react-icons/fa6";
 import { BiSolidUserCircle } from "react-icons/bi";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const UsersProfile = () => {
   // 사용자 정보를 저장할 상태
@@ -15,11 +16,14 @@ const UsersProfile = () => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
       try {
-        const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const data = await response.json();
         if (response.ok) {
@@ -48,12 +52,15 @@ const UsersProfile = () => {
     if (isConfirmed) {
       const token = localStorage.getItem("token"); // 토큰 가져오기
       try {
-        const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           // 탈퇴 처리 성공
@@ -78,9 +85,9 @@ const UsersProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className=" relative flex items-center justify-between border-solid border-2 border-custom-light-gray rounded-sm bg-custom-middle-gray w-[60%] h-[350px] ">
+    <div className=" relative flex items-center justify-between border-solid border-2 border-custom-light-gray rounded-sm bg-custom-middle-gray w-[60%] h-[320px] ">
       <div className="user-profile w-[25%] ">
-        <div className="flex flex-col flex-shrink-1 items-center justify-center user-profile-photo  w-[50%] ">
+        <div className="flex flex-col items-center justify-center user-profile-photo  w-[50%] ">
           {userInfo.profile_image ? (
             <img
               src={userInfo.profile_image}
@@ -89,7 +96,11 @@ const UsersProfile = () => {
               style={{ width: "10vw", height: "10vw" }}
             />
           ) : (
-            <BiSolidUserCircle size="10vw" color="9bb0a5" className="absolute translate-x-[50%] translate-y-[-8%]" />
+            <BiSolidUserCircle
+              size="10vw"
+              color="9bb0a5"
+              className="absolute translate-x-[50%] translate-y-[-8%]"
+            />
           )}
 
           <ProfileEditModal
@@ -114,7 +125,10 @@ const UsersProfile = () => {
       </div>
 
       <div className=" dropdown dropdown-end profile-setting w-[10%] translate-y-[-250%] ">
-        <label tabIndex={0} className=" relative btn btn-ghost btn-circle avatar hover:bg-zinc-70 ">
+        <label
+          tabIndex={0}
+          className=" relative btn btn-ghost btn-circle avatar hover:bg-zinc-70 "
+        >
           <button className=" ">
             <FaGear size={22} />
           </button>
@@ -127,7 +141,10 @@ const UsersProfile = () => {
               <button onClick={() => setIsModalOpen(true)}>프로필 편집</button>
             </li>
             <li>
-              <button onClick={handleUserDeletion} className=" text-red-600 hover:text-red-600">
+              <button
+                onClick={handleUserDeletion}
+                className=" text-red-600 hover:text-red-600"
+              >
                 회원탈퇴
               </button>
             </li>
