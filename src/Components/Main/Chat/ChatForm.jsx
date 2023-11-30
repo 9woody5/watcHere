@@ -10,7 +10,7 @@ const supabase = createClient("https://efwyaewnaeiblkswsccs.supabase.co", import
   },
 });
 
-export const ChatForm = ({ isLoggedIn, fetchUserInfo, username, isChatFormVisible }) => {
+export const ChatForm = ({ isLoggedIn, fetchUserInfo, username }) => {
   const [textValue, setTextValue] = useState("");
   const [messages, setMessages] = useState([]);
   const [uniqueUserCount, setUniqueUserCount] = useState(null);
