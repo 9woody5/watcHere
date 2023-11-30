@@ -4,7 +4,7 @@ import UsersReview from "../Components/Users/UsersReview";
 
 const UsersPage = () => {
   return (
-    <div className=" w-[full] h-[full]">
+    <div className=" w-[full] h-[full] font-pretendard">
       <section className="flex flex-col items-center justify-center text-white mt-9">
         <UsersProfile />
       </section>

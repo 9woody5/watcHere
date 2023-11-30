@@ -114,12 +114,7 @@ const ResultAll = () => {
         ) : isError || searchResults.length === 0 ? (
           <div className="text-white">
             {isError ? (
-              <>
-                <div className="text-white">
-                  <p>에러가 발생했습니다 😓</p>
-                  <p className="mt-2">잠시 후 다시 시도해 주세요</p>
-                </div>
-              </>
+              <>{alert("에러가 발생했습니다 😓\n잠시 후 다시 시도해 주세요")}</>
             ) : (
               <div className="flex flex-col items-center mt-4 md:mt-12">
                 <p className="text-lg font-pretendardBold">‘{searchQuery}’ 에 해당하는 콘텐츠가 없어요😅</p>
