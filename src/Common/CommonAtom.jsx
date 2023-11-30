@@ -20,6 +20,7 @@ export const userInfoState = atom({
     nickname: "",
     email: "",
     profile_image: "",
+    full_poster_path: "",
   },
 });
 
