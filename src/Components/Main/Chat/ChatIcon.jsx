@@ -76,7 +76,13 @@ const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
         </svg>
       </button>
       {isChatFormVisible && (
-        <ChatForm isLoggedIn={isLoggedIn} fetchUserInfo={fetchUserInfo} username={username} setUsername={setUsername} />
+        <ChatForm
+          isLoggedIn={isLoggedIn}
+          fetchUserInfo={fetchUserInfo}
+          username={username}
+          setUsername={setUsername}
+          isChatFormVisible={isChatFormVisible}
+        />
       )}
     </>
   );
