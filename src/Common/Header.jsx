@@ -17,11 +17,14 @@ const Header = () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await fetch("https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await fetch(
+            "https://kdt-sw-6-team05.elicecoding.com/api/v1/users/me",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           const data = await response.json();
           if (response.ok) {
             setUserInfo({
@@ -90,13 +93,15 @@ const Header = () => {
           <Link to={"/movie"} onClick={() => setSelectedCate("movie")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
-                selectedCate === "movie" ? "font-pretendardBold text-emerald-500" : ""
+                selectedCate === "movie"
+                  ? "font-pretendardBold text-emerald-500"
+                  : ""
               }`}
             >
               영화
             </li>
           </Link>
-          <Link to={"/drama"} onClick={() => setSelectedCate("drama")}>
+          {/* <Link to={"/drama"} onClick={() => setSelectedCate("drama")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
                 selectedCate === "drama" ? "font-pretendardBold text-emerald-500" : ""
@@ -104,20 +109,24 @@ const Header = () => {
             >
               드라마
             </li>
-          </Link>
+          </Link> */}
           <Link to={"/tv"} onClick={() => setSelectedCate("tv")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
-                selectedCate === "tv" ? "font-pretendardBold  text-emerald-500" : ""
+                selectedCate === "tv"
+                  ? "font-pretendardBold  text-emerald-500"
+                  : ""
               }`}
             >
-              예능
+              TV
             </li>
           </Link>
           <Link to={"/animation"} onClick={() => setSelectedCate("animation")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
-                selectedCate === "animation" ? "font-pretendardBold  text-emerald-500" : ""
+                selectedCate === "animation"
+                  ? "font-pretendardBold  text-emerald-500"
+                  : ""
               }`}
             >
               애니메이션
@@ -128,7 +137,10 @@ const Header = () => {
         {isLoggedIn ? (
           // 로그인 된 상태
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:bg-zinc-700">
+            <label
+              tabIndex={0}
+              className="btn btn-ghost btn-circle avatar hover:bg-zinc-700"
+            >
               <button className="rounded-full">
                 {userInfo.profile_image ? (
                   <img
