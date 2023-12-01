@@ -115,6 +115,11 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
     const formData = new FormData();
 
     formData.append("nickname", nickname);
+
+    if (fileInputRef.current.files[0]) {
+      formData.append("profile_image", fileInputRef.current.files[0]);
+    }
+
     formData.append("poster", poster);
 
     try {
@@ -139,14 +144,13 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
           profile_image: profileImage,
           full_poster_path: poster,
         });
+        onRequestClose();
       } else {
         console.error("프로필 수정 실패: ", data);
       }
     } catch (error) {
       console.error("오류 발생: ", error);
     }
-
-    onRequestClose();
   };
 
   const fileInputRef = useRef();
@@ -288,6 +292,7 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
             취소
           </div>
         </div>
+
         <div className="w-[200px] h-[52px] text-base leading-[50px] text-white border-none bg-[#40AD80] rounded-xl">
           <div
             onClick={handleSave}
