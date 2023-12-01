@@ -61,15 +61,20 @@ export const mainNavEnabled = atom({
   },
 });
 
-
 /* 컨텐츠 상세페이지 관련 */
 // 리뷰 목록
 export const reviewsState = atom({
-  key: 'reviewsState',
+  key: "reviewsState",
   default: [],
-})
+});
 // 마이 리뷰 목록
 export const myReviewState = atom({
-  key: 'myReviewState',
+  key: "myReviewState",
   default: [],
-})
+});
+
+// 마이 페이지 콘텐츠 좋아요 리스트
+export const movieListState = atom({
+  key: "movieListState", // 고유한 key
+  default: [], // 초기값은 빈 배열
+});
