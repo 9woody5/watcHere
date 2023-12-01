@@ -1,13 +1,38 @@
 import { useRecoilState } from "recoil";
+import { isLoggedInState, usernameState } from "../../Common/CommonAtom";
 import { chatState } from "../../Common/CommonAtom";
-import { useState } from "react";
 import { ChatForm } from "./ChatForm";
+import axios from "axios";
 
-const ChatIcon = () => {
+const BASE_URL = "https://kdt-sw-6-team05.elicecoding.com/api/v1/";
+
+const ChatIcon = ({ isChatFormVisible, setIsChatFormVisible }) => {
   // 아이콘 동적 스타일링
+  const jwtToken = localStorage.getItem("token");
   const [chat, setChat] = useRecoilState(chatState);
-  const [isChatFormVisible, setIsChatFormVisible] = useState(false);
+  const [isLoggedIn] = useRecoilState(isLoggedInState);
+  const [username, setUsername] = useRecoilState(usernameState);
 
+  const fetchUserInfo = async () => {
+    // 사용자 정보를 가져오는 코드
+    if (jwtToken) {
+      try {
+        const response = await axios.get(`${BASE_URL}users/me`, {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        });
+
+        const { data } = response;
+
+        if (data && data.nickname) {
+          setUsername(data.nickname);
+        } else {
+          console.error("사용자 정보에 닉네임이 없음");
+        }
+      } catch (error) {
+        console.error("사용자 정보 가져오기 실패", error);
+      }
+    }
+  };
   const handleMouseOver = () => {
     setChat({ ...chat, isHovered: true });
   };
@@ -15,9 +40,17 @@ const ChatIcon = () => {
     setChat({ ...chat, isHovered: false });
   };
 
-  const handleChatClick = () => {
-    setChat({ ...chat, isClicked: !chat.isClicked });
-    setIsChatFormVisible(!isChatFormVisible);
+  const handleChatClick = async () => {
+    if (isLoggedIn) {
+      // ChatForm이 열리는 경우에만 사용자 정보를 가져옴
+      if (!isChatFormVisible) {
+        await fetchUserInfo();
+      }
+      setChat({ ...chat, isClicked: !chat.isClicked });
+      setIsChatFormVisible(!isChatFormVisible);
+    } else {
+      setIsChatFormVisible(!isChatFormVisible);
+    }
   };
 
   return (
@@ -42,7 +75,15 @@ const ChatIcon = () => {
           />
         </svg>
       </button>
-      {isChatFormVisible && <ChatForm />}
+      {isChatFormVisible && (
+        <ChatForm
+          isLoggedIn={isLoggedIn}
+          fetchUserInfo={fetchUserInfo}
+          username={username}
+          setUsername={setUsername}
+          isChatFormVisible={isChatFormVisible}
+        />
+      )}
     </>
   );
 };

@@ -1,42 +1,57 @@
+import { MdOutlineCancel } from "react-icons/md";
+
+function TextLineSplitter(text) {
+  const parts = text.split(":");
+
+  const divs = parts.map((part, index) => <div key={index}>{part}</div>);
+
+  return divs;
+}
+
 /**
+ * 카테고리에서 즐겨찿기에 등록할때 사용하는 모달
+ * dialog id 를 카드의 uid 를 받아서 고유화 시키는데 이게 더미데이터에서는 id 값이 유니크하지 않고
+ * 돌려쓰기 때문에 의도하지 않은 부분에서 화면 깜빡임이 생기게 된다.
+ * 수정은 card.jsx 와 categorymodal양쪽을 고쳐줘야한다.
  *
- * @param {Number} reports 다른사람에게 신고당한 횟수
- * @param {String} review 작성한 리뷰 내용
- * @param {String} nick_name 해당 계정의 닉네임
- * @param {String} email 해당 계정의 이메일
- * @param {Date} write_date  해당 리뷰의 작성일
- *
- * @returns
- *
- * 유저 리뷰 삭제용 모달
  */
 export function AddedFavoritesModal({ props }) {
-  const postFavorites = async (movieId) => {
-    let jsonData = {};
-    jsonData["movieId"] = movieId;
-    console.log("데이터 전송 준비");
-    // const response = await PostData("url", JSON.stringify(jsonData));
-    // console.log(response);
-  };
-  const { email, nick_name, reports, review, write_date } = props;
+  const { title, name, poster_path, id } = props;
+  // const postFavorites = async (movieId) => {
+  //   let jsonData = {};
+  //   jsonData["movieId"] = movieId;
+  //   console.log("데이터 전송 준비");
+  //   // const response = await PostData("url", JSON.stringify(jsonData));
+  //   // console.log(response);
+  // };
+  // const { email, nick_name, reports, review, write_date } = props;
   return (
-    <dialog id="addFavoritesModal" className="modal">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg">즐겨찾기</h3>
-        <p className="py-4">
-          <div>즐겨찾기 목록에 추가 되었습니다.</div>
-        </p>
-        <div className="modal-action">
-          <form method="dialog">
-            {/* <button
-              className="btn1"
-              onClick={() => delUserReview("userId, reviewId")}
-            >
-              삭제하기
-            </button> */}
-            <button className="btn">닫기</button>
-          </form>
+    <dialog id={"addFavoritesModal" + id} className="modal">
+      <div className="modal-box bg-white text-black">
+        <form method="dialog">
+          <button className="rounded-full absolute right-5 top-5 focus:outline-none">
+            <MdOutlineCancel className="text-5xl" />
+          </button>
+        </form>
+        <div className="font-bold text-3xl">즐겨찾기</div>
+        <div className="flex items-center justify-center ">
+          <img
+            src={poster_path}
+            loading="lazy"
+            alt=""
+            className="m-10 object-none"
+          />
         </div>
+
+        <div className="text-3xl font-bold p-2 mx-5">
+          {title !== undefined
+            ? TextLineSplitter(title)
+            : TextLineSplitter(name)}
+        </div>
+        <div className="mt-2 text-xl font-semibold">
+          즐겨찾기 목록에 추가 되었습니다.
+        </div>
+        <div className="modal-action"></div>
       </div>
     </dialog>
   );

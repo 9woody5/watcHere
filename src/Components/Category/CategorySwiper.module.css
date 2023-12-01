@@ -14,13 +14,11 @@
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 }
 
 .swiper-slide img {
   display: block;
-  width: 16rem;
-  height: 20rem;
-  object-fit: cover;
-  border-radius: 10px;
+  height: 24rem;
+  object-fit: contain;
 }

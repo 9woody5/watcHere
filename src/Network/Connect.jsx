@@ -9,14 +9,17 @@
 
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
+const accessToken = localStorage.getItem("token");
+const header = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Cache-Control": "no-cache",
+};
 // 쿠키 구현부 테스트 필요합니다.
 export async function PostLogin(url, data) {
   const [, setCookie] = useCookies(["accessToken"]);
   try {
-    const response = await axios.post(url, data).then((e) => {
-      return e;
-    });
+    const response = await axios.post(url, data);
     setCookie("accessToken", response);
     return response;
   } catch (e) {
@@ -28,8 +31,20 @@ export async function PostLogin(url, data) {
 //통상적으로 데이터를 API 에서 받아올 경우
 export async function GetData(url) {
   try {
-    const response = await axios.get(url).then((e) => {
-      return e;
+    const response = await axios.get(url, {
+      headers: { ...header },
+    });
+    return response;
+  } catch (e) {
+    // console.log(e);
+    return null;
+  }
+}
+
+export async function GetDataJwt(url) {
+  try {
+    const response = await axios.get(url, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
     });
     return response;
   } catch (e) {
@@ -37,7 +52,6 @@ export async function GetData(url) {
     return null;
   }
 }
-
 //데이터를 Post 로 보낸 후 결과값이 없고 성공여부만 존재할 경우
 export async function PostData(url, data) {
   try {
@@ -50,11 +64,12 @@ export async function PostData(url, data) {
     return false;
   }
 }
+
 //데이터를 Post 로 보낸후 해당 결과값을 받아와서 표시해야할 경우
 export async function PostDataGetResponse(url, data) {
   try {
-    const response = await axios.post(url, data).then((e) => {
-      return e;
+    const response = await axios.post(url, data, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
     });
     return response;
   } catch (e) {
@@ -65,10 +80,22 @@ export async function PostDataGetResponse(url, data) {
 //파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
 export async function PutData(url, data) {
   try {
-    await axios.put(url, data).then((e) => {
-      return e;
+    axios.put(url, data).then((e) => {
+      return true;
     });
-    return true;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+//파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
+export async function PutGetResponse(url) {
+  try {
+    const response = axios.put(url, null, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
+    });
+    return response;
   } catch (e) {
     console.log(e);
     return null;

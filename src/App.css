@@ -1,12 +1,14 @@
 html,
 body {
   /* height: 100%; */
-  width: 100%;
+  min-width: 480px;
   box-sizing: border-box;
+  margin: 0 auto;
+  background-color: #2c2c2c;
+  position: relative;
 }
 
 body {
-  background-color: #2c2c2c;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-use-select: none;
@@ -16,4 +18,36 @@ body {
 .hover {
   transition: color 0.2s ease-in-out;
   color: #047857;
+}
+
+/* 검색어 조회 영역 */
+.records::-webkit-scrollbar {
+  width: 12px; /* 스크롤바의 너비 */
+}
+
+.records::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #ccc; /* 스크롤바의 색상 */
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+
+.records::-webkit-scrollbar-track {
+  background: #fff; /*스크롤바 뒷 배경 색상*/
+}
+
+/* 채팅 영역 */
+.msg_area::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.msg_area::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #ccc; /* 스크롤바의 색상 */
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
+
+.msg_area::-webkit-scrollbar-track {
+  background: #fff; /*스크롤바 뒷 배경 색상*/
 }

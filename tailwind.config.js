@@ -1,5 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+import { resolve } from "path";
+
 export default {
+  resolve: {
+    alias: {
+      $fonts: resolve("./src/assets/fonts"),
+    },
+  },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
@@ -25,6 +32,8 @@ export default {
         "custom-light-gray": "#a3a3a3",
         "custom-middle-gray": "rgb(70 70 70)",
         "custom-hover-gray": "#dedede",
+        "custom-watcha-color": "rgb(234, 233, 232)",
+        "custom-watcha-bg": "rgb(248, 248, 248)",
       },
       backgroundImage: {
         "custom-gradient":

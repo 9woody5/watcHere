@@ -10,6 +10,8 @@ import ContentCategory from "./Components/Category/CategoryContent";
 import ContentSite from "./router/ContentSite";
 import AdminSite from "./router/AdminSite";
 import LoginPage from "./Pages/LoginPage";
+import OAuth2RedirectHandler from "./Components/Login/OAuth2RedirectHandler";
+
 import UsersPage from "./Pages/UsersPage";
 import BookmarkList from "./Components/Users/BookmarkList";
 import ResultPage from "./Pages/ResultPage";
@@ -21,11 +23,17 @@ function App() {
       <Routes>
         <Route path="/" element={<ContentSite />}>
           <Route index element={<MainPage />} />
-          <Route path="category" element={<ContentCategory />} />
+          <Route path="drama" element={<ContentCategory />} />
+          <Route path="movie" element={<ContentCategory />} />
+          <Route path="tv" element={<ContentCategory />} />
+          <Route path="animation" element={<ContentCategory />} />
           <Route path="contentDetail/:idx" element={<ContentDetail />} />
           <Route path="contentDetail" element={<ContentDetail />} />
+          <Route path="movie/:id" element={<ContentDetail />} />
+          <Route path="tv/:id" element={<ContentDetail />} />
           <Route path="resultpage" element={<ResultPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="oauth/redirect" element={<OAuth2RedirectHandler />} />
           <Route path="mypage" element={<UsersPage />} />
           <Route path="mypage/bookmark-list" element={<BookmarkList />} />
         </Route>

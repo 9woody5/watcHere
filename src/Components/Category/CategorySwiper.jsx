@@ -1,5 +1,5 @@
 import ThumbnailCard from "./Card";
-import { MovieThumbnailSkeletionComponent } from "../../Common/SkeletonComponent";
+import { SkeletionComponent } from "../../Common/SkeletonComponent";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MdOutlineArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 // Import Swiper styles
@@ -21,46 +21,31 @@ export default function CategorySwiper({ props }) {
   const nextRef = useRef(null);
   return (
     <>
-      <div className="mt-1 relative -top-20 left-full flex md:hidden">
-        <button
-          ref={prevRef}
-          className="w-12 h-12 -ml-44 rounded-full bg-white flex items-center justify-center"
-        >
+      <div className="mt-10 relative -top-20 left-full flex md:hidden">
+        <button ref={prevRef} className="w-12 h-12 -ml-44 rounded-full bg-white flex items-center justify-center">
           <MdOutlineArrowBackIosNew className="text-3xl" />
         </button>
-        <button
-          ref={nextRef}
-          className="w-12 h-12 ml-10 rounded-full bg-[#40AD80] flex items-center justify-center"
-        >
+        <button ref={nextRef} className="w-12 h-12 ml-10 rounded-full bg-[#40AD80] flex items-center justify-center">
           <MdArrowForwardIos className="text-white text-3xl" />
         </button>
       </div>
 
-      {/* <div className="mt-1 relative flex md:block">
-        <button
-          ref={prevRef}
-          className="w-12 h-12 rounded-full bg-white flex items-center justify-center"
-        >
-          <MdOutlineArrowBackIosNew className="text-3xl" />
-        </button>
-        <button
-          ref={nextRef}
-          className="w-12 h-12 rounded-full bg-[#40AD80] flex items-center justify-center"
-        >
-          <MdArrowForwardIos className="text-white text-3xl" />
-        </button>
-      </div> */}
-
       <Swiper
         breakpoints={{
-          767: {
+          720: {
             slidesPerView: 1,
           },
-          1023: {
+          1080: {
             slidesPerView: 3,
           },
-          1279: {
+          1440: {
             slidesPerView: 5,
+          },
+          1650: {
+            slidesPerView: 6,
+          },
+          1800: {
+            slidesPerView: 6,
           },
         }}
         navigation={{
@@ -71,17 +56,14 @@ export default function CategorySwiper({ props }) {
         className={cssModule["swiper"]}
       >
         {props.length > 0
-          ? props?.map((element) => (
-              <SwiperSlide
-                key={element.idx}
-                className={cssModule["swiper-slide"]}
-              >
+          ? props?.map((element, idx) => (
+              <SwiperSlide key={idx} className={cssModule["swiper-slide"]}>
                 <ThumbnailCard props={element} />
               </SwiperSlide>
             ))
           : tempArr.map((_, idx) => (
               <SwiperSlide key={idx} className={cssModule["swiper-slide"]}>
-                <MovieThumbnailSkeletionComponent />
+                <SkeletionComponent />
               </SwiperSlide>
             ))}
       </Swiper>
