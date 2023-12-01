@@ -64,8 +64,8 @@ const BookmarkList = () => {
                           />
                         </div>
                       </div>
-                      <div className="text-left text-white mt-[5px] mr-[10px] w-[140px] truncate">
-                        <div className="text-base font-medium	tracking-tight leading-6	whitespace-nowrap	">
+                      <div className="text-left text-white mt-[5px] mr-[10px] w-[140px]">
+                        <div className="text-base font-medium	tracking-tight leading-6	whitespace-nowrap truncate	">
                           {content.title || content.name}
                         </div>
                       </div>
