@@ -29,7 +29,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
     const subscription = supabase
       .channel("room1")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
-        console.log("Change received!", payload);
+        // console.log("Change received!", payload);
         // 변경 사항을 처리하고 상태 업데이트
         setMessages((prevMessages) => {
           const isNewMessageAlreadyAdded = prevMessages.some((msg) => msg.id === payload.new.id);

@@ -135,6 +135,7 @@ const MainSearchBar = ({ style }) => {
       handleSearchInteraction(autoCompleteValue[selectedItemIndex]);
     }
   };
+
   const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
   useLayoutEffect(() => {
