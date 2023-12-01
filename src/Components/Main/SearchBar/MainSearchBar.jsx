@@ -55,21 +55,17 @@ const MainSearchBar = ({ style }) => {
   const navigate = useNavigate();
 
   // 검색 요청 디바운스 적용
-  const [debounceSearchValue, setDebounceSearchValue] = useState("");
-  let timeoutId = useRef(null); // timeoutId를 useRef로 변경
+  const [debouncedSearchValue, setDebounceSearchValue] = useState("");
 
-  const handleKeyUp = () => {
-    clearTimeout(timeoutId.current);
-    timeoutId.current = setTimeout(() => {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
       setDebounceSearchValue(searchValue);
-      // 추가 입력이 없으면 검색 내역 활성화
-      setTimeout(() => {
-        if (searchValue === debounceSearchValue) {
-          setSearchRecordsVisible(true);
-        }
-      }, 500); // 추가 입력 대기 시간 설정
     }, 200);
-  };
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchValue]);
 
   // 검색 값으로 데이터 조회
   const fetchSearchData = async () => {
@@ -97,7 +93,7 @@ const MainSearchBar = ({ style }) => {
   const { data: searchData = [] } = useQuery({
     queryKey: ["search-data"],
     queryFn: fetchSearchData,
-    enabled: debounceSearchValue !== "" && debounceSearchValue.length >= 2,
+    enabled: debouncedSearchValue !== "" && debouncedSearchValue.length >= 2,
   });
 
   ///////////////////////////////// 검색 내역 로직 ////////////////////////////////////
@@ -142,10 +138,11 @@ const MainSearchBar = ({ style }) => {
   const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
   useLayoutEffect(() => {
-    if (debounceSearchValue.length >= 2) {
+    if (debouncedSearchValue.length >= 2) {
       const suggestions = titles.filter(
         (title) =>
-          title.toLowerCase().includes(debounceSearchValue.toLowerCase()) || isChosungMatch(debounceSearchValue, title)
+          title.toLowerCase().includes(debouncedSearchValue.toLowerCase()) ||
+          isChosungMatch(debouncedSearchValue, title)
       );
       if (JSON.stringify(suggestions) !== JSON.stringify(autoCompleteValue)) {
         setAutocompleteValue(suggestions);
@@ -153,7 +150,7 @@ const MainSearchBar = ({ style }) => {
     } else if (autoCompleteValue.length !== 0) {
       setAutocompleteValue([]);
     }
-  }, [debounceSearchValue, titles, autoCompleteValue]);
+  }, [debouncedSearchValue, titles, autoCompleteValue]);
 
   // 검색 입력 값 체크
   const handleInputChange = (event) => {
@@ -267,7 +264,6 @@ const MainSearchBar = ({ style }) => {
               onChange={handleInputChange}
               autoComplete="true"
               onClick={handleSearchBarClick}
-              onKeyUp={handleKeyUp}
               ref={inputRef}
             />
             <button type="submit" disabled={searchValue === ""}>
