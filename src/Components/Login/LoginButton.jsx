@@ -1,5 +1,8 @@
 import React from "react";
 import { KAKAO, GOOGLE, NAVER } from "./OAuth";
+import naverIcon from "../../assets/img/logo/naver_icon.png";
+import kakaoIcon from "../../assets/img/logo/free-icon-kakao-talk-3991999.png";
+import googleIcon from "../../assets/img/logo/free-icon-google-2991148.png";
 
 const LoginButton = ({ buttonText, buttonType }) => {
   // 이벤트 핸들러 함수
@@ -22,13 +25,12 @@ const LoginButton = ({ buttonText, buttonType }) => {
   const getBackgroundImage = (type) => {
     switch (type) {
       case "naver":
-        return 'url("../src/assets/img/logo/naver_icon.png")';
+        return `url(${naverIcon})`;
       case "kakao":
-        return 'url("../src/assets/img/logo/free-icon-kakao-talk-3991999.png")';
+        return `url(${kakaoIcon})`;
       case "google":
-        return 'url("../src/assets/img/logo/free-icon-google-2991148.png")';
-      case "apple":
-        return 'url("../src/assets/img/logo/imgbin_apple-logo-png.png")';
+        return `url(${googleIcon})`;
+
       default:
         return "none";
     }
