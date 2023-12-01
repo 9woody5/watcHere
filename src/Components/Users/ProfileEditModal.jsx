@@ -281,22 +281,20 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       </div>
       <ul className="flex justify-between items-center">
         <div className="w-[200px] h-[52px] text-base leading-[50px] text-white border-none bg-[#5e5e5e] rounded-xl mr-2">
-          <a
-            href="#"
+          <div
             onClick={onRequestClose}
             className="flex justify-center items-center"
           >
             취소
-          </a>
+          </div>
         </div>
         <div className="w-[200px] h-[52px] text-base leading-[50px] text-white border-none bg-[#40AD80] rounded-xl">
-          <a
-            href="#"
+          <div
             onClick={handleSave}
             className="flex justify-center items-center"
           >
             확인
-          </a>
+          </div>
         </div>
       </ul>
     </Modal>
