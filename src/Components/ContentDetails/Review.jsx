@@ -24,14 +24,18 @@ function Review({contentType, review, id, token}) {
         <div className='text-xs'>{String(review.date)}</div>
       </div>
       
-      <div className='w-1/4 flex flex-col'>
+      <div className='w-1/4 flex flex-col justify-center items-center'>
         <div className=''>{[1,2,3,4,5].map((index)=>(
           <AiFillStar key={`review-socre-star-${index}`} className= {`inline-block text-2xl ${convertString2Number(review.score)>=index? 'text-yellow-200': 'text-white'} text-2xl`} /> ))}
           
         </div>
         {review.isMine?
           <MyReviewButtons id={id}  review={review} token={token} contentType={contentType} /> :
-          <ReviewButtons reviewId={review.reviewId} token={token}/>
+          <ReviewButtons reviewId={review.reviewId} token={token} id={id} contentType={contentType}/>
+        }
+        {!review.isMine?
+          (<div className='text-xs'>신고된 수 : {review.reports}</div>):
+          (<></>)
         }
       </div>
     </div>

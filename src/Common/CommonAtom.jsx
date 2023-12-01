@@ -70,8 +70,26 @@ export const reviewsState = atom({
   key: "reviewsState",
   default: [],
 });
+
 // 마이 리뷰 목록
 export const myReviewState = atom({
   key: "myReviewState",
   default: [],
+});
+
+// 리뷰 페이지
+export const reviewPageState = atom({
+  key: 'reviewPageState',
+  default: 0,
+})
+// 리뷰 필터
+export const reviewFilterState = atom({
+  key: 'reviewFilterState',
+  default: 'createdAt'
+})
+
+// 마이 페이지 콘텐츠 좋아요 리스트
+export const movieListState = atom({
+  key: "movieListState", // 고유한 key
+  default: [], // 초기값은 빈 배열
 });

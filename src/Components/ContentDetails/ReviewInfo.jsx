@@ -1,19 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {useRecoilState } from "recoil";
 import {ReviewInputModal} from './Modals';
 import * as Fetchers from './Fetchers'; 
 import * as contentReformatData from './refomatData';
 import Review from './Review';
-import { myReviewState ,reviewsState } from "../../Common/CommonAtom";
+import { myReviewState ,reviewsState, reviewPageState, reviewFilterState } from "../../Common/CommonAtom";
 
 function ReviewInfo({contentType, id, token}) {
   /* 리뷰 데이터 관련 */
   const [myReviews, setMyReviews] = useRecoilState(myReviewState);
   const [reviews, setReviews] = useRecoilState(reviewsState);
-
-  const [reviewFilter, setReviewFilter] = useState('createdAt');
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  const [reviewFilter, setReviewFilter] = useRecoilState(reviewFilterState);
+  const [page, setPage] = useRecoilState(reviewPageState);
 
   const checkReviewTabActive = (reviewTab) =>{
     return reviewFilter === reviewTab? 'tab-active': '';
@@ -25,7 +23,8 @@ function ReviewInfo({contentType, id, token}) {
       .then(({data})=>{
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
         setMyReviews(reformattedMyReviews);
-    })
+      })
+      .catch(()=>{setMyReviews([])});
   }
   const updateReviewsState = (contentType, id, page, reviewFilter) => {
     if (reviewFilter !== 'my-review'){
@@ -34,6 +33,7 @@ function ReviewInfo({contentType, id, token}) {
           const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
         })
+        .catch(()=>{setReviews([])});
     }
     else{
       setReviews(myReviews);
@@ -41,6 +41,7 @@ function ReviewInfo({contentType, id, token}) {
   }
   useEffect(()=>{
     updateMyReviewState(contentType,id,token);
+    updateReviewsState(contentType,id,page, reviewFilter);
   }, [id, token])
 
   useEffect(()=>{
@@ -127,7 +128,7 @@ function ReviewInfo({contentType, id, token}) {
               {reviews.map((review,idx)=>(<tr key={`review-${idx}`}><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
             </tbody>
           </table>):
-          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 리뷰를 작성해보세요! </div>)
+          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 로그인하여, 리뷰를 작성해보세요! </div>)
         }
       </div>
     </div>

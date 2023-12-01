@@ -63,7 +63,7 @@ export default function DateFormat(date, formatterType) {
       formattedDateTime = `${month}" "${day}" "${year}`;
       break;
     case TIME_FORMATTER_yyyy_mm_dd_hh_mm_ss:
-      formattedDateTime = `${year}-${month}-${day}" "${hour}:${minutes}:${seconds}`;
+      formattedDateTime = `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`;
       break;
     case TIME_FORMATTER_hh_mm_ss:
       formattedDateTime = `${hour}:${minutes}:${seconds}`;

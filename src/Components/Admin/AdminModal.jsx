@@ -111,7 +111,8 @@ export function CheckUserInfoModal({ props }) {
  * 유저 리뷰 삭제용 모달
  */
 export function DeleteUserReview({ props, getReviewList }) {
-  const { detail, likes, reports, author, id } = props;
+  const { detail, likes, reports, created_at, author, id } = props;
+  console.log(created_at);
   const delUserReview = async () => {
     const response = await DelDataJwt(
       connect.mainUrl + connect.adminReviewDel.replace("{id}", id)
@@ -136,7 +137,7 @@ export function DeleteUserReview({ props, getReviewList }) {
 
           <div className="p-2">작성 리뷰 : {detail}</div>
           <div className="p-2 pl-10">{}</div>
-          <div className="p-2">작성일: {}</div>
+          <div className="p-2">작성일: {created_at}</div>
           <div className="p-2 text-red-600 text-xl font-semibold">
             삭제하시겠습니까?
           </div>

@@ -2,11 +2,11 @@
 const defaultImg = 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=1480'
 
 export function reformatContentDirector(name, img){
-  return {name, img:img??defaultImg}
+  return {name, img:(img?img:defaultImg)}
 }
 
 export function reformatContentActors(actors){
-  return actors.slice(0,3).map(({name, profile_path})=> {return {name, 'img':profile_path?? defaultImg}})
+  return actors.slice(0,3).map(({name, profile_path})=> {return {name, img:(profile_path?profile_path:defaultImg)}})
 }
 
 
@@ -29,13 +29,14 @@ export function reformatContentScoreData(scores){
 }
 
 export function reformatReviewData(reviews){
-  return reviews.map(({author, id, detail, rating})=>{
+  return reviews.map(({author, id, detail, rating, reports})=>{
     const {nickname, updated_at, profile_image} = author;
     return {'userImg': profile_image,'userName': nickname,
             'reviewId': id,
             'text': detail,
             'date': (new Date(updated_at)).toLocaleDateString("ko-KR"),
-            'score': rating 
+            'score': rating,
+            'reports': reports
     }
   })
 
