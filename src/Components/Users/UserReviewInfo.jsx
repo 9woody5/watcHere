@@ -112,8 +112,8 @@ const UsersReviewInfo = () => {
         {loading ? (
           <div>Loading...</div>
         ) : userReviews.length === 0 ? (
-          <div className="font-xl font-bold">
-            작성하신 리뷰가 없어요🧐 <br />
+          <div className="text-white font-md font-bold">
+            <br /> 작성하신 리뷰가 없어요..🧐
           </div>
         ) : (
           <div className="overflow-y-auto  h-[250px] ">
