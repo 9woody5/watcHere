@@ -1,7 +1,5 @@
+import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-// import axios from "axios";
-import Connect from "../../Network/Connect.json";
-import { GetData } from "../../Network/Connect";
 import { SwiperComponent } from "../Content/SwiperComponent";
 import MainSkeletonUI from "./MainSkeletonUI";
 
@@ -9,7 +7,7 @@ export default function MainContent() {
   // 장르 데이터 가져오기
   const fetchContentDetailData = async (contentId) => {
     try {
-      const responseGenre = await GetData(Connect["mainUrl"] + Connect["movieDetail"].replace("{movieId}", contentId));
+      const responseGenre = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/movie/${contentId}`);
       return responseGenre.data;
     } catch (error) {
       console.error("데이터 조회 실패", error);
@@ -25,7 +23,7 @@ export default function MainContent() {
       let type = "MOVIE";
       let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
 
-      const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
+      const response = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/contents${queryString}`);
 
       // 각 객체의 id 값을 이용하여 fetchContentDetailData 호출
       const contentDetailsPromises = response.data.results.map(async (content) => {

@@ -1,7 +1,6 @@
+import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetData } from "../../Network/Connect";
-import Connect from "../../Network/Connect.json";
 import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "./ResultSkeletonUI";
 import Pagination from "./Pagination";
@@ -45,8 +44,10 @@ const ResultByCategories = () => {
 
       for (let page = 1; page <= maxPage; page++) {
         let queryString = `?query=${query}&page=${page}`;
-        const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
-        const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+        const responseTV = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/tv${queryString}`);
+        const responseMovie = await axios.get(
+          `https://kdt-sw-6-team05.elicecoding.com/api/v1/search/movie${queryString}`
+        );
 
         const mapData = (item) => ({
           id: item.id,
@@ -100,8 +101,8 @@ const ResultByCategories = () => {
 
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
-  const category = ["영화", "드라마", "애니메이션"];
-  const dataCate = ["movie", "drama", "anime"];
+  const category = ["영화", "TV", "애니메이션"];
+  const dataCate = ["movie", "tvshow", "anime"];
 
   // react-query로 데이터 연결 및 관리
   const {
@@ -121,7 +122,7 @@ const ResultByCategories = () => {
         case "movie":
           data = searchResults.dataMovie || [];
           break;
-        case "drama":
+        case "tvshow":
           data = searchResults.dataTV || [];
           break;
         case "anime":
@@ -140,14 +141,14 @@ const ResultByCategories = () => {
   const itemsPerPage = 6;
   const [currentPages, setCurrentPages] = useState({
     movie: 1,
-    drama: 1,
+    tvshow: 1,
     anime: 1,
   });
 
   useEffect(() => {
     setCurrentPages({
       movie: 1,
-      drama: 1,
+      tvshow: 1,
       anime: 1,
     });
   }, [searchQuery]);

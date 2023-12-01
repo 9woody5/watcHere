@@ -1,16 +1,18 @@
 import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
+import { useRecoilValue } from "recoil";
+import { usernameState } from "../../Common/CommonAtom";
 
-const MessageList = ({ currentUser, messages }) => {
-  // const [messages, setMessages] = useState([]);
+const MessageList = ({ messages }) => {
   const containerRef = useRef(null);
+  const userInfo = useRecoilValue(usernameState);
 
   const AddMessage = ({ message }) => {
     const username = message?.username;
     const content = message?.content;
     const createdAt = message?.created_at;
-    const formattedDate = dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss");
-    const isMyMessage = message.username === currentUser.username;
+    const formattedDate = dayjs(createdAt).format("YYYY.MM.DD HH:mm:ss");
+    const isMyMessage = userInfo.email === message?.email;
 
     return (
       <div className={`flex justify-${isMyMessage ? "end" : "start"} items-start gap-4 pr-2 py-2`}>

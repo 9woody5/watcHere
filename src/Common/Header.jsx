@@ -96,7 +96,7 @@ const Header = () => {
               영화
             </li>
           </Link>
-          <Link to={"/drama"} onClick={() => setSelectedCate("drama")}>
+          {/* <Link to={"/drama"} onClick={() => setSelectedCate("drama")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
                 selectedCate === "drama" ? "font-pretendardBold text-emerald-500" : ""
@@ -104,14 +104,14 @@ const Header = () => {
             >
               드라마
             </li>
-          </Link>
+          </Link> */}
           <Link to={"/tv"} onClick={() => setSelectedCate("tv")}>
             <li
               className={`w-28 py-3 text-center rounded-xl  ${
                 selectedCate === "tv" ? "font-pretendardBold  text-emerald-500" : ""
               }`}
             >
-              예능
+              TV
             </li>
           </Link>
           <Link to={"/animation"} onClick={() => setSelectedCate("animation")}>

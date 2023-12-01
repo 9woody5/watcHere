@@ -4,14 +4,14 @@
   "categoryData": "/categoryData",
   "userData": "/userData/{userId}",
   "categoryList": "/api/v1/contents",
-  "searchMovieData": "/api/v1/search/movie",
-  "searchTVData": "/api/v1/search/tv",
   "contentRatings": "/api/v1/reviews/ratings/{contentId}",
   "contentReviews": "/api/v1/reviews/content/{contentId}",
-  "movieDetail": "/api/v1/movie/{movieId}",
-  "tvDetail": "/api/v1/tv/{tvId}",
   "adminUserList": "/api/v1/users/admin",
   "adminUserBan": "/api/v1/users/admin/ban",
   "movieClickList": "/api/v1/topclick/movies",
-  "tvClickList": "/api/v1/topclick/tvshows"
+  "tvClickList": "/api/v1/topclick/tvshows",
+  "myinfo": "/api/v1/users/me",
+  "bookmark": "/api/v1/likes",
+  "adminReviewList": "/api/v1/reviews",
+  "adminReviewDel": "/api/v1/reviews/{id}"
 }

@@ -1,9 +1,6 @@
 // 코어 라이브러리
 import { useCallback, useEffect, useState } from "react";
 
-// 더미데이터
-import dummyUserList from "../../resources/userInfo.json";
-
 // 관리자용 유저 스테이터스
 
 // 그래픽 라이브러리
@@ -70,11 +67,7 @@ export default function AdminUserList() {
       const response = await GetDataJwt(
         connect["mainUrl"] + connect["adminUserList"] + queryString
       );
-      if (response !== null) {
-        setUserList(response.data);
-      } else {
-        setUserList(dummyUserList.user_data);
-      }
+      setUserList(response.data);
     },
     [filter, maxPage, nowPage]
   );
@@ -109,10 +102,6 @@ export default function AdminUserList() {
     getUserList();
   }, [getUserList]);
 
-  useEffect(() => {
-    getUserList();
-  }, [getUserList]);
-
   return (
     <div className="h-full bg-gray-300 flex flex-col justify-center">
       <div className="h-2/3 xl:h-full bg-white mx-4">
@@ -135,7 +124,10 @@ export default function AdminUserList() {
                 type="checkbox"
                 className="toggle toggle-success toggle-lg"
                 checked={filter}
-                onClick={() => setFilter(!filter)}
+                onChange={() => {
+                  setFilter(!filter);
+                  setNowPage(0);
+                }}
               />
               <div
                 className={`font-bold p-2 ${
@@ -148,7 +140,7 @@ export default function AdminUserList() {
             <div className=" w-[60%] flex items-center justify-center">
               <MdOutlineSearch
                 className="text-5xl w-[10%]"
-                onClick={handleOnSearch}
+                onChange={handleOnSearch}
               />
               <input
                 className="ml-2 border-2 bg-gray-100 w-[90%] rounded-md mr-4 text-xl h-14 text-black pl-2"

@@ -1,6 +1,5 @@
+import axios from "axios";
 import { SwiperComponent } from "../Content/SwiperComponent";
-import { GetData } from "../../Network/Connect";
-import Connect from "../../Network/Connect.json";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import "./SearchResult.css";
@@ -28,11 +27,8 @@ const ResultAll = () => {
     let page = "1";
     let queryString = `?query=${query}&page=${page}`;
 
-    // /api/v1/search/tv?query=%EC%82%AC%EB%9E%8C&page=1
-    // tv는 name, 영화는 title
-
-    const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
-    const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+    const responseTV = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/tv${queryString}`);
+    const responseMovie = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/movie${queryString}`);
 
     const dataTV = responseTV.data.results || [];
     const dataMovie = responseMovie.data.results || [];

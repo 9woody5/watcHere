@@ -1,10 +1,9 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
-import Connect from "../../../Network/Connect.json";
-import { GetData } from "../../../Network/Connect";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -73,11 +72,9 @@ const MainSearchBar = ({ style }) => {
     let query = searchValue;
     let page = "1";
     let queryString = `?query=${query}&page=${page}`;
-    // /api/v1/search/tv?query=%EC%82%AC%EB%9E%8C&page=1
-    // tv는 name, 영화는 title
 
-    const responseTV = await GetData(Connect["mainUrl"] + Connect["searchTVData"] + queryString);
-    const responseMovie = await GetData(Connect["mainUrl"] + Connect["searchMovieData"] + queryString);
+    const responseTV = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/tv${queryString}`);
+    const responseMovie = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/movie${queryString}`);
 
     const dataTV = responseTV.data.results || [];
     const dataMovie = responseMovie.data.results || [];
