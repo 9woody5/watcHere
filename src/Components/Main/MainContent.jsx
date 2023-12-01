@@ -65,6 +65,7 @@ export default function MainContent() {
   const { data: contents, isLoading } = useQuery({
     queryKey: ["contents-list"],
     queryFn: fetchData,
+    staleTime: 5 * 60 * 1000,
   });
 
   const autoplayEnabled = true;
