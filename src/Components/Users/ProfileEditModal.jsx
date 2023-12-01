@@ -37,13 +37,13 @@ const customStyles = {
 const getBackgroundImage = (type) => {
   switch (type) {
     case "NETFLIX":
-      return `url(${netflixIcon})`;
+      return netflixIcon;
     case "WATCHA":
-      return `url(${watchaIcon})`;
+      return watchaIcon;
     case "WAVVE":
-      return `url(${wavveIcon})`;
+      return wavveIcon;
     case "DISNEY_PLUS":
-      return `url(${disneyPlusIcon})`;
+      return disneyPlusIcon;
     default:
       return "";
   }
