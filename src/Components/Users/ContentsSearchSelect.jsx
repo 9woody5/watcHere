@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Select } from "flowbite-react";
-import { useSetRecoilState } from "recoil";
-import { userFavoriteContentState } from "../../Common/CommonAtom";
 
 const ContentsSearchSelect = ({ onContentSelect }) => {
   const [inputText, setInputText] = useState("");
   const [contents, setContents] = useState([]); // 영화와 TV 프로그램을 포함하는 배열
   const [selectedContent, setSelectedContent] = useState(""); // 선택된 컨텐츠
-  const setFavoriteContent = useSetRecoilState(userFavoriteContentState);
 
   const handleSelect = (e) => {
     const selectedId = e.target.value;
@@ -17,7 +14,6 @@ const ContentsSearchSelect = ({ onContentSelect }) => {
 
     if (selected) {
       setSelectedContent(selected.id);
-      setFavoriteContent(selected); // 전체 객체를 저장
       onContentSelect(selected.id, selected.title, selected.full_poster_path); // poster 정보 포함하여 호출
     }
   };

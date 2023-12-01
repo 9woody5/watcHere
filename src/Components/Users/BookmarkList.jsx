@@ -58,7 +58,7 @@ const BookmarkList = () => {
                       <div className="relative box-border w-[140px] h-[200px]  pb-[145.37%%] list-none leading-normal">
                         <div className="absolute top-0 left-0 box-border overflow-hidden w-[full] h-[200px] border-solid border border-custom-watcha-color rounded-md bg-custom-watcha-bg transition-all duration-300 ease-in-out">
                           <img
-                            className="box-border opacity-100 align-top w-[full] h-[full] object-cover border-none min-h-[1px] transition-all duration-420 ease-in-out"
+                            className="box-border opacity-100 align-top w-[full] h-[full] object-cover border-none min-h-[1px] transition-all duration-420 ease-in-out shadow-lg"
                             src={content.poster_path}
                             alt={content.title || content.name}
                           />

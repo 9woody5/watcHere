@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../Common/CommonAtom";
 import UsersReviewSkeletonUI from "./UsersReviewSkeletonUI";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +10,7 @@ const UsersReview = ({ review }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isPosterLoading, setIsPosterLoading] = useState(true);
+  const userInfo = useRecoilValue(userInfoState);
 
   useEffect(() => {
     if (!review || !token) {
@@ -74,11 +77,11 @@ const UsersReview = ({ review }) => {
         <div className="flex flex-col flex-1">
           <div className="flex items-center ">
             <img
-              className="w-8 mx-2 rounded-full"
-              src={review.author.profile_image}
+              className="w-8 mr-2 rounded-full"
+              src={userInfo.profile_image}
               alt=""
             />
-            <div className="text-lg">{review.author.nickname}</div>
+            <div className="text-md ml-2">{userInfo.nickname}</div>
           </div>
           <div className="my-3 text-base overflow-hidden truncate w-[250px]">
             {review.detail}

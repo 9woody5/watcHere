@@ -29,7 +29,7 @@ function ContentInfo({id, token, contentType='movie'}) {
     Fetchers.callGetContentAPI(contentType, id)
       .then(({data})=>{
         // 기본 정보 셋팅
-        setImg(data.poster_path??errorImg);
+        setImg(!data.poster_path ? errorImg: data.full_poster_path);
         setTitle(data.title?? data.name);
         setStory(data.overview);
         setDate(data.release_date);

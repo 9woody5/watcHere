@@ -12,7 +12,7 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../../styles/swiper.css";
-import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
+import { FreeMode, Navigation } from "swiper/modules";
 
 const UsersBookmark = () => {
   const [bookmarkedMovies, setBookmarkedMovies] =
@@ -95,14 +95,19 @@ const UsersBookmark = () => {
           {" "}
           {bookmarkedMovies.length > 0 ? (
             bookmarkedMovies.map((content, index) => (
-              <SwiperSlide key={index} style={{ width: "33%", height: "100%" }}>
+              <SwiperSlide
+                key={index}
+                style={{ width: "33%", height: "220px" }}
+                className="object-cover"
+              >
                 <div className="flex flex-col items-center justify-center w-[full] h-[full] ">
                   <img
                     src={content.poster_path}
                     alt={content.title || content.name}
                     style={{ width: "100%", height: "180px" }}
+                    className="shadow-lg"
                   />
-                  <h3 className="text-left text-white mt-2 truncate w-32">
+                  <h3 className="text-left text-white text-sm font-bold mt-2 truncate w-32">
                     {content.title || content.name}
                   </h3>
                 </div>

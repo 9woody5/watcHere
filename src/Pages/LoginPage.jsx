@@ -24,7 +24,6 @@ const LoginPage = () => {
             <LoginButton buttonText="네이버" buttonType="naver" />
             <LoginButton buttonText="카카오" buttonType="kakao" />
             <LoginButton buttonText="구글" buttonType="google" />
-            <LoginButton buttonText="애플" buttonType="apple" />
           </div>
         </main>
       </div>
