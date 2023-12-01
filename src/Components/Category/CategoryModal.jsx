@@ -16,14 +16,16 @@ function TextLineSplitter(text) {
  *
  */
 export function AddedFavoritesModal({ props }) {
-  const { title, name, poster_path, id } = props;
-
+  const { title, name, poster_path, id, movie_id, tv_show_id } = props;
   const handleImgError = (e) => {
     e.target.src = errorImg;
   };
 
   return (
-    <dialog id={"addFavoritesModal" + id} className="modal">
+    <dialog
+      id={"addFavoritesModal" + (id || movie_id || tv_show_id)}
+      className="modal"
+    >
       <div className="modal-box bg-white text-black">
         <form method="dialog">
           <button className="rounded-full absolute right-5 top-5 focus:outline-none">

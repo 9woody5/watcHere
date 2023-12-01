@@ -20,7 +20,6 @@ export default function ThumbnailCard({ props, type }) {
   const { year, id, title, name, poster_path, movie_id, tv_show_id } = props;
   const [review, setReview] = useState(0);
   const location = useLocation();
-
   const handleAddBookmark = async (path, type, id) => {
     let queryString = "";
     if (path === "/animation") {
@@ -110,7 +109,9 @@ export default function ThumbnailCard({ props, type }) {
                         id || movie_id || tv_show_id
                       );
                       document
-                        .getElementById("addFavoritesModal" + id)
+                        .getElementById(
+                          "addFavoritesModal" + (id || movie_id || tv_show_id)
+                        )
                         .showModal();
                     }}
                   />
