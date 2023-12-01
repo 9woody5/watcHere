@@ -4,6 +4,7 @@ import * as contentReformatData from './refomatData';
 import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 import * as Fetchers from './Fetchers'; 
+import errorImg from "../../assets/img/no_img.png";
 
 function ContentInfo({id, token, contentType='movie'}) {
   // img, title, story, score, date, genres, nation, learningTime : basic info
@@ -27,9 +28,8 @@ function ContentInfo({id, token, contentType='movie'}) {
     // 기본 정보 
     Fetchers.callGetContentAPI(contentType, id)
       .then(({data})=>{
-
         // 기본 정보 셋팅
-        setImg(data.full_poster_path);
+        setImg(data.poster_path??errorImg);
         setTitle(data.title?? data.name);
         setStory(data.overview);
         setDate(data.release_date);
