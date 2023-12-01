@@ -22,9 +22,9 @@ function ContentComplexInfo({actors, director}) {
     <div className='w-full mt-3 flex text-white'>
 
       <div className=' w-2/5'>
-        <div className='w-3/6 flex flex-col justify-around'>
+        <div className='w-full flex flex-col justify-around'>
           <div className='mb-5'>시청 가능한 플랫폼</div>
-          <div className="carousel carousel-center max-w-md p-2 space-x-2 bg-neutral rounded-box">
+          <div className="carousel carousel-center max-w-md p-2 space-x-2 rounded-box">
             {availablePlatforms.map((p, idx) => (
               <div key={`platform-${idx}`} className='flex flex-col items-center justify-center'>
                 <button  className=" btn carousel-item btn-white " disabled={p.buf}>

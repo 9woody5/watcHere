@@ -41,6 +41,7 @@ function ReviewInfo({contentType, id, token}) {
   }
   useEffect(()=>{
     updateMyReviewState(contentType,id,token);
+    updateReviewsState(contentType,id,page, reviewFilter);
   }, [id, token])
 
   useEffect(()=>{
@@ -127,7 +128,7 @@ function ReviewInfo({contentType, id, token}) {
               {reviews.map((review,idx)=>(<tr key={`review-${idx}`}><td><Review key={review.reviewId} contentType={contentType} id={id} review={review} token={token} /></td></tr>))}
             </tbody>
           </table>):
-          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 리뷰를 작성해보세요! </div>)
+          (<div>해당 컨텐츠에 아직 리뷰가 없어요😢 로그인하여, 리뷰를 작성해보세요! </div>)
         }
       </div>
     </div>
