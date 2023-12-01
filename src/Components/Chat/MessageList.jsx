@@ -14,6 +14,9 @@ const MessageList = ({ messages }) => {
     const formattedDate = dayjs(createdAt).format("YYYY.MM.DD HH:mm:ss");
     const isMyMessage = userInfo.email === message?.email;
 
+    const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+    const containsLink = urlPattern.test(content);
+
     return (
       <div className={`flex justify-${isMyMessage ? "end" : "start"} items-start gap-4 pr-2 py-2`}>
         <div className={`flex flex-col justify-start items-${isMyMessage ? "end" : "start"} gap-2`}>
@@ -27,13 +30,19 @@ const MessageList = ({ messages }) => {
               isMyMessage ? "bg-emerald-500 ml-2" : "bg-[#f1f1f1] mr-2"
             } max-w-[350px] h-auto`}
           >
-            <p
-              className={`flex-1 flex-grow-0 flex-shrink-0 text-sm text-left ${
-                isMyMessage ? "text-white" : "text-black"
-              } overflow-hidden break-words`}
-            >
-              {content}
-            </p>
+            {containsLink ? (
+              <a className="text-white underline text-sm" href={content} target="_blank" rel="noopener noreferrer">
+                {content}
+              </a>
+            ) : (
+              <p
+                className={`flex-1 flex-grow-0 flex-shrink-0 text-sm text-left ${
+                  isMyMessage ? "text-white" : "text-black"
+                } overflow-hidden break-words`}
+              >
+                {content}
+              </p>
+            )}
           </div>
           <span className="text-xs">{formattedDate}</span>
         </div>
