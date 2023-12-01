@@ -5,7 +5,6 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../../Common/CommonAtom";
 import { FaGear } from "react-icons/fa6";
 import { BiSolidUserCircle } from "react-icons/bi";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const UsersProfile = () => {
   // 사용자 정보를 저장할 상태
@@ -26,17 +25,18 @@ const UsersProfile = () => {
         );
 
         const data = await response.json();
+
         if (response.ok) {
           setUserInfo({
             nickname: data.nickname,
             email: data.email,
             profile_image: data.profile_image,
+            full_poster_path: data.poster,
           });
         } else {
           // 에러 처리
           console.error("사용자 정보를 불러오는데 실패했습니다.");
         }
-        // console.log("데이터", data);
       } catch (error) {
         console.error("오류 발생:", error);
       }
@@ -98,7 +98,7 @@ const UsersProfile = () => {
           ) : (
             <BiSolidUserCircle
               size="10vw"
-              color="9bb0a5"
+              color="#9bb0a5"
               className="absolute translate-x-[50%] translate-y-[-8%]"
             />
           )}

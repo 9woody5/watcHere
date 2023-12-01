@@ -1,13 +1,16 @@
 import { useState, useRef } from "react";
 import Modal from "react-modal";
 import { useRecoilState } from "recoil";
-import {
-  userInfoState,
-  userFavoriteContentState,
-} from "../../Common/CommonAtom";
+import { userInfoState } from "../../Common/CommonAtom";
 import ContentsSearchSelect from "./ContentsSearchSelect";
 import { IoIosArrowForward } from "react-icons/io";
+import { BiSolidUserCircle } from "react-icons/bi";
 import { AiFillPlayCircle } from "react-icons/ai";
+
+import netflixIcon from "../../assets/img/logo/logo_netflix.png";
+import watchaIcon from "../../assets/img/logo/logo_watcha_rd.png";
+import wavveIcon from "../../assets/img/logo/logo_wavve.png";
+import disneyPlusIcon from "../../assets/img/logo/logo_disney_plus.png";
 
 const customStyles = {
   overlay: {
@@ -34,13 +37,13 @@ const customStyles = {
 const getBackgroundImage = (type) => {
   switch (type) {
     case "NETFLIX":
-      return "../src/assets/img/logo/logo_netflix.png";
+      return `url(${netflixIcon})`;
     case "WATCHA":
-      return "../src/assets/img/logo/logo_watcha_rd.png";
+      return `url(${watchaIcon})`;
     case "WAVVE":
-      return "../src/assets/img/logo/logo_wavve.png";
+      return `url(${wavveIcon})`;
     case "DISNEY_PLUS":
-      return "../src/assets/img/logo/logo_disney_plus.png";
+      return `url(${disneyPlusIcon})`;
     default:
       return "";
   }
@@ -72,9 +75,7 @@ const DropdownItem = ({ serviceName, children, onClick }) => {
 
 const ProfileEditModal = ({ isOpen, onRequestClose }) => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [favoriteContent, setFavoriteContent] = useRecoilState(
-    userFavoriteContentState
-  );
+
   //api PUT을 위한 state
   const [nickname, setNickname] = useState(userInfo.nickname);
   const [profileImage, setProfileImage] = useState(userInfo.profile_image);
@@ -106,23 +107,14 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
   };
 
   const handleSave = async () => {
+    if (nickname.trim().length < 2) {
+      alert("닉네임은 2글자 이상 입력해야 합니다.");
+      return;
+    }
     const token = localStorage.getItem("token");
     const formData = new FormData();
 
     formData.append("nickname", nickname);
-
-    if (fileInputRef.current.files[0]) {
-      formData.append("profile_image", fileInputRef.current.files[0]);
-
-      // Recoil 상태 업데이트
-      setFavoriteContent({
-        ...selectedContent,
-        serviceName: selectedServiceName,
-        full_poster_path: poster,
-      });
-
-      onRequestClose();
-    }
     formData.append("poster", poster);
 
     try {
@@ -197,11 +189,16 @@ const ProfileEditModal = ({ isOpen, onRequestClose }) => {
       </h2>
       <div className="user-wrap01">
         <div className="flex justify-center items-center ">
-          <img
-            src={profileImage}
-            alt="사용자 이미지"
-            className="rounded-full w-[150px] h-[150px]"
-          />
+          {profileImage ? (
+            <img
+              src={profileImage}
+              alt="사용자 이미지"
+              className="rounded-full w-[150px] h-[150px]"
+            />
+          ) : (
+            // 이미지가 없을 때 보여줄 아이콘 (여기서는 AiFillPlayCircle 아이콘 사용)
+            <BiSolidUserCircle size={150} className="text-custom-user" />
+          )}
         </div>
       </div>
       <button
