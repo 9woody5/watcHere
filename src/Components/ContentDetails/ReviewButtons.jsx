@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
+import {useRecoilValue, useSetRecoilState } from "recoil";
 import {DeleteModal} from './Modals';
 import * as Fetchers from './Fetchers';
 
-function ReviewButtons({reviewId, token}){
+import { reviewsState, reviewFilterState, reviewPageState } from "../../Common/CommonAtom";
+import * as contentReformatData from './refomatData';
+
+function ReviewButtons({reviewId, token, id, contentType}){
+  const reviewFilter = useRecoilValue(reviewFilterState);
+  const page = useRecoilValue(reviewPageState);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const setReviews = useSetRecoilState(reviewsState);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -12,8 +20,15 @@ function ReviewButtons({reviewId, token}){
     setModalIsOpen(false);
   };
   const handleDelete = (reviewId) => {
-    Fetchers.callReviewReportAPI(reviewId, token);
     alert(`신고완료하였습니다!`);
+    Fetchers.callReviewReportAPI(reviewId, token)
+    .then(() => {
+      Fetchers.callGetReviewsContentAPI(contentType, id, page, reviewFilter)
+      .then(({data})=>{
+        const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
+        setReviews(reformattedReviews)
+      })}
+    );
     closeModal();
   };
 

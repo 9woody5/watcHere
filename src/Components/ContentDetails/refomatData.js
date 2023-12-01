@@ -29,13 +29,14 @@ export function reformatContentScoreData(scores){
 }
 
 export function reformatReviewData(reviews){
-  return reviews.map(({author, id, detail, rating})=>{
+  return reviews.map(({author, id, detail, rating, reports})=>{
     const {nickname, updated_at, profile_image} = author;
     return {'userImg': profile_image,'userName': nickname,
             'reviewId': id,
             'text': detail,
             'date': (new Date(updated_at)).toLocaleDateString("ko-KR"),
-            'score': rating 
+            'score': rating,
+            'reports': reports
     }
   })
 

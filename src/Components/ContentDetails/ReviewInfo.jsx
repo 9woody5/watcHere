@@ -1,19 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {useRecoilState } from "recoil";
 import {ReviewInputModal} from './Modals';
 import * as Fetchers from './Fetchers'; 
 import * as contentReformatData from './refomatData';
 import Review from './Review';
-import { myReviewState ,reviewsState } from "../../Common/CommonAtom";
+import { myReviewState ,reviewsState, reviewPageState, reviewFilterState } from "../../Common/CommonAtom";
 
 function ReviewInfo({contentType, id, token}) {
   /* 리뷰 데이터 관련 */
   const [myReviews, setMyReviews] = useRecoilState(myReviewState);
   const [reviews, setReviews] = useRecoilState(reviewsState);
-
-  const [reviewFilter, setReviewFilter] = useState('createdAt');
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  const [reviewFilter, setReviewFilter] = useRecoilState(reviewFilterState);
+  const [page, setPage] = useRecoilState(reviewPageState);
 
   const checkReviewTabActive = (reviewTab) =>{
     return reviewFilter === reviewTab? 'tab-active': '';
