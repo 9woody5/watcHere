@@ -31,7 +31,12 @@ const MessageList = ({ messages }) => {
             } max-w-[350px] h-auto`}
           >
             {containsLink ? (
-              <a className="text-white underline text-sm" href={content} target="_blank" rel="noopener noreferrer">
+              <a
+                className={`${isMyMessage ? "text-white" : ""} underline text-sm`}
+                href={content}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {content}
               </a>
             ) : (
