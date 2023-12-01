@@ -68,10 +68,7 @@ const MainNav = () => {
                 <Link to="/movie">영화</Link>
               </li>
               <li>
-                <Link to="/drama">드라마</Link>
-              </li>
-              <li>
-                <Link to="/tv">예능</Link>
+                <Link to="/tv">TV</Link>
               </li>
               <li>
                 <Link to="/animation">애니메이션</Link>

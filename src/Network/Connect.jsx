@@ -64,7 +64,17 @@ export async function PostData(url, data) {
     return false;
   }
 }
-
+export async function PostDataJwt(url) {
+  try {
+    const response = await axios.post(url, null, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
 //데이터를 Post 로 보낸후 해당 결과값을 받아와서 표시해야할 경우
 export async function PostDataGetResponse(url, data) {
   try {
@@ -109,6 +119,19 @@ export async function DelData(url) {
       return e;
     });
     return true;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+//파라메터 혹은 쿼리스트링에 따른 API 설계에 따라 추후 변경
+export async function DelDataJwt(url) {
+  try {
+    console.log(url);
+    const response = axios.delete(url, {
+      headers: { ...header, Authorization: `Bearer ${accessToken} ` },
+    });
+    return response;
   } catch (e) {
     console.log(e);
     return null;

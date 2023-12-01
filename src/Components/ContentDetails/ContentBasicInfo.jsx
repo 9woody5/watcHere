@@ -59,7 +59,12 @@ function ContentBasicInfo(props) {
           <button
             className=""
             onClick={(event) => {
-              setIsMarked((prev) => !prev);
+              if (token){
+                setIsMarked((prev) => !prev);
+              }
+              else{
+                alert('북마크를 위해 로그인을 먼저 해주세요!');
+              }
             }}
           >
             {isMarked ? (

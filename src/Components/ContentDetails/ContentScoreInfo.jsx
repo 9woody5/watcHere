@@ -62,7 +62,7 @@ function ContentScoreInfo({id}) {
         <div className='w-2/5 flex-col '>
           <div className='mb-3 flex justify-center'>
             <AiFillStar className='text-5xl'/>
-            <div className='align-middle text-center text-4xl'>{contentScoreInfo.meanScore? contentScoreInfo.meanScore: 0}</div>
+            <div className='align-middle text-center text-4xl'>{isNaN(contentScoreInfo.meanScore)? 0: contentScoreInfo.meanScore}</div>
           </div>
           <div className='text-center'>(총 리뷰 수: {contentScoreInfo.totalScoreNum})</div>
         </div>

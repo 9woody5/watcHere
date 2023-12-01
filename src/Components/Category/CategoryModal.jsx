@@ -1,5 +1,5 @@
 import { MdOutlineCancel } from "react-icons/md";
-
+import errorImg from "../../assets/img/no_img.png";
 function TextLineSplitter(text) {
   const parts = text.split(":");
 
@@ -16,17 +16,16 @@ function TextLineSplitter(text) {
  *
  */
 export function AddedFavoritesModal({ props }) {
-  const { title, name, poster_path, id } = props;
-  // const postFavorites = async (movieId) => {
-  //   let jsonData = {};
-  //   jsonData["movieId"] = movieId;
-  //   console.log("데이터 전송 준비");
-  //   // const response = await PostData("url", JSON.stringify(jsonData));
-  //   // console.log(response);
-  // };
-  // const { email, nick_name, reports, review, write_date } = props;
+  const { title, name, poster_path, id, movie_id, tv_show_id } = props;
+  const handleImgError = (e) => {
+    e.target.src = errorImg;
+  };
+
   return (
-    <dialog id={"addFavoritesModal" + id} className="modal">
+    <dialog
+      id={"addFavoritesModal" + (id || movie_id || tv_show_id)}
+      className="modal"
+    >
       <div className="modal-box bg-white text-black">
         <form method="dialog">
           <button className="rounded-full absolute right-5 top-5 focus:outline-none">
@@ -39,7 +38,7 @@ export function AddedFavoritesModal({ props }) {
             src={poster_path}
             loading="lazy"
             alt=""
-            className="m-10 object-none"
+            onError={handleImgError}
           />
         </div>
 
