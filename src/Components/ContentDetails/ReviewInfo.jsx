@@ -24,7 +24,7 @@ function ReviewInfo({contentType, id, token}) {
         const reformattedMyReviews = contentReformatData.reformatMyReviewData(data);
         setMyReviews(reformattedMyReviews);
       })
-      .catch(setReviews([]));
+      .catch(()=>{setMyReviews([])});
   }
   const updateReviewsState = (contentType, id, page, reviewFilter) => {
     if (reviewFilter !== 'my-review'){
@@ -33,7 +33,7 @@ function ReviewInfo({contentType, id, token}) {
           const reformattedReviews = contentReformatData.reformatReviewData(data.reviews.content);
           setReviews(reformattedReviews)
         })
-        .catch(setReviews([]));
+        .catch(()=>{setReviews([])});
     }
     else{
       setReviews(myReviews);
