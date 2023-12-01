@@ -45,7 +45,7 @@ export const callDeleteLikesAPI = (contentType, id, token) => {
 /* review-controller */
 
 // 컨텐츠 리뷰목록 조회
-export const callGetReviewsContentAPI = (contentType, id, page, sortBy, size=10) => {
+export const callGetReviewsContentAPI = (contentType, id, page, sortBy, size=20) => {
   contentType = contentType? contentType.toUpperCase(): contentType;
   return axios.get(`${hostUrl}/api/v1/reviews/content/${id}?contentType=${contentType}&page=${page}&size=${size}&sortBy=${sortBy}`);
 }
