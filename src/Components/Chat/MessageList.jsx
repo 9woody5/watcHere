@@ -12,7 +12,7 @@ const MessageList = ({ messages }) => {
     const content = message?.content;
     const createdAt = message?.created_at;
     const formattedDate = dayjs(createdAt).format("YYYY.MM.DD HH:mm:ss");
-    const isMyMessage = userInfo.email === message?.email;
+    const isMyMessage = userInfo.email !== "" && userInfo.email !== null ? userInfo.email === message?.email : false;
 
     const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
     const containsLink = urlPattern.test(content);

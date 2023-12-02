@@ -85,11 +85,19 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
   const submitText = async (e) => {
     e.preventDefault();
 
+    // 이메일 데이터 확인
+    if (!userInfo.email) {
+      alert("현재 구글 로그인에서만 지원되는 기능입니다.");
+      return;
+    }
+
     if (textValue !== "") {
       // supabase에 메시지 추가
       const { data, error } = await supabase
         .from("messages")
-        .insert([{ username: userInfo.username, email: userInfo.email, content: textValue }], { returning: "minimal" })
+        .insert([{ username: userInfo.username, email: userInfo.email, content: textValue }], {
+          returning: "minimal",
+        })
         .select();
 
       if (error) {
@@ -106,7 +114,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
         console.error("메시지 전송 실패", error);
       }
     } else {
-      alert(isLoggedIn ? "메시지를 입력해 주세요" : "로그인이 필요합니다.");
+      alert(isLoggedIn ? "메시지를 입력해 주세요" : "현재 구글 로그인에서만 지원되는 기능입니다.");
     }
   };
 
@@ -158,7 +166,7 @@ export const ChatForm = ({ isLoggedIn, fetchUserInfo }) => {
               name="content"
               type="text"
               value={textValue}
-              placeholder={isLoggedIn ? "메세지를 입력하세요" : "로그인이 필요합니다."}
+              placeholder={isLoggedIn ? "메세지를 입력하세요" : "현재 구글 로그인에서만 지원되는 기능입니다."}
               className="text-sm text-left text-black outline-none w-[325px] h-8 ml-1 px-3 rounded-lg border-[1px] border-solid border-zinc-300 focus:ring-1 ring-emerald-500"
               onChange={handleChange}
               disabled={!isLoggedIn}
