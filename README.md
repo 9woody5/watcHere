@@ -30,7 +30,17 @@
 
 <br>
 
-## 5. 팀 구성
+## 5. 기능 미리보기
+![메인페이지](https://github.com/9woody5/watcHere/assets/102839522/0738f387-e9b4-46aa-a7f9-64405fe02779)
+![검색기능](https://github.com/9woody5/watcHere/assets/102839522/68650184-41a8-4e4d-9f4a-fcd04fdae641)
+![채팅전송](https://github.com/9woody5/watcHere/assets/102839522/e9e479f5-10c6-4f80-a7f6-b60e0156df7e)
+![채팅기능(수신)](https://github.com/9woody5/watcHere/assets/102839522/95b87086-a3a4-4e05-90fe-259b180ac769)
+![리뷰등록](https://github.com/9woody5/watcHere/assets/102839522/7678a2e7-fa16-4e52-8708-418b48a51f1c)
+![리뷰수정삭제](https://github.com/9woody5/watcHere/assets/102839522/c4a0e942-13a2-40be-be0b-ee4325f08589)
+
+<br>
+
+## 6. 팀 구성
 
 | 파트 | 이름 | 역할 |
 | --- | --- | --- |
@@ -43,7 +53,7 @@
 
 <br>
 
-## 6. 최초 실행방법
+## 7. 최초 실행방법
 
 1. 깃 클론 후 npm install 을 통해서 의존성 패키지를 설치합니다.
 2. npm run dev 를 하면 실행됩니다.
