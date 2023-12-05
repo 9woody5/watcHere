@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
@@ -56,16 +56,27 @@ const MainSearchBar = ({ style }) => {
 
   // 검색 요청 디바운스 적용
   const [debouncedSearchValue, setDebounceSearchValue] = useState("");
+  const lastKeyupEventRef = useRef(null);
+
+  const handleKeyUp = (event) => {
+    setSearchValue(event.target.value);
+    lastKeyupEventRef.current = event;
+  };
 
   useEffect(() => {
+    // 일정 시간 이후에 마지막 keyup 이벤트가 발생했는지 확인
     const timeoutId = setTimeout(() => {
-      setDebounceSearchValue(searchValue);
-    }, 200);
+      if (lastKeyupEventRef.current) {
+        // 마지막 keyup 이벤트가 발생한 경우 SearchRecords 활성화
+        setSearchRecordsVisible(true);
+        // 디바운스된 검색어를 업데이트
+        setDebounceSearchValue(lastKeyupEventRef.current.target.value);
+      }
+    }, 500); // 예제에서는 200 밀리초로 설정, 필요에 따라 조절 가능
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [searchValue]);
+    // cleanup 함수에서 clearTimeout을 호출하여 불필요한 검사를 방지
+    return () => clearTimeout(timeoutId);
+  }, [searchValue]); // searchValue가 변경될 때마다 검사
 
   // 검색 값으로 데이터 조회
   const fetchSearchData = async () => {
@@ -93,7 +104,7 @@ const MainSearchBar = ({ style }) => {
   const { data: searchData = [] } = useQuery({
     queryKey: ["search-data"],
     queryFn: fetchSearchData,
-    enabled: debouncedSearchValue !== "" && debouncedSearchValue.length >= 2,
+    enabled: debouncedSearchValue !== "" && debouncedSearchValue.length >= 1,
   });
 
   ///////////////////////////////// 검색 내역 로직 ////////////////////////////////////
@@ -135,10 +146,11 @@ const MainSearchBar = ({ style }) => {
       handleSearchInteraction(autoCompleteValue[selectedItemIndex]);
     }
   };
+
   const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
-  useLayoutEffect(() => {
-    if (debouncedSearchValue.length >= 2) {
+  useEffect(() => {
+    if (debouncedSearchValue.length >= 1) {
       const suggestions = titles.filter(
         (title) =>
           title.toLowerCase().includes(debouncedSearchValue.toLowerCase()) ||
@@ -264,6 +276,7 @@ const MainSearchBar = ({ style }) => {
               onChange={handleInputChange}
               autoComplete="true"
               onClick={handleSearchBarClick}
+              onKeyUp={handleKeyUp}
               ref={inputRef}
             />
             <button type="submit" disabled={searchValue === ""}>

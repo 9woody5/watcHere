@@ -124,7 +124,7 @@ const ResultAll = () => {
         ) : (
           selectedContent && (
             <>
-              <p className="text-xl font-bold text-left text-white">🔎 ‘{searchQuery}’의 검색 결과입니다. </p>;
+              <p className="text-xl font-bold text-left text-white">🔎 ‘{searchQuery}’의 검색 결과입니다. </p>
               <SwiperComponent customSlidesPerView={5} contents={searchResults} autoplayEnabled={autoplayEnabled} />
             </>
           )

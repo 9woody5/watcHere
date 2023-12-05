@@ -63,10 +63,7 @@ export default function ThumbnailCard({ props, type }) {
       let queryString = `?contentType=${type}&page=${page}&size${size}&sortBy=${sortBy}`;
       const response = await GetData(
         Connect["mainUrl"] +
-          Connect["contentReviews"].replace(
-            "{contentId}",
-            id || movie_id || tv_show_id
-          ) +
+          Connect["contentReviews"].replace("{contentId}", id || movie_id || tv_show_id) +
           queryString
       );
       return response;
@@ -86,33 +83,16 @@ export default function ThumbnailCard({ props, type }) {
         <div className="w-64 h-80 hidden group-hover:block absolute text-white ">
           <div className="h-full py-4 flex flex-col justify-between">
             <div>
-              <div className="text-xl font-bold w-full bg-emerald-500 text-black">
-                {title || name}
-              </div>
+              <div className="text-xl font-bold w-full bg-emerald-500 text-black">{title || name}</div>
             </div>
             <div className="">
-              <div>
-                리뷰 (
-                {review?.total_elements === undefined
-                  ? 0
-                  : review.total_elements}
-                개)
-              </div>
               <div className="mt-2 px-4 w-full flex items-center justify-between">
                 <div className="flex items-center justify-center bg-emerald-500 w-12 h-12 cursor-pointer rounded-lg">
                   <RiBookmarkFill
                     className="w-10 h-10"
                     onClick={() => {
-                      handleAddBookmark(
-                        location.pathname,
-                        type,
-                        id || movie_id || tv_show_id
-                      );
-                      document
-                        .getElementById(
-                          "addFavoritesModal" + (id || movie_id || tv_show_id)
-                        )
-                        .showModal();
+                      handleAddBookmark(location.pathname, type, id || movie_id || tv_show_id);
+                      document.getElementById("addFavoritesModal" + (id || movie_id || tv_show_id)).showModal();
                     }}
                   />
                 </div>
