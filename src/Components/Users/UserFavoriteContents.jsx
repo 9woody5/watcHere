@@ -24,7 +24,7 @@ function UserFavoriteContents() {
       {isLoading ? (
         <FavoriteContentSkeleton />
       ) : userInfo.full_poster_path ? (
-        <div className="max-w-[60%] max-h-[70%]">
+        <div className="max-w-[50%] max-h-[70%]">
           <img
             src={userInfo.full_poster_path}
             alt="Favorite Content"
