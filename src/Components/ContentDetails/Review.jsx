@@ -1,20 +1,9 @@
 import React, {useState} from 'react';
 import { AiFillStar } from 'react-icons/ai';
-import {DeleteModal} from './Modals'
+import ReviewButtons from './ReviewButtons';
+import MyReviewButtons from './MyReviewButtons';
 
-function Review({review}) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-  const handleDelete = () => {
-    alert('신고완료하였습니다!');
-    closeModal();
-  };
+function Review({contentType, review, id, token}) {
   const convertString2Number = (scoreString) => {
     try{
       return parseInt(scoreString);
@@ -26,7 +15,6 @@ function Review({review}) {
 
   return (
     <div className='w-full my-4 flex'>
-
       <div className='w-3/4 flex flex-col'>
         <div className='flex items-center'>
           <img className='w-8 mx-2 rounded-full' src={review.userImg} alt="" />
@@ -36,24 +24,20 @@ function Review({review}) {
         <div className='text-xs'>{String(review.date)}</div>
       </div>
       
-      <div className='w-1/4 flex flex-col'>
+      <div className='w-1/4 flex flex-col justify-center items-center'>
         <div className=''>{[1,2,3,4,5].map((index)=>(
           <AiFillStar key={`review-socre-star-${index}`} className= {`inline-block text-2xl ${convertString2Number(review.score)>=index? 'text-yellow-200': 'text-white'} text-2xl`} /> ))}
           
         </div>
-        <div className='' >
-          <button className='m-3 bg-orange-500 hover:bg-orange-500/60 text-white font-bold py-2 px-4 rounded'
-          onClick={openModal}
-          >신고하기</button>
-        </div>
+        {review.isMine?
+          <MyReviewButtons id={id}  review={review} token={token} contentType={contentType} /> :
+          <ReviewButtons reviewId={review.reviewId} token={token} id={id} contentType={contentType}/>
+        }
+        {!review.isMine?
+          (<div className='text-xs'>신고된 수 : {review.reports}</div>):
+          (<></>)
+        }
       </div>
-
-      <DeleteModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        onDelete={handleDelete}
-      />
-
     </div>
   )
 }

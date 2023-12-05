@@ -1,5 +1,6 @@
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 
+const defaultImg = 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=1480'
 
 export function createContentBasicInfo(){
   return {
@@ -19,18 +20,22 @@ export function createContentBasicInfo(){
 export function createContentDirector(){
   return {
     'name': '이상순', 
-    'img': faker.image.avatar(),
+    'img': 'https://avatars.githubusercontent.com/u/58373314',
 
   }
 }
 
+
+
 export function createContentActors(){
   return [
-    {'name': '정배우', 'img':faker.image.avatar()},
-    {'name': '도배우', 'img':faker.image.avatar()},
-    {'name': '남배우', 'img':faker.image.avatar()},
+    {'name': '정배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
+    {'name': '도배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
+    {'name': '남배우', 'img':'https://avatars.githubusercontent.com/u/58373314'},
   ]
 }
+
+
 
 export function createAvailablePlatforms(){
   return [
@@ -41,10 +46,11 @@ export function createAvailablePlatforms(){
 
 export function createReviewData(){
   return new Array(10).fill({}).map((x)=>{
-    return {'userImg': faker.image.avatar(), 'userName': faker.person.fullName(), 
+    return {'userImg': 'https://avatars.githubusercontent.com/u/58373314', 'userName': faker.person.fullName(), 
     'text': faker.lorem.text({ length: { min: 20, max: 60 }, strategy: 'fail' }),
     'date': faker.date.anytime(),
-    'score': 3.0
+    'score': 3.0,
+    'isMine': false
   }
   })
 }

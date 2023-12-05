@@ -32,6 +32,9 @@ export default {
         "custom-light-gray": "#a3a3a3",
         "custom-middle-gray": "rgb(70 70 70)",
         "custom-hover-gray": "#dedede",
+        "custom-watcha-color": "rgb(234, 233, 232)",
+        "custom-watcha-bg": "rgb(248, 248, 248)",
+        "custom-user": "rgb(155, 176, 165)",
       },
       backgroundImage: {
         "custom-gradient":

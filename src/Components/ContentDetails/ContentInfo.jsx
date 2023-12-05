@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
-
-import * as contentFakeData from './createFakerData';
+// import * as contentFakeData from './createFakerData';
+import * as contentReformatData from './refomatData';
 import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
+import * as Fetchers from './Fetchers'; 
+import errorImg from "../../assets/img/no_img.png";
 
-function ContentInfo({id}) {
+function ContentInfo({id, token, contentType='movie'}) {
   // img, title, story, score, date, genres, nation, learningTime : basic info
   const [img, setImg] = useState(''); // default 이미지도 찾아서 넣기
   const [title, setTitle] = useState('Title');
@@ -14,45 +16,45 @@ function ContentInfo({id}) {
   const [genres, setGenres] = useState([]);
   const [nation, setNation] = useState('');
   const [learningTime, setLearningTime] = useState('');
+  const [videoId, setVideoId] = useState(null);
   
   // actors, director, availablePlatforms : complex info
   const [actors, setActors] = useState([]);
   const [director, setDirector] = useState({});
   const [availablePlatforms, setAvailablePlatforms] = useState([]);
 
-  let basicInfo = {};
-  // take related data
+  /* take related data */
   useEffect(()=>{
-    setTimeout(()=>{
-      basicInfo = contentFakeData.createContentBasicInfo();
-      console.log("basicInfo", basicInfo);
-      setImg('https://picsum.photos/seed/EgMqkPTE/640/480');
-      setTitle(basicInfo.title);
-      setStory(basicInfo.story);
-      setScore(basicInfo.score);
-      setDate(basicInfo.date);
-      setGenres(basicInfo.genres);
-      setNation(basicInfo.nation);
-      setLearningTime(basicInfo.learningTime);
-  
-    } , 500);
+    // 기본 정보 
+    Fetchers.callGetContentAPI(contentType, id)
+      .then(({data})=>{
+        // 기본 정보 셋팅
+        setImg(!data.poster_path ? errorImg: data.full_poster_path);
+        setTitle(data.title?? data.name);
+        setStory(data.overview);
+        setDate(data.release_date);
+        setGenres(data.genres.map(x=>x.name));
+        setScore(data.vote_average.toFixed(2));
+        setNation('korea'); // 설정필요
+        setLearningTime(data.runtime);
+        setVideoId(contentReformatData.reformatVideos(data.videos))
 
-    let actorsInfo=[], directorInfo={}, availablePlatformsInfo=[];
-    setTimeout(()=>{
-      actorsInfo = contentFakeData.createContentActors();
-      directorInfo = contentFakeData.createContentDirector();
-      availablePlatformsInfo = contentFakeData.createAvailablePlatforms();
+        //영화 감독 셋팅
+        const reformattedDirector = contentReformatData.reformatContentDirector(data.director_name, data.director_profile_path);
+        setDirector(reformattedDirector);
 
-      setActors(actorsInfo);
-      setDirector(directorInfo);
-      setAvailablePlatforms(availablePlatformsInfo);
-    }, 1000);
-
-  }, []);
+        //출연진 셋팅
+        const reformattedActors = contentReformatData.reformatContentActors(data.actors);
+        setActors(reformattedActors);
+      });
+      
+  }, [id, token]);
 
   return (
     <div>
-      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} />
+      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId}
+        contentType={contentType} id={id}/>
+        {/* // actors={actors} director={director}/> */}
       <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
     </div>
   )

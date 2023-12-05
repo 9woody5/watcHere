@@ -12,7 +12,7 @@ import cssModule from "./CategorySwiper.module.css";
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 import { useRef } from "react";
 
-export default function CategorySwiper({ props }) {
+export default function CategorySwiper({ props, type }) {
   // 스켈레톤 컴포넌트의 배열 개수
   const tempCount = 5;
   const tempArr = Array.from({ length: tempCount }, (_, index) => index);
@@ -21,7 +21,7 @@ export default function CategorySwiper({ props }) {
   const nextRef = useRef(null);
   return (
     <>
-      <div className="mt-1 relative -top-20 left-full flex md:hidden">
+      <div className="mt-10 relative -top-20 left-full flex md:hidden">
         <button
           ref={prevRef}
           className="w-12 h-12 -ml-44 rounded-full bg-white flex items-center justify-center"
@@ -62,12 +62,9 @@ export default function CategorySwiper({ props }) {
         className={cssModule["swiper"]}
       >
         {props.length > 0
-          ? props?.map((element) => (
-              <SwiperSlide
-                key={element.id}
-                className={cssModule["swiper-slide"]}
-              >
-                <ThumbnailCard props={element} />
+          ? props?.map((element, idx) => (
+              <SwiperSlide key={idx} className={cssModule["swiper-slide"]}>
+                <ThumbnailCard props={element} type={type} />
               </SwiperSlide>
             ))
           : tempArr.map((_, idx) => (
