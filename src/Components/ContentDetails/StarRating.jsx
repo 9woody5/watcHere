@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-function StarRating({handleUserScore}){
-  const [score, setScore] = useState(0);
+function StarRating({handleUserScore, initialScore=0}){
+  const [score, setScore] = useState(initialScore);
   const [hoverScore, setHoverScore] = useState(0);
   const [starIndex, setStarIndex] = useState(0);
   

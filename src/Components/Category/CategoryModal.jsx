@@ -1,5 +1,5 @@
 import { MdOutlineCancel } from "react-icons/md";
-
+import errorImg from "../../assets/img/no_img.png";
 function TextLineSplitter(text) {
   const parts = text.split(":");
 
@@ -8,24 +8,6 @@ function TextLineSplitter(text) {
   return divs;
 }
 
-function MovieTypeConvert(type) {
-  let value = "";
-  switch (type) {
-    case "movie":
-      value = "영화";
-      break;
-    case "tv":
-      value = "티비";
-      break;
-    case "drama":
-      value = "드라마";
-      break;
-    default:
-      value = "영화";
-      break;
-  }
-  return value;
-}
 /**
  * 카테고리에서 즐겨찿기에 등록할때 사용하는 모달
  * dialog id 를 카드의 uid 를 받아서 고유화 시키는데 이게 더미데이터에서는 id 값이 유니크하지 않고
@@ -34,17 +16,16 @@ function MovieTypeConvert(type) {
  *
  */
 export function AddedFavoritesModal({ props }) {
-  const { title, name, poster_path, id } = props;
-  const postFavorites = async (movieId) => {
-    let jsonData = {};
-    jsonData["movieId"] = movieId;
-    console.log("데이터 전송 준비");
-    // const response = await PostData("url", JSON.stringify(jsonData));
-    // console.log(response);
+  const { title, name, poster_path, id, movie_id, tv_show_id } = props;
+  const handleImgError = (e) => {
+    e.target.src = errorImg;
   };
-  // const { email, nick_name, reports, review, write_date } = props;
+
   return (
-    <dialog id={"addFavoritesModal" + id} className="modal">
+    <dialog
+      id={"addFavoritesModal" + (id || movie_id || tv_show_id)}
+      className="modal"
+    >
       <div className="modal-box bg-white text-black">
         <form method="dialog">
           <button className="rounded-full absolute right-5 top-5 focus:outline-none">
@@ -57,12 +38,14 @@ export function AddedFavoritesModal({ props }) {
             src={poster_path}
             loading="lazy"
             alt=""
-            className="m-10 object-none"
+            onError={handleImgError}
           />
         </div>
 
         <div className="text-3xl font-bold p-2 mx-5">
-          {title !== null ? TextLineSplitter(title) : name}
+          {title !== undefined
+            ? TextLineSplitter(title)
+            : TextLineSplitter(name)}
         </div>
         <div className="mt-2 text-xl font-semibold">
           즐겨찾기 목록에 추가 되었습니다.

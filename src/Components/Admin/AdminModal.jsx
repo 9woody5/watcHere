@@ -1,6 +1,7 @@
 /// 네트워크 라이브러리
-// import { PostData } from "../../Network/Connect";
-const activateValute = ["활동중", "정지", "탈퇴"];
+import { DelDataJwt, PutGetResponse } from "../../Network/Connect";
+import connect from "../../Network/Connect.json";
+
 /**
  *
  * @param {Number} activate 유저 현재 상태
@@ -11,19 +12,16 @@ const activateValute = ["활동중", "정지", "탈퇴"];
  * 이 모달은 관리자가 유저 상태를 정지시키거나 정지를 해제할 때 최종 알림창으로 사용
  *
  */
-export function ChangeUserStateModal({ props }) {
-  //모달 중복으로 뜨는 문제를 해결해야함
-  // 1.event.stopPropagation() 사용
-  // 2. adminUserList 에서 html 을 변경해서 버튼간의 레이어 겹침을 없앰
+export function ChangeUserStateModal({ props, getUserList }) {
+  const { user_id, email, nickname, ban } = props;
 
-  const putUserActivateStatus = async (uid) => {
-    let jsonData = {};
-    jsonData["uId"] = uid;
-    console.log("데이터 전송 준비");
-    // const response = await PostData("url", JSON.stringify(jsonData));
-    // console.log(response);
+  const putUserActivateStatus = async (uid, bool) => {
+    let queryString = `user_id=${uid}&ban=${bool}`;
+    await PutGetResponse(
+      connect["mainUrl"] + connect["adminUserBan"] + "?" + queryString
+    );
+    getUserList();
   };
-  const { activate, email, nick_name } = props;
 
   return (
     <dialog id="changeUserStateModal" className="modal">
@@ -34,18 +32,18 @@ export function ChangeUserStateModal({ props }) {
             현재 변경하려는 계정의 정보는 다음과 같습니다.
           </div>
           <div className="p-2">이메일 : {email}</div>
-          <div className="p-2">닉네임 : {nick_name}</div>
-          <div className="p-2">현재 상태 : {activateValute[activate]}</div>
+          <div className="p-2">닉네임 : {nickname}</div>
+          <div className="p-2">현재 상태 : {ban ? "정지" : "활동 중"}</div>
           <div className="p-2 text-xl text-red-600 font-semibold">
-            {activate === 0 && "계정을 정지하시겠습니까?"}
-            {activate === 1 && "계정정지를 해제하시겠습니가?"}
+            {ban === false && "계정을 정지하시겠습니까?"}
+            {ban === true && "계정정지를 해제하시겠습니가?"}
           </div>
         </div>
         <div className="modal-action">
           <form method="dialog">
             <button
               className="btn btn-outline btn-warning"
-              onClick={putUserActivateStatus}
+              onClick={() => putUserActivateStatus(user_id, !ban)}
             >
               변경하기
             </button>
@@ -69,7 +67,8 @@ export function ChangeUserStateModal({ props }) {
  */
 
 export function CheckUserInfoModal({ props }) {
-  const { activate, email, nick_name } = props;
+  const { email, nickname, ban } = props;
+
   return (
     <dialog id="checkUserInfoModal" className="modal ">
       <div className="modal-box bg-white text-black">
@@ -79,8 +78,8 @@ export function CheckUserInfoModal({ props }) {
             현재 확인중인 계정의 정보는 다음과 같습니다.
           </div>
           <div className="p-2">이메일 : {email}</div>
-          <div className="p-2">닉네임 : {nick_name}</div>
-          <div className="p-2">현재 상태 : {activateValute[activate]}</div>
+          <div className="p-2">닉네임 : {nickname}</div>
+          <div className="p-2">현재 상태 : {ban ? "정지" : "활동 중"}</div>
         </div>
         <div className="modal-action">
           <form method="dialog">
@@ -111,15 +110,18 @@ export function CheckUserInfoModal({ props }) {
  *
  * 유저 리뷰 삭제용 모달
  */
-export function DeleteUserReview({ props }) {
-  const delUserReview = async (uid) => {
-    let jsonData = {};
-    jsonData["uId"] = uid;
-    console.log("데이터 전송 준비");
-    // const response = await PostData("url", JSON.stringify(jsonData));
-    // console.log(response);
+export function DeleteUserReview({ props, getReviewList }) {
+  const { detail, likes, reports, created_at, author, id } = props;
+  console.log(created_at);
+  const delUserReview = async () => {
+    const response = await DelDataJwt(
+      connect.mainUrl + connect.adminReviewDel.replace("{id}", id)
+    );
+    if (response.status === 200) {
+      await getReviewList();
+    }
   };
-  const { email, nick_name, reports, review, write_date } = props;
+
   return (
     <dialog id="deleteUserReview" className="modal">
       <div className="modal-box bg-white text-black">
@@ -128,12 +130,14 @@ export function DeleteUserReview({ props }) {
           <div className="p-2 text-xl">
             현재 확인하는 리뷰의 정보는 다음과 같습니다.
           </div>
-          <div className="p-2">이메일 : {email}</div>
-          <div className="p-2">닉네임 : {nick_name}</div>
+          <div className="p-2">이메일 : {author?.email}</div>
+          <div className="p-2">닉네임 : {author?.nickname}</div>
+          <div className="p-2">좋아요 횟수 : {likes}</div>
           <div className="p-2">신고 횟수 : {reports}</div>
-          <div className="p-2">작성 리뷰</div>
-          <div className="p-2 pl-10">{review}</div>
-          <div className="p-2">작성일: {write_date}</div>
+
+          <div className="p-2">작성 리뷰 : {detail}</div>
+          <div className="p-2 pl-10">{}</div>
+          <div className="p-2">작성일: {created_at}</div>
           <div className="p-2 text-red-600 text-xl font-semibold">
             삭제하시겠습니까?
           </div>
@@ -142,7 +146,7 @@ export function DeleteUserReview({ props }) {
           <form method="dialog">
             <button
               className="btn btn-outline btn-warning"
-              onClick={() => delUserReview("userId, reviewId")}
+              onClick={() => delUserReview(id)}
             >
               {" "}
               삭제하기

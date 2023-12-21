@@ -1,11 +1,9 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import SearchRecords from "./SearchRecords";
-import Connect from "../../../Network/Connect.json";
-import { GetData } from "../../../Network/Connect";
-// import mockData from "../../../resources/mockData.json";
 
 // 초성 검색 기능
 const isChosungMatch = (query, target) => {
@@ -56,41 +54,60 @@ const MainSearchBar = ({ style }) => {
   const [isSearchRecordsVisible, setSearchRecordsVisible] = useState(false);
   const navigate = useNavigate();
 
-  // 데이터 연결 함수
-  const fetchMostViewedData = async () => {
-    let page = 1;
-    let sort = "POPULARITY_DESC";
-    let provider = "NETFLIX";
-    let type = "MOVIE";
-    let queryString = `?page=${page}&sort=${sort}&provider=${provider}&contentType=${type}`;
+  // 검색 요청 디바운스 적용
+  const [debouncedSearchValue, setDebounceSearchValue] = useState("");
+  const lastKeyupEventRef = useRef(null);
 
-    const response = await GetData(Connect["mainUrl"] + Connect["categoryList"] + queryString);
-    return response.data;
+  const handleKeyUp = (event) => {
+    setSearchValue(event.target.value);
+    lastKeyupEventRef.current = event;
   };
 
-  // 전체 데이터는 어떻게 가져오는지?
+  useEffect(() => {
+    // 일정 시간 이후에 마지막 keyup 이벤트가 발생했는지 확인
+    const timeoutId = setTimeout(() => {
+      if (lastKeyupEventRef.current) {
+        // 마지막 keyup 이벤트가 발생한 경우 SearchRecords 활성화
+        setSearchRecordsVisible(true);
+        // 디바운스된 검색어를 업데이트
+        setDebounceSearchValue(lastKeyupEventRef.current.target.value);
+      }
+    }, 500); // 예제에서는 200 밀리초로 설정, 필요에 따라 조절 가능
+
+    // cleanup 함수에서 clearTimeout을 호출하여 불필요한 검사를 방지
+    return () => clearTimeout(timeoutId);
+  }, [searchValue]); // searchValue가 변경될 때마다 검사
+
+  // 검색 값으로 데이터 조회
   const fetchSearchData = async () => {
     let query = searchValue;
-    let type = "MOVIE";
     let page = "1";
-    let queryString = `?query=${query}&contentType=${type}&page=${page}`;
+    let queryString = `?query=${query}&page=${page}`;
 
-    const response = await GetData(Connect["mainUrl"] + Connect["searchData"] + queryString);
-    return response.data;
+    const responseTV = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/tv${queryString}`);
+    const responseMovie = await axios.get(`https://kdt-sw-6-team05.elicecoding.com/api/v1/search/movie${queryString}`);
+
+    const dataTV = responseTV.data.results || [];
+    const dataMovie = responseMovie.data.results || [];
+
+    // TV와 MOVIE 데이터 합치기
+    const combinedData = [
+      ...dataTV.map((item) => ({ id: item.id, title: item.name })),
+      ...dataMovie.map((item) => ({ id: item.id, title: item.title })),
+    ];
+
+    const filteredData = combinedData.filter((item) => item.poster_path !== null);
+
+    return filteredData;
   };
 
-  // react-query로 데이터 연결 및 관리
-  const { data: mostViewedData } = useQuery({
-    queryKey: ["most-viewed-data"],
-    queryFn: fetchMostViewedData,
-  });
-
-  const { data: searchData } = useQuery({
+  const { data: searchData = [] } = useQuery({
     queryKey: ["search-data"],
     queryFn: fetchSearchData,
-    enabled: searchValue !== "", // Only fetch when searchValue is not empty
+    enabled: debouncedSearchValue !== "" && debouncedSearchValue.length >= 1,
   });
 
+  ///////////////////////////////// 검색 내역 로직 ////////////////////////////////////
   // 검색 영역 내부에 접근할 때만 검색 내역 활성화
   const searchBoxRef = useRef(null);
 
@@ -130,21 +147,30 @@ const MainSearchBar = ({ style }) => {
     }
   };
 
-  // 콘텐츠 title가져오기(추후 api주소 수정)
-  const titles = searchData?.results ? searchData.results.map((item) => item.title) : [];
+  const titles = useMemo(() => searchData.map((item) => item.title), [searchData]);
 
-  // 검색 기능 로직
+  useEffect(() => {
+    if (debouncedSearchValue.length >= 1) {
+      const suggestions = titles.filter(
+        (title) =>
+          title.toLowerCase().includes(debouncedSearchValue.toLowerCase()) ||
+          isChosungMatch(debouncedSearchValue, title)
+      );
+      if (JSON.stringify(suggestions) !== JSON.stringify(autoCompleteValue)) {
+        setAutocompleteValue(suggestions);
+      }
+    } else if (autoCompleteValue.length !== 0) {
+      setAutocompleteValue([]);
+    }
+  }, [debouncedSearchValue, titles, autoCompleteValue]);
+
+  // 검색 입력 값 체크
   const handleInputChange = (event) => {
     const value = event.target.value;
     setSearchValue(value);
 
     // searchValue가 0이 되면 키보드 이벤트 초기화
     setSelectedItemIndex(value.length === 0 ? -1 : selectedItemIndex);
-
-    const suggestions = titles.filter(
-      (title) => title.toLowerCase().includes(value.toLowerCase()) || isChosungMatch(value, title)
-    );
-    setAutocompleteValue(suggestions);
   };
 
   // 로컬 스토리지에 최근 검색 내역 추가하기
@@ -170,33 +196,41 @@ const MainSearchBar = ({ style }) => {
 
   const [recentSearches, setRecentSearches] = useState([]);
 
-  const handleSearchInteraction = (value, index) => {
-    setSearchValue(value);
-    setAutocompleteValue([]);
-    addToRecentSearches(value);
-    setRecentSearches(getRecentSearches());
-    setSelectedItemIndex(index);
+  const handleSearchInteraction = useCallback(
+    (value, index) => {
+      setSearchValue(value);
+      setAutocompleteValue([]);
+      addToRecentSearches(value);
+      setRecentSearches(getRecentSearches());
+      setSelectedItemIndex(index);
 
-    const selectedContent = searchData.results.find((content) => content.title === value);
-    if (selectedContent) {
-      const encodedSearchValue = encodeURIComponent(value);
-      navigate(`/resultPage?query=${encodedSearchValue}`);
-    }
-  };
+      const selectedContent = searchData.find((content) => content.title === value);
+      if (selectedContent) {
+        const encodedSearchValue = encodeURIComponent(value);
+        navigate(`/resultPage?query=${encodedSearchValue}`);
+        // navigate(`/contentDetail?query=${encodedSearchValue}`);
+      }
+    },
+    [searchData, navigate]
+  );
 
   const handleClearAllRecentSearches = () => {
     localStorage.removeItem("recentSearches");
     setRecentSearches([]);
   };
 
-  const handleRemoveRecentSearch = (index, e) => {
-    e.stopPropagation();
-    const updatedRecentSearches = [...recentSearches];
-    updatedRecentSearches.splice(index, 1);
-    localStorage.setItem("recentSearches", JSON.stringify(updatedRecentSearches));
-    setRecentSearches(updatedRecentSearches);
-  };
+  const handleRemoveRecentSearch = useCallback(
+    (index, e) => {
+      e.stopPropagation();
+      const updatedRecentSearches = [...recentSearches];
+      updatedRecentSearches.splice(index, 1);
+      localStorage.setItem("recentSearches", JSON.stringify(updatedRecentSearches));
+      setRecentSearches(updatedRecentSearches);
+    },
+    [recentSearches]
+  );
 
+  const inputRef = useRef(null);
   // 검색 결과 페이지로 이동
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -206,6 +240,8 @@ const MainSearchBar = ({ style }) => {
 
     // 입력된 쿼리 파라미터에 해당되는 결과 페이지로 이동
     navigate(`/resultPage?query=${encodedSearchValue}`);
+    setSearchValue("");
+    inputRef.current.blur();
   };
 
   // 검색 아이콘 동적 스타일링
@@ -240,6 +276,8 @@ const MainSearchBar = ({ style }) => {
               onChange={handleInputChange}
               autoComplete="true"
               onClick={handleSearchBarClick}
+              onKeyUp={handleKeyUp}
+              ref={inputRef}
             />
             <button type="submit" disabled={searchValue === ""}>
               <i
@@ -261,6 +299,7 @@ const MainSearchBar = ({ style }) => {
               handleClearAllRecentSearches={handleClearAllRecentSearches}
               handleRemoveRecentSearch={handleRemoveRecentSearch}
               searchValue={searchValue}
+              setSearchValue={setSearchValue}
             />
           )}
         </div>

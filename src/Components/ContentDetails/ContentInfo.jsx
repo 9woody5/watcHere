@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import * as contentFakeData from './createFakerData';
+// import * as contentFakeData from './createFakerData';
+import * as contentReformatData from './refomatData';
 import ContentBasicInfo from './ContentBasicInfo.jsx';
 import ContentComplexInfo from './ContentComplexInfo';
 import * as Fetchers from './Fetchers'; 
+import errorImg from "../../assets/img/no_img.png";
 
 function ContentInfo({id, token, contentType='movie'}) {
   // img, title, story, score, date, genres, nation, learningTime : basic info
@@ -26,39 +28,33 @@ function ContentInfo({id, token, contentType='movie'}) {
     // 기본 정보 
     Fetchers.callGetContentAPI(contentType, id)
       .then(({data})=>{
-        console.log("movie api response", data);
-
         // 기본 정보 셋팅
-        setImg(data.full_poster_path);
-        setTitle(data.title);
+        setImg(!data.poster_path ? errorImg: data.full_poster_path);
+        setTitle(data.title?? data.name);
         setStory(data.overview);
         setDate(data.release_date);
         setGenres(data.genres.map(x=>x.name));
+        setScore(data.vote_average.toFixed(2));
         setNation('korea'); // 설정필요
         setLearningTime(data.runtime);
-        setVideoId(contentFakeData.reformatVideos(data.videos))
+        setVideoId(contentReformatData.reformatVideos(data.videos))
 
         //영화 감독 셋팅
-        const reformattedDirector = contentFakeData.reformatContentDirector(data.director_name, data.director_profile_path);
+        const reformattedDirector = contentReformatData.reformatContentDirector(data.director_name, data.director_profile_path);
         setDirector(reformattedDirector);
 
         //출연진 셋팅
-        const reformattedActors = contentFakeData.reformatContentActors(data.actors);
+        const reformattedActors = contentReformatData.reformatContentActors(data.actors);
         setActors(reformattedActors);
       });
-    
-      Fetchers.callGetReviewsRatingsAPI(id)
-        .then(({data})=>{
-        const sumScore = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+(score*num), 0);
-        const totalRatingNum = Object.entries(data.ratings).reduce((prev, [score, num])=>prev+num, 0);
-        setScore((sumScore/totalRatingNum).toFixed(2));
-      })
       
   }, [id, token]);
 
   return (
     <div>
-      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId} />
+      <ContentBasicInfo img={img} title={title} story={story} score={score} date={date} genres={genres} nation={nation} learningTime={learningTime} videoId={videoId}
+        contentType={contentType} id={id}/>
+        {/* // actors={actors} director={director}/> */}
       <ContentComplexInfo actors={actors} director={director} availablePlatforms={availablePlatforms} ></ContentComplexInfo>
     </div>
   )
