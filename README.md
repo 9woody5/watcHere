@@ -58,5 +58,5 @@ https://kdt-sw-6-team05.elicecoding.com/
 ## 7. 최초 실행방법
 
 1. 깃 클론 후 npm install 을 통해서 의존성 패키지를 설치합니다.
-2. npm run dev 를 하면 실행됩니다.
+2. npm run dev 를 하면 실행됩니다. (개발 모드에서는 .env파일의 supabase key가 있어야 실행됩니다)
 - git pull 후에 패키지가 없어서 에러가 난다면 package.json 을 확인해서 없는 패키지를 설치해 주세요.
