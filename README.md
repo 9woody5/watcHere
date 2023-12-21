@@ -1,4 +1,5 @@
 # 👀 watcHere(와치히어) 소개
+https://kdt-sw-6-team05.elicecoding.com/
 > 원하는 콘텐츠를 찾을 수 있는 종합 OTT 검색 플랫폼
 <br>
 
